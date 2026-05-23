@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamShield — Know the Scam, Break the Trap</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:   #0a0f1e;
+    --navy2:  #111827;
+    --navy3:  #1a2540;
+    --card:   #151d30;
+    --border: #1e2d4a;
+    --red:    #e53e3e;
+    --orange: #f97316;
+    --yellow: #fbbf24;
+    --green:  #10b981;
+    --blue:   #3b82f6;
+    --purple: #8b5cf6;
+    --pink:   #ec4899;
+    --teal:   #14b8a6;
+    --text:   #e2e8f0;
+    --muted:  #94a3b8;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(10,15,30,.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .9rem 2rem;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: .6rem;
+    font-size: 1.25rem; font-weight: 700; color: #fff; text-decoration: none;
+  }
+  .nav-brand .shield-icon { font-size: 1.5rem; }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .95rem; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--red), var(--orange));
+    color: #fff; border: none; padding: .5rem 1.2rem;
+    border-radius: 8px; font-size: .85rem; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: opacity .2s;
+  }
+  .nav-cta:hover { opacity: .85; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 2rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(229,62,62,.13) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139,92,246,.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 60%, rgba(59,130,246,.07) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(30,45,74,.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,45,74,.4) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove { to { background-position: 60px 60px; } }
+
+  /* floating particles */
+  .hero-particles { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .particle {
+    position: absolute; border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+  @keyframes float {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: .6; }
+    90%  { opacity: .3; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 820px; }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 900; line-height: 1.1;
+    background: linear-gradient(135deg, #fff 30%, #fc8181 70%, var(--orange) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 1.2rem;
+    animation: fadeDown .7s .1s ease both;
+  }
+  .hero p {
+    font-size: 1.2rem; color: var(--muted); max-width: 580px; margin: 0 auto 2.5rem;
+    animation: fadeDown .7s .2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeDown .7s .3s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--red), var(--orange));
+    color: #fff; padding: .85rem 2rem; border-radius: 10px;
+    font-weight: 700; font-size: 1rem; text-decoration: none;
+    box-shadow: 0 4px 24px rgba(229,62,62,.35);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(229,62,62,.45); }
+  .btn-secondary {
+    background: var(--card); color: var(--text);
+    border: 1px solid var(--border);
+    padding: .85rem 2rem; border-radius: 10px;
+    font-weight: 600; font-size: 1rem; text-decoration: none;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-secondary:hover { background: var(--navy3); border-color: var(--muted); }
+
+  .hero-stats {
+    display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
+    animation: fadeDown .7s .4s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--orange), var(--yellow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: .92rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+  /* ── Sections ── */
+  section { padding: 5rem 2rem; }
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-tag {
+    display: inline-block;
+    font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--orange); margin-bottom: .6rem;
+  }
+  .section-header h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: .6rem; }
+  .section-header p { color: var(--muted); max-width: 540px; margin: 0 auto; font-size: 1.05rem; }
+
+  /* ── Section Divider ── */
+  .section-divider {
+    border: none; height: 1px; margin: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--border) 25%, var(--border) 75%, transparent 100%);
+  }
+
+  /* ── Category Pill Nav ── */
+  .cat-nav {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: .6rem;
+    margin-bottom: 2.5rem;
+  }
+  .cat-pill {
+    display: flex; align-items: center; gap: .4rem;
+    padding: .45rem 1rem; border-radius: 50px;
+    border: 1px solid var(--border); background: var(--card);
+    color: var(--muted); font-size: .92rem; font-weight: 600;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .cat-pill:hover { border-color: var(--orange); color: var(--orange); background: rgba(249,115,22,.08); }
+  .cat-pill.active { border-color: var(--red); color: var(--red); background: rgba(229,62,62,.08); }
+  .cat-pill .pill-icon { font-size: 1rem; }
+
+  /* ── Card Grid ── */
+  #cards-container {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 1.5rem;
+  }
+  .scam-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    position: relative;
+  }
+  .scam-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--c1), var(--c2));
+  }
+  .scam-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.4);
+    border-color: var(--c1);
+  }
+  .card-header { padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; }
+  .card-icon-wrap {
+    width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    box-shadow: 0 4px 16px rgba(0,0,0,.3);
+  }
+  .card-title-area h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; }
+  .hook-badge {
+    font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--c1); background: rgba(0,0,0,.25);
+    padding: .2rem .65rem; border-radius: 50px; border: 1px solid var(--c1);
+    display: inline-block;
+  }
+  .card-subtypes { padding: 0 1.5rem 1rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .subtype-tag {
+    font-size: .82rem; padding: .2rem .65rem; border-radius: 50px;
+    background: var(--navy3); border: 1px solid var(--border); color: var(--muted);
+  }
+  /* card view button */
+  .card-view-btn {
+    width: 100%; padding: .95rem 1.5rem;
+    background: none; border: none; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: .93rem; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+    transition: background .2s, color .2s;
+  }
+  .card-view-btn:hover {
+    background: linear-gradient(90deg, rgba(var(--cr),0.06), transparent);
+    color: var(--text);
+  }
+  .card-view-btn .btn-arrow {
+    font-size: 1rem; transition: transform .2s;
+  }
+  .card-view-btn:hover .btn-arrow { transform: translateX(4px); }
+
+  /* ── Detail Panel (slides in from right) ── */
+  .detail-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .detail-overlay.open { opacity: 1; pointer-events: all; }
+
+  .detail-panel {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(680px, 100vw);
+    background: var(--navy2);
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(0.4,0,0.2,1);
+    z-index: 301;
+  }
+  .detail-overlay.open .detail-panel { transform: translateX(0); }
+
+  /* panel header */
+  .dp-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+    flex-shrink: 0;
+    background: var(--navy);
+  }
+  .dp-back {
+    display: flex; align-items: center; gap: .4rem;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); padding: .4rem .9rem; border-radius: 8px;
+    font-size: .8rem; font-weight: 600; cursor: pointer;
+    transition: border-color .2s, color .2s; flex-shrink: 0;
+  }
+  .dp-back:hover { border-color: var(--text); color: var(--text); }
+  .dp-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--dp-c1, #f97316), var(--dp-c2, #fbbf24));
+  }
+  .dp-title-wrap { flex: 1; min-width: 0; }
+  .dp-title { font-size: 1rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dp-hook-badge {
+    font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+    padding: .15rem .6rem; border-radius: 50px; display: inline-block; margin-top: .2rem;
+    border: 1px solid var(--dp-c1, #f97316); color: var(--dp-c1, #f97316);
+    background: rgba(0,0,0,.2);
+  }
+  .dp-nav { display: flex; gap: .4rem; flex-shrink: 0; }
+  .dp-nav-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); font-size: .9rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .2s, color .2s;
+  }
+  .dp-nav-btn:hover:not(:disabled) { border-color: var(--text); color: var(--text); }
+  .dp-nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+
+  /* panel body */
+  .dp-body { flex: 1; overflow-y: auto; padding: 1.6rem; display: flex; flex-direction: column; gap: 1.6rem; }
+  .dp-body::-webkit-scrollbar { width: 4px; }
+  .dp-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* top accent bar */
+  .dp-accent-bar {
+    height: 4px; border-radius: 2px; width: 100%; flex-shrink: 0;
+    background: linear-gradient(90deg, var(--dp-c1, #f97316), var(--dp-c2, #fbbf24));
+  }
+
+  .dp-section-label {
+    font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em;
+    margin-bottom: .75rem; display: flex; align-items: center; gap: .4rem;
+  }
+  .dp-section-label.orange { color: var(--orange); }
+  .dp-section-label.blue   { color: var(--blue); }
+  .dp-section-label.red    { color: var(--red); }
+  .dp-section-label.green  { color: var(--green); }
+
+  /* hook box */
+  .dp-hook-box {
+    background: rgba(249,115,22,.07); border: 1px solid rgba(249,115,22,.2);
+    border-radius: 12px; padding: 1rem 1.1rem;
+    font-size: .95rem; color: #cbd5e1; line-height: 1.65;
+  }
+
+  /* example */
+  .dp-example {
+    background: var(--navy); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.1rem 1.2rem;
+    font-size: .92rem; line-height: 1.8; color: #cbd5e1;
+    font-family: 'Courier New', monospace; white-space: pre-wrap; word-break: break-word;
+    position: relative; margin-top: 12px;
+  }
+  .dp-example::before {
+    content: attr(data-label);
+    position: absolute; top: -10px; left: 14px;
+    background: var(--orange); color: #fff;
+    font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    padding: .15rem .6rem; border-radius: 50px; font-family: 'Segoe UI', sans-serif;
+  }
+
+  /* red flags */
+  .dp-flags { display: flex; flex-direction: column; gap: .65rem; }
+  .dp-flag {
+    display: flex; align-items: flex-start; gap: .75rem;
+    background: rgba(229,62,62,.06); border: 1px solid rgba(229,62,62,.15);
+    border-radius: 10px; padding: .7rem .9rem;
+  }
+  .dp-flag-icon { font-size: .9rem; flex-shrink: 0; margin-top: .05rem; }
+  .dp-flag-text { font-size: .95rem; color: #cbd5e1; line-height: 1.5; }
+
+  /* defense steps */
+  .dp-steps { display: flex; flex-direction: column; gap: .65rem; }
+  .dp-step {
+    display: flex; align-items: flex-start; gap: .85rem;
+    background: rgba(16,185,129,.06); border: 1px solid rgba(16,185,129,.15);
+    border-radius: 10px; padding: .8rem .9rem;
+  }
+  .dp-step-num {
+    width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--green), var(--teal));
+    color: #fff; font-size: .8rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .dp-step-text { font-size: .95rem; color: #cbd5e1; line-height: 1.55; }
+
+  /* ── Universal Flags Table ── */
+  #universal { background: var(--navy2); }
+  .flags-table {
+    max-width: 900px; margin: 0 auto;
+    border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  }
+  .flags-table table { width: 100%; border-collapse: collapse; }
+  .flags-table thead { background: linear-gradient(90deg, rgba(229,62,62,.12), rgba(249,115,22,.12)); }
+  .flags-table th {
+    padding: .9rem 1.2rem; text-align: left;
+    font-size: .88rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--orange);
+  }
+  .flags-table td {
+    padding: .85rem 1.2rem; font-size: .95rem; color: var(--muted);
+    border-top: 1px solid var(--border); vertical-align: top;
+  }
+  .flags-table tr:hover td { background: rgba(255,255,255,.02); }
+  .flags-table td:first-child { color: var(--text); font-weight: 600; }
+
+  /* ── Defense Protocol ── */
+  .protocol-grid {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.2rem;
+  }
+  .protocol-step {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.4rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+    transition: border-color .2s, transform .2s;
+  }
+  .protocol-step:hover { border-color: var(--green); transform: translateY(-2px); }
+  .step-num {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--green), var(--teal));
+    color: #fff; font-size: 1.15rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-text h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; }
+  .step-text p { font-size: .93rem; color: var(--muted); }
+
+  /* ── Report Resources ── */
+  .report-grid {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 1rem;
+  }
+  .report-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.3rem; text-align: center;
+    transition: border-color .2s, transform .2s;
+  }
+  .report-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .report-flag { font-size: 2.2rem; margin-bottom: .5rem; }
+  .report-country { font-size: 1rem; font-weight: 700; margin-bottom: .4rem; }
+  .report-url { font-size: .85rem; color: var(--blue); word-break: break-all; font-family: monospace; line-height: 1.7; }
+  a.report-card { display: block; text-decoration: none; color: inherit; }
+
+
+  /* ── Footer ── */
+  footer {
+    background: var(--navy2); border-top: 1px solid var(--border);
+    padding: 3rem 2rem; text-align: center;
+  }
+  .footer-brand {
+    font-size: 1.4rem; font-weight: 800; margin-bottom: .7rem;
+    background: linear-gradient(135deg, #fff, #fc8181);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  footer p { color: var(--muted); font-size: .93rem; max-width: 520px; margin: .35rem auto; }
+
+  /* ── Animations ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Scam-or-Not Game ── */
+  #quiz {
+    background: var(--navy);
+    border-top: 3px solid var(--blue);
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  /* intro landing */
+  .quiz-intro {
+    max-width: 560px; margin: 0 auto; text-align: center; padding: 2rem 0;
+  }
+  .qi-eyebrow {
+    font-size: .85rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--blue); margin-bottom: 1.2rem;
+  }
+  .qi-title {
+    font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800;
+    line-height: 1.15; margin-bottom: 1.2rem;
+  }
+  .qi-body {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.75;
+    margin-bottom: .6rem;
+  }
+  .qi-meta {
+    font-size: .9rem; color: #4a5568; margin-bottom: 2.2rem;
+  }
+  .qi-start {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; border: none;
+    padding: 1rem 2.8rem; border-radius: 12px;
+    font-size: 1.05rem; font-weight: 700;
+    cursor: pointer; transition: opacity .2s, transform .2s;
+  }
+  .qi-start:hover { opacity: .88; transform: translateY(-2px); }
+
+  .game-shell {
+    max-width: 780px; margin: 0 auto; width: 100%;
+    display: flex; flex-direction: column; gap: 1.4rem;
+  }
+
+  /* top bar */
+  .game-topbar {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .game-progress-track {
+    flex: 1; height: 6px; background: var(--navy3); border-radius: 3px; overflow: hidden;
+  }
+  .game-progress-fill {
+    height: 100%; border-radius: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    transition: width .5s ease;
+  }
+  .game-counter {
+    font-size: .92rem; font-weight: 700; color: var(--muted); white-space: nowrap;
+  }
+  .game-score-pill {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 50px; padding: .25rem .85rem;
+    font-size: .88rem; font-weight: 700; color: var(--text); white-space: nowrap;
+  }
+
+  /* scenario card */
+  .scenario-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+  }
+  .scenario-context {
+    padding: .85rem 1.4rem; border-bottom: 1px solid var(--border);
+    font-size: .88rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--muted); display: flex; align-items: center; gap: .5rem;
+  }
+  .scenario-context .ctx-type {
+    background: var(--navy3); border: 1px solid var(--border);
+    border-radius: 50px; padding: .15rem .65rem; font-size: .8rem;
+  }
+
+  /* ── Message mockups ── */
+  .mockup { padding: 1.2rem 1.4rem; }
+
+  /* SMS */
+  .mockup-sms {
+    background: #1c1c1e; border-radius: 16px;
+    padding: 1rem; max-width: 380px; margin: 0 auto;
+    font-family: -apple-system, sans-serif;
+  }
+  .sms-header {
+    text-align: center; font-size: .72rem; color: #8e8e93;
+    margin-bottom: .8rem; padding-bottom: .6rem; border-bottom: 1px solid #2c2c2e;
+  }
+  .sms-header strong { color: #fff; display: block; font-size: .85rem; margin-bottom: .1rem; }
+  .sms-bubble {
+    background: #2c2c2e; color: #fff; border-radius: 18px 18px 18px 4px;
+    padding: .65rem .9rem; font-size: .88rem; line-height: 1.55;
+    display: inline-block; max-width: 90%; word-break: break-word;
+  }
+  .sms-bubble .sms-link { color: #0a84ff; text-decoration: underline; }
+  .sms-time { font-size: .68rem; color: #8e8e93; margin-top: .4rem; padding-left: .3rem; }
+
+  /* Email */
+  .mockup-email {
+    background: var(--navy3); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; max-width: 500px; margin: 0 auto;
+    font-family: -apple-system, sans-serif;
+  }
+  .email-header-bar {
+    background: var(--navy2); padding: .75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: .72rem; color: var(--muted);
+    display: flex; flex-direction: column; gap: .2rem;
+  }
+  .email-header-bar span { display: flex; gap: .5rem; }
+  .email-header-bar strong { color: var(--text); min-width: 45px; }
+  .email-subject { font-size: .88rem; font-weight: 700; color: var(--text); padding: .75rem 1rem .4rem; }
+  .email-body {
+    padding: .2rem 1rem 1rem; font-size: .86rem; color: #cbd5e1;
+    line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+  }
+  .email-link { color: #60a5fa; text-decoration: underline; }
+
+  /* Phone call */
+  .mockup-call {
+    background: #1c1c1e; border-radius: 16px;
+    max-width: 300px; margin: 0 auto;
+    font-family: -apple-system, sans-serif; text-align: center;
+    padding: 1.5rem 1rem;
+  }
+  .call-status { font-size: .75rem; color: #8e8e93; margin-bottom: .4rem; }
+  .call-name { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+  .call-number { font-size: .85rem; color: #8e8e93; margin-bottom: 1rem; }
+  .call-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #3a3a3c, #2c2c2e);
+    margin: 0 auto .8rem; display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+  }
+  .call-script {
+    background: #2c2c2e; border-radius: 12px; padding: .8rem;
+    font-size: .82rem; color: #e5e5ea; line-height: 1.6; text-align: left;
+    margin-top: .8rem; font-style: italic;
+  }
+
+  /* DM / Social */
+  .mockup-dm {
+    background: #1c1c1e; border-radius: 16px;
+    max-width: 380px; margin: 0 auto;
+    font-family: -apple-system, sans-serif; padding: 1rem;
+  }
+  .dm-header {
+    display: flex; align-items: center; gap: .7rem;
+    padding-bottom: .75rem; border-bottom: 1px solid #2c2c2e; margin-bottom: .75rem;
+  }
+  .dm-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .dm-name { font-size: .88rem; font-weight: 700; color: #fff; }
+  .dm-handle { font-size: .72rem; color: #8e8e93; }
+  .dm-bubble {
+    background: #2c2c2e; border-radius: 4px 18px 18px 18px;
+    padding: .7rem .9rem; font-size: .87rem; color: #e5e5ea; line-height: 1.6;
+    word-break: break-word;
+  }
+  .dm-time { font-size: .68rem; color: #8e8e93; margin-top: .4rem; }
+
+  /* Pop-up */
+  .mockup-popup {
+    background: #fff; border-radius: 10px;
+    max-width: 380px; margin: 0 auto; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.5);
+    font-family: -apple-system, sans-serif;
+  }
+  .popup-chrome {
+    background: #e8e8e8; padding: .5rem .8rem;
+    display: flex; align-items: center; gap: .4rem;
+    border-bottom: 1px solid #ccc;
+  }
+  .popup-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .popup-url {
+    flex: 1; background: #fff; border-radius: 4px; padding: .2rem .6rem;
+    font-size: .72rem; color: #333; margin: 0 .5rem;
+  }
+  .popup-body { padding: 1.1rem 1.2rem; }
+  .popup-icon { font-size: 2rem; margin-bottom: .5rem; }
+  .popup-title { font-size: 1rem; font-weight: 700; color: #1a1a1a; margin-bottom: .4rem; }
+  .popup-text { font-size: .84rem; color: #555; line-height: 1.55; margin-bottom: 1rem; }
+  .popup-number { font-size: 1.1rem; font-weight: 800; color: #d00; }
+  .popup-btn {
+    display: block; width: 100%; padding: .6rem; border-radius: 6px; border: none;
+    background: #0071e3; color: #fff; font-size: .88rem; font-weight: 600; cursor: default;
+    text-align: center;
+  }
+
+  /* ── Verdict phase ── */
+  .verdict-phase { padding: 1.4rem; border-top: 1px solid var(--border); }
+  .verdict-prompt {
+    font-size: 1rem; font-weight: 700; text-align: center; margin-bottom: 1.1rem;
+    color: var(--text);
+  }
+  .verdict-btns { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+  .verdict-btn {
+    padding: 1rem; border-radius: 14px; border: 2px solid transparent;
+    font-size: 1rem; font-weight: 800; cursor: pointer;
+    transition: transform .15s, box-shadow .15s; display: flex;
+    align-items: center; justify-content: center; gap: .5rem;
+  }
+  .verdict-btn:hover { transform: translateY(-2px); }
+  .verdict-btn.scam-btn {
+    background: rgba(229,62,62,.12); border-color: rgba(229,62,62,.35); color: #f87171;
+  }
+  .verdict-btn.scam-btn:hover { box-shadow: 0 4px 20px rgba(229,62,62,.3); border-color: var(--red); }
+  .verdict-btn.legit-btn {
+    background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.3); color: #34d399;
+  }
+  .verdict-btn.legit-btn:hover { box-shadow: 0 4px 20px rgba(16,185,129,.25); border-color: var(--green); }
+  .verdict-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* ── Feedback banner ── */
+  .feedback-banner {
+    padding: 1rem 1.4rem; display: none; align-items: flex-start; gap: .9rem;
+    border-top: 1px solid var(--border);
+  }
+  .feedback-banner.show { display: flex; }
+  .feedback-banner.correct { background: rgba(16,185,129,.08); }
+  .feedback-banner.wrong   { background: rgba(229,62,62,.07); }
+  .fb-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .fb-title { font-size: .92rem; font-weight: 800; margin-bottom: .3rem; }
+  .fb-title.correct { color: #34d399; }
+  .fb-title.wrong   { color: #f87171; }
+  .fb-body { font-size: .93rem; color: var(--muted); line-height: 1.6; }
+  .fb-flags { margin-top: .6rem; display: flex; flex-direction: column; gap: .3rem; }
+  .fb-flag { font-size: .9rem; color: var(--muted); display: flex; gap: .5rem; }
+  .fb-flag::before { content: '🚩'; flex-shrink: 0; }
+
+  /* ── Action phase ── */
+  .action-phase { padding: 1.2rem 1.4rem; border-top: 1px solid var(--border); display: none; }
+  .action-phase.show { display: block; }
+  .action-prompt {
+    font-size: .95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text);
+  }
+  .action-opts { display: flex; flex-direction: column; gap: .65rem; }
+  .action-opt {
+    padding: .8rem 1.1rem; border-radius: 11px;
+    border: 1px solid var(--border); background: var(--navy3);
+    color: var(--text); font-size: .95rem; cursor: pointer;
+    transition: border-color .2s, background .2s; text-align: left;
+    display: flex; align-items: flex-start; gap: .75rem;
+  }
+  .action-opt:hover:not(:disabled) { border-color: var(--blue); background: rgba(59,130,246,.07); }
+  .action-opt:disabled { cursor: not-allowed; }
+  .action-opt.correct-opt { border-color: var(--green) !important; background: rgba(16,185,129,.08) !important; color: #6ee7b7 !important; }
+  .action-opt.wrong-opt   { border-color: var(--red) !important;   background: rgba(229,62,62,.07) !important;  color: #fca5a5 !important; }
+  .action-opt-letter {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    background: var(--border); color: var(--muted);
+    font-size: .72rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── Action feedback ── */
+  .action-feedback {
+    margin-top: 1rem; padding: .85rem 1rem; border-radius: 11px;
+    font-size: .95rem; line-height: 1.6; display: none;
+  }
+  .action-feedback.show { display: block; }
+  .action-feedback.correct { background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.25); color: #6ee7b7; }
+  .action-feedback.wrong   { background: rgba(229,62,62,.08); border: 1px solid rgba(229,62,62,.25); color: #fca5a5; }
+
+  /* ── Next button ── */
+  .next-btn {
+    margin-top: 1.1rem; padding: .8rem 1.8rem; border-radius: 11px; border: none;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; font-size: .95rem; font-weight: 700; cursor: pointer;
+    display: none; transition: opacity .2s;
+  }
+  .next-btn:hover { opacity: .85; }
+  .next-btn.show { display: inline-block; }
+
+  /* ── Final score ── */
+  .game-final {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem; text-align: center;
+    display: none;
+  }
+  .game-final.show { display: block; }
+  .final-emoji { font-size: 3.5rem; margin-bottom: .6rem; }
+  .final-score-big {
+    font-size: 3rem; font-weight: 900; line-height: 1;
+    background: linear-gradient(135deg, var(--green), var(--teal));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: .4rem;
+  }
+  .final-grade { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
+  .final-msg { color: var(--muted); font-size: .97rem; max-width: 400px; margin: 0 auto 1.5rem; line-height: 1.6; }
+  .final-restart {
+    padding: .8rem 2rem; border-radius: 11px; border: none;
+    background: linear-gradient(135deg, var(--red), var(--orange));
+    color: #fff; font-size: .95rem; font-weight: 700; cursor: pointer;
+    transition: opacity .2s;
+  }
+  .final-restart:hover { opacity: .85; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    nav { padding: .75rem 1rem; }
+    .nav-links { display: none; }
+    section { padding: 3.5rem 1rem; }
+    .hero-stats { gap: 1.5rem; }
+    #cards-container { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detailOverlay" onclick="handleOverlayClick(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-accent-bar" id="dpAccentBar"></div>
+    <div class="dp-header">
+      <button class="dp-back" onclick="closeScamDetail()">← Back</button>
+      <div class="dp-icon" id="dpIcon"></div>
+      <div class="dp-title-wrap">
+        <div class="dp-title" id="dpTitle"></div>
+        <span class="dp-hook-badge" id="dpHookBadge"></span>
+      </div>
+      <div class="dp-nav">
+        <button class="dp-nav-btn" id="dpPrev" title="Previous scam" onclick="navScam(-1)">‹</button>
+        <button class="dp-nav-btn" id="dpNext" title="Next scam"     onclick="navScam(+1)">›</button>
+      </div>
+    </div>
+    <div class="dp-body" id="dpBody"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#hero">
+    <span class="shield-icon">🛡️</span>
+    ScamShield
+  </a>
+  <ul class="nav-links">
+    <li><a href="#scams">Scam Types</a></li>
+    <li><a href="#universal">Red Flags</a></li>
+    <li><a href="#defense">Defense</a></li>
+    <li><a href="#quiz">Test Yourself</a></li>
+    <li><a href="#report">Report</a></li>
+  </ul>
+  <a class="nav-cta" href="#quiz">Test Yourself →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-content">
+    <h1>Know the Scam.<br>Break the Trap.</h1>
+    <p>Scammers steal billions of dollars every year. This guide helps you recognize fraud, protect yourself, and know what to do if you're targeted.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#scams">Explore Scam Types</a>
+      <a class="btn-secondary" href="#quiz">Take the Quiz</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" data-target="10">0</div>
+        <div class="stat-label">Billion lost to fraud (US, 2023)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-target="2.6">0</div>
+        <div class="stat-label">Million FTC fraud reports filed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Major scam categories covered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">90%</div>
+        <div class="stat-label">Preventable with awareness</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SCAM DIRECTORY -->
+<section id="scams">
+  <div class="section-header fade-in">
+    <div class="section-tag">Scam Types</div>
+    <h2>Scam Directory</h2>
+    <p>Click any card to see warning signs, real examples, and what to do.</p>
+  </div>
+  <div class="cat-nav fade-in" id="catNav">
+    <button class="cat-pill active" data-filter="all">All</button>
+    <button class="cat-pill" data-filter="financial">Financial</button>
+    <button class="cat-pill" data-filter="phishing">Phishing</button>
+    <button class="cat-pill" data-filter="marketplace">Marketplace</button>
+    <button class="cat-pill" data-filter="relationship">Relationship</button>
+    <button class="cat-pill" data-filter="employment">Employment</button>
+    <button class="cat-pill" data-filter="government">Government</button>
+  </div>
+  <div id="cards-container"></div>
+</section>
+
+<!-- UNIVERSAL FLAGS -->
+<section id="universal">
+  <div class="section-header fade-in">
+    <div class="section-tag">Always Watch For</div>
+    <h2>Universal Red Flags</h2>
+    <p>These warning signs appear in nearly every scam, no matter how the story is framed.</p>
+  </div>
+  <div class="flags-table fade-in">
+    <table>
+      <thead>
+        <tr><th>Warning Signal</th><th>Why Scammers Use It</th></tr>
+      </thead>
+      <tbody id="flagsTableBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- DEFENSE PROTOCOL -->
+<section id="defense">
+  <div class="section-header fade-in">
+    <div class="section-tag">What To Do</div>
+    <h2>If You Think You're Being Scammed</h2>
+    <p>Follow these steps in order before you do anything else.</p>
+  </div>
+  <div class="protocol-grid fade-in" id="protocolGrid"></div>
+</section>
+
+<!-- SCAM OR NOT GAME -->
+<section id="quiz">
+
+  <!-- Intro screen -->
+  <div class="quiz-intro fade-in" id="quizIntro">
+    <div class="qi-eyebrow">Test yourself</div>
+    <h2 class="qi-title">Can you spot a scammer?</h2>
+    <p class="qi-body">You'll see real messages — the kind that arrive in people's inboxes every day. Read each one and decide: scam, or legitimate? Then choose how you'd respond.</p>
+    <p class="qi-meta">8 rounds &nbsp;·&nbsp; About 3 minutes</p>
+    <button class="qi-start" onclick="quizStart()">Start →</button>
+  </div>
+
+  <!-- Game (hidden until Start is clicked) -->
+  <div class="game-shell" id="quizGameShell" style="display:none">
+    <!-- Progress bar -->
+    <div class="game-topbar">
+      <div class="game-progress-track">
+        <div class="game-progress-fill" id="gProgressFill"></div>
+      </div>
+      <div class="game-counter" id="gCounter">1 of 8</div>
+      <div class="game-score-pill" id="gScorePill">0 pts</div>
+    </div>
+
+    <!-- Scenario card -->
+    <div class="scenario-card" id="scenarioCard">
+      <div class="scenario-context">
+        <span id="gCtxIcon"></span>
+        <span id="gCtxLabel"></span>
+        <span class="ctx-type" id="gCtxType"></span>
+      </div>
+      <div class="mockup" id="gMockup"></div>
+
+      <!-- Phase 1: verdict -->
+      <div class="verdict-phase" id="verdictPhase">
+        <div class="verdict-prompt">Is this a scam?</div>
+        <div class="verdict-btns">
+          <button class="verdict-btn scam-btn" id="btnScam" onclick="submitVerdict(true)">Yes, it's a scam</button>
+          <button class="verdict-btn legit-btn" id="btnLegit" onclick="submitVerdict(false)">Looks legitimate</button>
+        </div>
+      </div>
+
+      <!-- Verdict feedback -->
+      <div class="feedback-banner" id="verdictFeedback">
+        <div class="fb-icon" id="fbIcon"></div>
+        <div>
+          <div class="fb-title" id="fbTitle"></div>
+          <div class="fb-body" id="fbBody"></div>
+          <div class="fb-flags" id="fbFlags"></div>
+        </div>
+      </div>
+
+      <!-- Phase 2: action -->
+      <div class="action-phase" id="actionPhase">
+        <div class="action-prompt">What would you do next?</div>
+        <div class="action-opts" id="actionOpts"></div>
+        <div class="action-feedback" id="actionFeedback"></div>
+        <button class="next-btn" id="nextBtn" onclick="nextScenario()">Next →</button>
+      </div>
+    </div>
+
+    <!-- Final score (shown after all scenarios) -->
+    <div class="game-final" id="gameFinal">
+      <div class="final-emoji" id="finalEmoji"></div>
+      <div class="final-score-big" id="finalScoreBig"></div>
+      <div class="final-grade" id="finalGrade"></div>
+      <div class="final-msg" id="finalMsg"></div>
+      <button class="final-restart" onclick="startGame()">Try again</button>
+    </div>
+  </div>
+
+</section>
+
+<hr class="section-divider">
+
+<!-- REPORT RESOURCES -->
+<section id="report">
+  <div class="section-header fade-in">
+    <div class="section-tag">Report a Scam</div>
+    <h2>Where to Report</h2>
+    <p>Your report helps protect others. Even if you weren't harmed, reporting helps authorities track down scammers.</p>
+  </div>
+  <div class="report-grid fade-in" id="reportGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">🛡️ ScamShield</div>
+  <p>Free public education resource. No personal data is collected.</p>
+  <p style="margin-top:.8rem; font-size:.88rem; color: #4a5568;">
+    Not affiliated with any government agency
+  </p>
+</footer>
+
+<script>
+// ─────────────────── DATA ───────────────────
+const SCAMS = [
+  {
+    id: 'pig-butchering',
+    category: 'financial',
+    title: 'Pig Butchering & Crypto Investment',
+    icon: '🐷',
+    c1: '#f97316', c2: '#fbbf24',
+    hookLabel: 'Greed + FOMO',
+    subtypes: ['Fake crypto trading platforms','Pig Butchering (sha zhu pan)','Ponzi & Pyramid schemes','Pump and Dump'],
+    hook: 'Victims are shown fabricated "proof" of massive profits — fake dashboards, manufactured testimonials, and artificial urgency. A sense of insider access is cultivated: you are being let in on something most people never get to see.',
+    example: {
+      label: 'Opening Text Message',
+      text: 'Hi! I think I messaged the wrong number — so sorry! I\'m Mei, I work in Singapore in wealth management. No worries if you want me to go, but it\'s always nice to meet someone new! How is your day?\n\n[Weeks later, after building deep trust...]\n\nMy uncle manages a private liquidity pool on [FAKE PLATFORM]. I made $14,000 last month just by putting in $3,000. I only tell close friends. Would you like me to show you? No pressure at all — I just want you to have what I have.'
+    },
+    redFlags: [
+      'Stranger "messaged the wrong number" to initiate contact out of nowhere',
+      'Platform only accessible via a link they send — not available on any official app store',
+      'Deposits accepted freely, but withdrawals require "tax fees" or "unlock payments"',
+      'Returns seem impossibly high (10–40% monthly)',
+      'Subtle pressure to recruit your friends or family members'
+    ],
+    defense: [
+      'Never invest on a platform someone else introduced you to via text, dating app, or social media.',
+      'Search "[Platform Name] + scam" on Google before depositing anything.',
+      'Verify investments via your country\'s financial regulator (SEC in US, FCA in UK, ASIC in Australia).',
+      'If you\'ve already sent money: contact your bank immediately and file a report with the FTC at reportfraud.ftc.gov.',
+      'Tell someone you trust — scammers rely on isolation and shame to prevent victims from seeking help.'
+    ]
+  },
+  {
+    id: 'phishing',
+    category: 'phishing',
+    title: 'Bank & Account Phishing',
+    icon: '🎣',
+    c1: '#3b82f6', c2: '#8b5cf6',
+    hookLabel: 'Fear + Urgency',
+    subtypes: ['SMS smishing alerts','Fake fraud text messages','Email credential harvesting','QR code phishing (quishing)'],
+    hook: 'Victims are told something bad is already happening — their account was breached or a fraudulent charge is pending. Panic bypasses rational thinking. The "solution" always requires immediate action, preventing the victim from pausing to verify.',
+    example: {
+      label: 'Fake Bank SMS',
+      text: '[Bank Name] FRAUD ALERT: A $2,847.00 purchase was attempted at WALMART FL on your account ending in 4821.\n\nIf this was NOT you, secure your account immediately:\n[LINK — do not click]\n\nFailure to respond within 2 hours may result in account suspension.\nRef #88423'
+    },
+    redFlags: [
+      'Creates extreme urgency — "act NOW," "within 2 hours," "account will be suspended"',
+      'Link domain doesn\'t exactly match the real organization (e.g., secure-bankofamerica-alert.com)',
+      'You\'re asked to call a number in the message rather than the one on your card',
+      'Message arrived completely unexpectedly — you didn\'t initiate any transaction',
+      'Asks you to confirm full account numbers, passwords, or Social Security Number'
+    ],
+    defense: [
+      'Never click links in unexpected texts or emails — go directly to the official website by typing it yourself.',
+      'Call the number on the BACK of your card, not any number provided in the message.',
+      'Enable multi-factor authentication (MFA) on all financial accounts right now.',
+      'Report phishing texts to 7726 (SPAM) and forward phishing emails to reportphishing@apwg.org.',
+      'Check your actual bank account directly for any real unusual activity after any alert.'
+    ]
+  },
+  {
+    id: 'tech-support',
+    category: 'phishing',
+    title: 'Tech Support Scams',
+    icon: '💻',
+    c1: '#8b5cf6', c2: '#ec4899',
+    hookLabel: 'Fear + Authority',
+    subtypes: ['Fake Microsoft/Apple browser pop-ups','Virus alert phone calls','Remote access credential theft','Refund overpayment follow-up scam'],
+    hook: 'A terrifying pop-up or call claims the victim\'s computer is infected, blocked, or compromised. Fear of data loss or identity theft drives victims to call fake "support" lines, who then request remote access and steal banking credentials or payment.',
+    example: {
+      label: 'Fake Browser Pop-Up',
+      text: '⚠ MICROSOFT SECURITY ALERT ⚠\n\nYour computer has been BLOCKED.\n\nYour Windows license has expired and your PC is at risk. Suspicious activity has been detected. Your banking credentials and personal files may be compromised.\n\nCall Microsoft Certified Support IMMEDIATELY:\n1-800-[FAKE NUMBER]\n\nDo NOT restart your computer — this will result in complete data loss.'
+    },
+    redFlags: [
+      'Real operating systems NEVER display phone numbers in error or security messages',
+      'Pop-up cannot be closed normally or appears to lock the browser screen',
+      'Caller claims to be from Microsoft, Apple, or Google but called you unsolicited',
+      'They ask for remote access to your computer using apps like AnyDesk or TeamViewer',
+      'They request gift cards as "payment" for the support service'
+    ],
+    defense: [
+      'Force-quit your browser immediately (Alt+F4 on Windows / Cmd+Q on Mac) — never call the number shown.',
+      'Microsoft and Apple support never call you unsolicited about a virus on your machine.',
+      'Never grant remote desktop access to anyone who contacted you first.',
+      'If someone already had access: disconnect from the internet, run a malware scan, change all passwords from a clean device.',
+      'Warn elderly relatives — tech support scams disproportionately target seniors.'
+    ]
+  },
+  {
+    id: 'marketplace',
+    category: 'marketplace',
+    title: 'Marketplace & Shopping Scams',
+    icon: '🛒',
+    c1: '#10b981', c2: '#14b8a6',
+    hookLabel: 'Bargain-Seeking + Greed',
+    subtypes: ['Fake online storefronts','Overpayment / fake check scam','Facebook Marketplace & Craigslist fraud','Non-delivery after payment'],
+    hook: 'Buyers are drawn to prices dramatically below market rate. Sellers are tempted by buyers who offer more than asking price. Both feel like a windfall — and that excitement bypasses skepticism.',
+    example: {
+      label: 'Overpayment Scam — Seller Message',
+      text: 'Hi! I saw your listing for the couch — is it still available? I\'d love to buy it for my son who just moved in.\n\nI\'ll send a cashier\'s check for $1,200 (my assistant accidentally printed the wrong amount — should have been $750). Please just deposit it and send the $450 difference to our movers via Zelle. The movers will pick up the couch Thursday.\n\nThank you so much, I really appreciate your help!'
+    },
+    redFlags: [
+      'Price is dramatically below market value — if it seems too good to be true, it is',
+      'Buyer wants to pay more than the listed price for any stated reason whatsoever',
+      'Seller or buyer insists exclusively on Zelle, wire transfer, cryptocurrency, or gift cards',
+      'Website has no physical address, no real phone number, or a domain registered very recently',
+      'Pressure to complete the transaction before "someone else buys it"'
+    ],
+    defense: [
+      'For buyers: use a credit card whenever possible — it has the strongest fraud protection (chargebacks).',
+      'Verify a website\'s age at whois.domaintools.com — new sites under 6 months are very high risk.',
+      'For sellers: never accept overpayment. Cashier\'s checks can bounce weeks after they appear "cleared."',
+      'Meet locally at a public place or police station "safe exchange zone" for in-person transactions.',
+      'Use platform-protected payments (eBay Buyer Protection, PayPal Goods & Services) — never go off-platform.'
+    ]
+  },
+  {
+    id: 'romance',
+    category: 'relationship',
+    title: 'Romance & Relationship Scams',
+    icon: '💔',
+    c1: '#ec4899', c2: '#f43f5e',
+    hookLabel: 'Love + Loneliness',
+    subtypes: ['Dating app romance fraud','Catfishing & sextortion','Fake social media friendship','Long-distance relationship money requests'],
+    hook: 'Scammers invest weeks or months building genuine emotional connection before asking for anything. By the time money is requested, the victim is deeply attached. Love and loneliness are among the most powerful psychological levers in existence.',
+    example: {
+      label: 'Romance Scam — Escalation',
+      text: 'I cannot believe how much you mean to me after these few weeks. I know it seems fast but I\'ve never connected with anyone like this. I want to come visit you so badly.\n\nMy flight was booked and then this emergency happened on the oil rig — there was an accident and I need $800 for medical supplies upfront. The company reimburses everything but it takes 3 weeks. I\'m so embarrassed to ask but you\'re the only person I trust in my life right now.\n\nI will pay you back the moment I land. I promise. I love you.'
+    },
+    redFlags: [
+      'Never available for live video calls — always has technical "problems" or excuses',
+      'Profile photos look professional, model-like, or slightly too perfect (use reverse image search)',
+      'Relationship moves extremely fast — love declarations within days or weeks',
+      'Financial emergency appears only after a strong emotional bond has been established',
+      'Asks specifically for wire transfer, gift cards, or cryptocurrency — never a regular bank transfer'
+    ],
+    defense: [
+      'Reverse image search any profile photo at images.google.com — scammers routinely use stolen photos.',
+      'Request a live video call early — ask them to wave or hold up a paper with today\'s date.',
+      'Never send money to someone you have not met in person, regardless of how close you feel.',
+      'Talk to a trusted friend or family member — outside perspective breaks the manipulation cycle.',
+      'Report romance scammers to the dating platform and to the FTC at reportfraud.ftc.gov.'
+    ]
+  },
+  {
+    id: 'grandparent',
+    category: 'relationship',
+    title: 'Grandparent & Family Emergency Scams',
+    icon: '👴',
+    c1: '#f97316', c2: '#ef4444',
+    hookLabel: 'Family Loyalty + Panic',
+    subtypes: ['Grandparent bail money scam','Fake arrest warrant call','Voice-cloned grandchild impersonation','Fake "lawyer" follow-up call'],
+    hook: 'This scam weaponizes love for family combined with acute urgency. The victim is told a beloved grandchild is in danger RIGHT NOW. Every minute spent verifying feels like abandoning them. The demand for secrecy cuts them off from anyone who might intervene.',
+    example: {
+      label: 'Grandparent Scam Phone Script',
+      text: '"Grandma? It\'s me — [muffled voice]. I\'m in so much trouble. Please don\'t tell Mom and Dad — I don\'t want to scare them. I was in a car accident and they found something in the car. I\'m at the police station right now.\n\nMy lawyer says I need $4,500 in bail money today or I\'ll be here all weekend. Can you please help me?"\n\n[A second caller immediately phones back:]\n"Hello, I\'m Attorney [Name], representing your grandson. He\'s fine but we need to move quickly. Please do not discuss this with other family members as it could complicate the legal situation..."'
+    },
+    redFlags: [
+      'Caller demands you keep the situation completely secret from other family members',
+      'Requests payment specifically in cash, gift cards, wire transfer, or cryptocurrency',
+      'Story involves a car accident, drugs in a car, or an arrest in a foreign country',
+      'A second caller immediately poses as a lawyer, police officer, or bail bondsman',
+      'You feel extreme time pressure — "if you don\'t act now, he\'ll be there all weekend"'
+    ],
+    defense: [
+      'Hang up and call your grandchild directly on their known phone number before doing anything.',
+      'Establish a secret family code word that only real family members know.',
+      'Real bail requires going through a courthouse — cash given to a stranger at your door is always a scam.',
+      'Slow down deliberately: tell the caller you need 10 minutes. Scammers hate hesitation.',
+      'Call another family member immediately to verify the story before taking any action.'
+    ]
+  },
+  {
+    id: 'employment',
+    category: 'employment',
+    title: 'Fake Job & Remote Work Scams',
+    icon: '💼',
+    c1: '#fbbf24', c2: '#f97316',
+    hookLabel: 'Financial Insecurity + Legitimacy',
+    subtypes: ['Fake LinkedIn / Indeed job offers','Work-from-home equipment deposit scam','Task & app review crypto trap','Reshipping / money mule recruitment'],
+    hook: 'These scams appear on legitimate job boards with professional language and real-sounding company names. The "task scam" variant is especially insidious — victims earn small real payments early on, building trust before being manipulated into large crypto deposits.',
+    example: {
+      label: 'Fake Job Offer Email',
+      text: 'Subject: Your Application — Remote Customer Service Coordinator | $65,000/yr\n\nDear [Name],\n\nCongratulations! After reviewing your profile on Indeed, we\'d like to offer you the position of Remote Customer Service Coordinator. Your start date is this Monday.\n\nWe will ship your work equipment (MacBook Pro + iPhone 15) directly to your home. To initiate the equipment order, please send a $299 processing deposit via Zelle to [Name] — this fee is fully reimbursed in your first paycheck.\n\nPlease complete the attached new-hire paperwork and we\'ll get you onboarded right away!\n\nWelcome to the team!\n[HR Manager Name], [Fake Company Name]'
+    },
+    redFlags: [
+      'Job offered without a real interview, or only via a WhatsApp / Telegram chat',
+      'Requires any upfront payment for equipment, training, background checks, or software',
+      'Pay is unusually high for vague, simple work ("rate products," "optimize app rankings")',
+      'Company has no verifiable LinkedIn presence, no reviews on Glassdoor, and a new website',
+      'Task platforms that require you to deposit cryptocurrency to "unlock" your earned balance'
+    ],
+    defense: [
+      'Legitimate employers NEVER ask you to pay them anything before you start — for any reason.',
+      'Search the company name + "scam" or "reviews" on Google, Glassdoor, and Reddit.',
+      'Verify the job is listed on the company\'s official website, found independently.',
+      'Task / app review platforms that require crypto deposits are always scams — exit immediately.',
+      'If you were recruited as a money mule, stop immediately and consult law enforcement — there may be criminal exposure.'
+    ]
+  },
+  {
+    id: 'government',
+    category: 'government',
+    title: 'Government & Authority Impersonation',
+    icon: '🏛️',
+    c1: '#14b8a6', c2: '#3b82f6',
+    hookLabel: 'Fear of Authority + Shame',
+    subtypes: ['IRS / tax authority arrest threat','Social Security number suspension','Fake police warrant call','Immigration enforcement scam'],
+    hook: 'Victims are made to feel they have done something wrong. The threat of arrest, deportation, or major financial penalty creates overwhelming panic that bypasses rational thought. Scammers demand secrecy to prevent victims from consulting anyone who would recognize the fraud.',
+    example: {
+      label: 'SSN Suspension Robocall',
+      text: '"This call is from the U.S. Social Security Administration. Your Social Security number has been suspended due to suspicious activity.\n\nYour SSN has been linked to drug trafficking and money laundering in the state of Texas. A federal arrest warrant has been issued in your name.\n\nTo prevent your immediate arrest and to protect your assets, you must press 1 now to speak with a Social Security officer, or call back immediately at [FAKE NUMBER].\n\nThis is your final notice before law enforcement takes action."'
+    },
+    redFlags: [
+      'Government agencies contact you FIRST by mail — never by unsolicited call, text, or email',
+      'Caller demands immediate payment by gift card, cryptocurrency, or wire transfer',
+      'Threatens immediate arrest if you hang up or ask questions',
+      'Tells you to keep the call secret from family or an attorney',
+      'Caller ID shows a real government number — caller ID is trivially easy to spoof'
+    ],
+    defense: [
+      'Hang up immediately — real government agencies do not demand payment by phone.',
+      'Call the agency back using the number on their official .gov website — not the one the caller gave you.',
+      'The IRS always sends written notice first and never demands same-day payment by gift card.',
+      'Gift cards are NEVER a valid form of government payment — this single fact confirms a scam.',
+      'Report the call to the FTC at reportfraud.ftc.gov and notify the agency being impersonated.'
+    ]
+  }
+];
+
+const UNIVERSAL_FLAGS = [
+  { signal: 'Urgency and time pressure', why: 'Forces you to act before you can think or check with anyone.' },
+  { signal: 'Gift cards, wire transfers, Zelle, or cryptocurrency', why: 'These payments can\'t be traced or reversed — that\'s exactly why scammers demand them.' },
+  { signal: 'Demands for secrecy', why: 'Cuts you off from friends or family who would see through the scam.' },
+  { signal: 'Out-of-nowhere offers or opportunities', why: 'Real opportunities don\'t arrive unsolicited. If it found you, be suspicious.' },
+  { signal: 'Spelling or grammar mistakes in official messages', why: 'Real companies proofread everything. Errors are a sign something is wrong.' },
+  { signal: 'You must pay upfront to get money or start a job', why: 'No real job or prize asks you to pay first. This is always a trap.' },
+  { signal: 'Prices far below what you\'d normally pay', why: 'A price designed to override your judgment. If it looks too good to be true, it is.' }
+];
+
+const DEFENSE_STEPS = [
+  { emoji: '✋', title: 'Stop', num: '1', body: 'Don\'t act under pressure. Legitimate emergencies always give you time to verify. Pause before you do anything.' },
+  { emoji: '😮‍💨', title: 'Breathe', num: '2', body: 'Scammers create panic on purpose. Recognize that your sense of urgency is being manufactured. Slow down.' },
+  { emoji: '🔍', title: 'Verify', num: '3', body: 'Find the real phone number or website yourself. Never use any contact details they gave you.' },
+  { emoji: '🗣️', title: 'Tell Someone', num: '4', body: 'Talk to a trusted friend or family member before sending any money or personal information. Another person can break the spell.' },
+  { emoji: '🏦', title: 'Call Your Bank', num: '5', body: 'If you sent money, call your bank right away. The faster you act, the better the chance of getting it back.' },
+  { emoji: '📢', title: 'Report It', num: '6', body: 'Even if you weren\'t hurt, your report helps others. File with your national fraud authority — one report can stop a whole network.' }
+];
+
+const REPORT_RESOURCES = [
+  { flag: '🇺🇸', country: 'United States', urls: [
+      { href: 'https://reportfraud.ftc.gov', label: 'reportfraud.ftc.gov' },
+      { href: 'https://ic3.gov', label: 'ic3.gov (FBI)' }
+  ]},
+  { flag: '🇬🇧', country: 'United Kingdom', urls: [
+      { href: 'https://www.actionfraud.police.uk', label: 'actionfraud.police.uk' }
+  ]},
+  { flag: '🇨🇦', country: 'Canada', urls: [
+      { href: 'https://www.antifraudcentre-centreantifraude.ca', label: 'antifraudcentre-centreantifraude.ca' }
+  ]},
+  { flag: '🇦🇺', country: 'Australia', urls: [
+      { href: 'https://www.scamwatch.gov.au', label: 'scamwatch.gov.au' }
+  ]},
+  { flag: '🇳🇿', country: 'New Zealand', urls: [
+      { href: 'https://www.consumerprotection.govt.nz', label: 'consumerprotection.govt.nz' }
+  ]},
+  { flag: '🌍', country: 'International', urls: [
+      { href: 'https://econsumer.gov', label: 'econsumer.gov' }
+  ]}
+];
+
+const _unused = [
+  {
+    q: 'You receive a text from "[Bank Name]" saying a $2,847 charge was made on your account and you must click a link immediately to stop it. What do you do?',
+    options: ['Click the link to check your account', 'Call the number shown in the text', 'Log into your bank by typing the official URL yourself', 'Reply STOP to unsubscribe'],
+    correct: 2,
+    feedback: 'Correct! Always go directly to your bank\'s official website or app by typing the address yourself — never click links in unexpected texts. Both the link and phone number in a scam text are controlled by the attacker.'
+  },
+  {
+    q: 'A buyer on Facebook Marketplace offers to pay $1,200 for your $750 couch by cashier\'s check and asks you to forward the $450 difference to their "movers." This is:',
+    options: ['A great deal — cashier\'s checks are guaranteed funds', 'Slightly odd, but cashier\'s checks are safe', 'The classic overpayment scam — the check will bounce weeks later', 'Normal — buyers sometimes use movers for large items'],
+    correct: 2,
+    feedback: 'Correct! Cashier\'s checks can bounce weeks after your bank shows the balance as "available." The scammer collects your $450 Zelle payment immediately, then the check fails. Never wire or Zelle money before a check is fully and permanently settled.'
+  },
+  {
+    q: 'An online romantic interest you\'ve talked to for 6 weeks (but never video-called) suddenly has an emergency and needs $800. You should:',
+    options: ['Send it — you\'ve built a real connection and they need help', 'Send half as a test, then wait', 'Insist on a live video call first, then verify the story independently', 'Block them without explanation'],
+    correct: 2,
+    feedback: 'Correct! Six weeks in with zero live video contact is a massive red flag — scammers operating fake personas cannot show their real face. Always request live video early in any online relationship, and never send money to someone you\'ve never met in person.'
+  },
+  {
+    q: 'A robocall says your Social Security Number has been "suspended due to criminal activity" and you must call back to avoid arrest. You should:',
+    options: ['Call back immediately — this sounds serious', 'Press 1 to speak with an officer and clear your name', 'Hang up — the SSA contacts people by mail, not robocall', 'Give them your SSN to prove your identity'],
+    correct: 2,
+    feedback: 'Correct! The Social Security Administration does not suspend SSNs and does not contact people by robocall threatening arrest. Hang up immediately and report the call to reportfraud.ftc.gov.'
+  },
+  {
+    q: 'A job offer arrives for $65,000/yr remote work. Before shipping your laptop, they want a $299 "equipment processing deposit" via Zelle. This is:',
+    options: ['Normal — companies require equipment deposits', 'A scam — legitimate employers never ask employees to pay them', 'Suspicious, but Zelle is safe so you\'d likely get it back', 'Okay if the company has a professional website'],
+    correct: 1,
+    feedback: 'Correct! Legitimate employers never ask new hires to pay anything before starting — not for equipment, training, background checks, or anything else. This is textbook advance-fee job fraud. The "company" does not exist.'
+  },
+  {
+    q: 'A Microsoft pop-up fills your screen saying your computer is blocked and gives a phone number to call. The correct action is:',
+    options: ['Call the number — Microsoft is warning you for a reason', 'Take a photo and email it to verify', 'Force-quit your browser — real OS alerts never include phone numbers', 'Run your antivirus while keeping the browser open'],
+    correct: 2,
+    feedback: 'Correct! Real operating systems never display phone numbers in security alerts. This is a browser scare page — it cannot actually see your files or block your computer. Force-quit your browser (Cmd+Q on Mac, Alt+F4 on Windows) and do not call the number.'
+  },
+  {
+    q: 'Which payment method gives you the BEST protection if an online purchase turns out to be fraudulent?',
+    options: ['Zelle', 'Bank wire transfer', 'Cryptocurrency', 'Credit card'],
+    correct: 3,
+    feedback: 'Correct! Credit cards are protected by the Fair Credit Billing Act, which gives you the right to dispute fraudulent charges. Zelle, wire transfers, and cryptocurrency are all essentially irreversible — once sent, recovery is extremely difficult.'
+  },
+  {
+    q: 'Your "grandchild" calls crying from jail, begs you to keep it secret, and needs $4,500 for bail right now. You should:',
+    options: ['Send the money immediately — family comes first', 'Ask them a personal question only they would know, then send', 'Hang up and call your grandchild directly on their real phone number', 'Ask the "lawyer" who calls next for written documentation'],
+    correct: 2,
+    feedback: 'Correct! Hang up and call your grandchild directly using a number you already know. Scammers can answer personal questions using social media research. The demand for secrecy and urgency are the clearest signs this is a scam. Never act before independently verifying.'
+  }
+];
+
+// ─────────────────── PARTICLES ───────────────────
+(function spawnParticles() {
+  const container = document.getElementById('heroParticles');
+  const colors = ['rgba(229,62,62,.5)','rgba(249,115,22,.4)','rgba(251,191,36,.3)','rgba(59,130,246,.3)','rgba(139,92,246,.3)'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ─────────────────── CARDS ───────────────────
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// track which scam list is currently visible (for panel prev/next)
+let _visibleScams = SCAMS;
+
+function buildCards(filter) {
+  const container = document.getElementById('cards-container');
+  container.innerHTML = '';
+  _visibleScams = (!filter || filter === 'all') ? SCAMS : SCAMS.filter(s => s.category === filter);
+  _visibleScams.forEach((s, idx) => {
+    const card = document.createElement('div');
+    card.className = 'scam-card fade-in';
+    card.style.cssText = `--c1:${s.c1};--c2:${s.c2};--cr:${s.cr};transition-delay:${idx * 60}ms`;
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-icon-wrap">${s.icon}</div>
+        <div class="card-title-area">
+          <h3>${s.title}</h3>
+          <span class="hook-badge" style="color:${s.c1};border-color:${s.c1}40">${s.hookLabel}</span>
+        </div>
+      </div>
+      <div class="card-subtypes">
+        ${s.subtypes.map(t => `<span class="subtype-tag">${t}</span>`).join('')}
+      </div>
+      <button class="card-view-btn" onclick="openScamDetail('${s.id}')">
+        <span>View Full Guide</span>
+        <span class="btn-arrow">→</span>
+      </button>
+    `;
+    container.appendChild(card);
+    requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add('visible')));
+  });
+}
+
+document.getElementById('catNav').addEventListener('click', e => {
+  const pill = e.target.closest('.cat-pill');
+  if (!pill) return;
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  buildCards(pill.dataset.filter);
+});
+
+// ─────────────────── FLAGS TABLE ───────────────────
+const tbody = document.getElementById('flagsTableBody');
+UNIVERSAL_FLAGS.forEach(f => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${f.signal}</td><td>${f.why}</td>`;
+  tbody.appendChild(tr);
+});
+
+// ─────────────────── DEFENSE PROTOCOL ───────────────────
+const protocolGrid = document.getElementById('protocolGrid');
+DEFENSE_STEPS.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'protocol-step fade-in';
+  div.style.transitionDelay = `${i * 80}ms`;
+  div.innerHTML = `
+    <div class="step-num">${s.num}</div>
+    <div class="step-text">
+      <h4>${s.title}</h4>
+      <p>${s.body}</p>
+    </div>
+  `;
+  protocolGrid.appendChild(div);
+});
+
+// ─────────────────── REPORT GRID ───────────────────
+const reportGrid = document.getElementById('reportGrid');
+REPORT_RESOURCES.forEach((r, i) => {
+  const a = document.createElement('a');
+  a.className = 'report-card fade-in';
+  a.style.transitionDelay = `${i * 60}ms`;
+  a.href = r.urls[0].href;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.innerHTML = `
+    <div class="report-flag">${r.flag}</div>
+    <div class="report-country">${r.country}</div>
+    ${r.urls.map(u => `<div class="report-url">${u.label}</div>`).join('')}
+  `;
+  reportGrid.appendChild(a);
+});
+
+// ─────────────────── SCAM-OR-NOT GAME ───────────────────
+
+const SCENARIOS = [
+  {
+    type: 'sms',
+    ctxIcon: '📱', ctxLabel: 'You receive this text message', ctxType: 'SMS',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-sms">
+        <div class="sms-header"><strong>Unknown Number</strong>+1 (863) 555-0192</div>
+        <div class="sms-bubble">[Wells Fargo] FRAUD ALERT: A $2,847.00 purchase was attempted on your card ending 4821 at WALMART FL.<br><br>If this was NOT you, secure your account NOW:<br><span class="sms-link">wellsfargo-secure-alert.verify-account.net</span><br><br>Ref #88423 — respond within 2 hours or account will be suspended.</div>
+        <div class="sms-time">Today 9:14 AM</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is a classic bank phishing SMS (smishing).',
+      wrong: 'This is actually a scam. Real banks never send links like this by text.',
+      flags: ['Link domain is not wellsfargo.com — it\'s a fake site designed to steal your login', 'Creates urgent 2-hour deadline to force panic', 'Real fraud alerts ask you to call the number on your card, not click a link']
+    },
+    actions: [
+      { label: 'Click the link to check your account', correct: false, feedback: 'Never click links in unexpected bank texts — the site is a fake designed to steal your username and password.' },
+      { label: 'Call the number on the back of your debit card', correct: true,  feedback: 'This is always the right move. That number goes directly to the real bank, not the scammer.' },
+      { label: 'Reply STOP to unsubscribe', correct: false, feedback: 'Replying to scam texts confirms your number is active — you\'ll receive more, and the scammer now knows you\'re engaging.' },
+      { label: 'Forward it to a friend to check', correct: false, feedback: 'Your friend isn\'t equipped to verify either. Go directly to your bank\'s official website or call the card number.' }
+    ]
+  },
+  {
+    type: 'email',
+    ctxIcon: '📧', ctxLabel: 'You receive this email', ctxType: 'Email',
+    isScam: false,
+    mockup() {
+      return `<div class="mockup-email">
+        <div class="email-header-bar">
+          <span><strong>From:</strong> Dr. Chen's Office &lt;appointments@drchenmedical.com&gt;</span>
+          <span><strong>To:</strong> you@email.com</span>
+          <span><strong>Date:</strong> Today, 8:02 AM</span>
+        </div>
+        <div class="email-subject">Appointment Reminder — Tuesday May 27 at 2:30 PM</div>
+        <div class="email-body">Hi! Just a friendly reminder that you have an appointment with Dr. Chen on Tuesday, May 27th at 2:30 PM.
+
+Please reply YES to confirm, or call us at (555) 234-5678 to reschedule.
+
+We're located at 480 Medical Plaza Drive, Suite 3.
+
+See you soon!
+— Dr. Chen's Office</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is a legitimate appointment reminder.',
+      wrong: 'This one is actually legit. Notice: no urgent threats, no suspicious links, no requests for money or personal info, and a real local phone number.',
+      flags: []
+    },
+    actions: [
+      { label: 'Reply YES to confirm the appointment', correct: true,  feedback: 'Exactly right. It\'s a genuine reminder from a medical office. Replying to confirm is the appropriate response.' },
+      { label: 'Ignore it — it could be a phishing attempt', correct: false, feedback: 'There are no scam signals here. Ignoring real appointment reminders means you might miss important healthcare. Not every email is a scam.' },
+      { label: 'Call the number in the email to verify first', correct: false, feedback: 'Reasonable caution, but not necessary here — the email shows no red flags. Calling back is fine but not required for routine reminders.' },
+      { label: 'Click unsubscribe to remove yourself', correct: false, feedback: 'Unsubscribing from your own doctor\'s reminder system would mean missing future appointments. This is a legitimate communication.' }
+    ]
+  },
+  {
+    type: 'call',
+    ctxIcon: '📞', ctxLabel: 'You receive this phone call', ctxType: 'Phone Call',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-call">
+        <div class="call-status">Incoming Call</div>
+        <div class="call-avatar">🏛️</div>
+        <div class="call-name">IRS — Tax Enforcement</div>
+        <div class="call-number">1-202-555-0187</div>
+        <div class="call-script">"This is the Internal Revenue Service calling with an urgent notice. Our records show you owe $3,241 in unpaid federal taxes. A warrant for your arrest has been filed. To prevent law enforcement from appearing at your home or workplace, you must settle this balance immediately by purchasing Google Play gift cards and calling us back with the card numbers. This is your final warning."</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — the IRS does not call demanding gift cards. Ever.',
+      wrong: 'This is a government impersonation scam. The IRS always sends written notice first and never demands gift card payments.',
+      flags: ['The IRS initiates contact by mail — not unsolicited phone calls', 'Gift cards are never a valid form of tax payment — this alone confirms it\'s a scam', 'Threat of immediate arrest is a fear tactic; real tax disputes allow time to respond']
+    },
+    actions: [
+      { label: 'Buy the gift cards to avoid arrest', correct: false, feedback: 'No government agency anywhere in the world accepts gift cards as payment. This is the single clearest sign of a scam.' },
+      { label: 'Ask for their badge number and call back later', correct: false, feedback: 'Scammers can provide fake badge numbers. Calling "them" back still reaches the scammer. Hang up and call the IRS directly at 1-800-829-1040.' },
+      { label: 'Hang up immediately — the IRS never calls like this', correct: true,  feedback: 'Exactly right. Hang up, don\'t engage, and report the call to reportfraud.ftc.gov. If you\'re genuinely worried about taxes, call the IRS directly at 1-800-829-1040.' },
+      { label: 'Give them your Social Security Number to verify your identity', correct: false, feedback: 'Giving your SSN to an unknown caller enables identity theft on top of the scam. Never provide personal information to unsolicited callers.' }
+    ]
+  },
+  {
+    type: 'dm',
+    ctxIcon: '💬', ctxLabel: 'A message arrives from someone you met online 5 weeks ago', ctxType: 'Social DM',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-dm">
+        <div class="dm-header">
+          <div class="dm-avatar">👤</div>
+          <div><div class="dm-name">James Mitchell</div><div class="dm-handle">@james.mitchell.99 · Active 2m ago</div></div>
+        </div>
+        <div class="dm-bubble">Hey… I'm so embarrassed to even say this. You know I've been on the oil platform for 3 more weeks. Last night there was an equipment accident — two guys got hurt badly. The emergency medevac costs $1,100 upfront and the company won't reimburse until next month's payroll. I have nobody else to turn to. You're honestly the only person in my world right now. I would never ask if I wasn't completely desperate. I'll wire it back to you the second I get paid, I swear on my life. Can you send it via Western Union?</div>
+        <div class="dm-time">Delivered · 11:32 PM</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is a romance scam emergency request.',
+      wrong: 'This is a romance scam. After building emotional closeness over weeks, the scammer manufactures an emergency requiring untraceable payment.',
+      flags: ['5 weeks of contact but likely no live video call ever occurred', 'Emergency appears only after emotional bond is established — classic manipulation timing', 'Requests Western Union specifically — irreversible, untraceable, scammer\'s preferred method', 'The story (oil rig, medevac, payroll delay) is one of the most common romance scam scripts']
+    },
+    actions: [
+      { label: 'Send $500 — a smaller amount to test if they pay back', correct: false, feedback: 'Sending any amount rewards the scammer and encourages further requests. There is no "safe test amount" — they\'ll simply ask for more.' },
+      { label: 'Ask for a live video call right now before doing anything', correct: true,  feedback: 'The right move. Romance scammers operating fake personas cannot appear on live video. If they refuse or always have "technical issues," that confirms the scam. Real emergencies don\'t prevent a 2-minute video call.' },
+      { label: 'Send the full amount — you trust this person deeply', correct: false, feedback: 'The emotional connection feels real, but it\'s manufactured. Once money is sent via Western Union, it\'s gone permanently. Thousands of people lose their life savings this way.' },
+      { label: 'Tell them to ask their employer for an advance instead', correct: false, feedback: 'Better than sending money, but the right first step is requesting a live video call. That exposes the fake identity immediately without any debate about alternatives.' }
+    ]
+  },
+  {
+    type: 'email',
+    ctxIcon: '📧', ctxLabel: 'This email arrives in your inbox', ctxType: 'Email',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-email">
+        <div class="email-header-bar">
+          <span><strong>From:</strong> HR Team &lt;hr.recruiting@global-solutions-careers.net&gt;</span>
+          <span><strong>To:</strong> you@email.com</span>
+          <span><strong>Date:</strong> Today, 7:48 AM</span>
+        </div>
+        <div class="email-subject">Job Offer — Remote Customer Experience Rep | $72,000/yr</div>
+        <div class="email-body">Dear Applicant,
+
+Congratulations! After reviewing your profile on Indeed, we are pleased to offer you the position of Remote Customer Experience Representative, starting this Monday.
+
+Your equipment (MacBook Pro + iPhone 15) will be shipped directly to your home address.
+
+To process your equipment order, please send a $349 security deposit via Zelle to:
+Name: Sarah Kowalski
+Zelle: s.kowalski.hr@gmail.com
+
+This fee is fully reimbursed in your first paycheck. Please respond within 24 hours or the offer will be extended to another candidate.
+
+Welcome aboard!
+— Global Solutions Inc. HR Team</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is a fake job offer scam.',
+      wrong: 'This is a fake job scam. No legitimate employer asks new hires to send money before starting.',
+      flags: ['Email domain is not the company\'s official website — it\'s a .net burner domain', 'Zelle payment to a personal Gmail address is a massive red flag', '"Global Solutions Inc." cannot be verified on LinkedIn or any business registry', 'Artificial 24-hour deadline is designed to prevent you from doing any research']
+    },
+    actions: [
+      { label: 'Send the $349 — it\'s reimbursed in the first paycheck', correct: false, feedback: 'There is no first paycheck. The job doesn\'t exist. Once Zelle is sent, the money is gone — Zelle has virtually no fraud protection for these cases.' },
+      { label: 'Negotiate the deposit down to $100 as a compromise', correct: false, feedback: 'Any payment at all is a loss. The scammer will likely accept and then ask for more fees ("insurance," "background check," "shipping surcharge"). There\'s no legitimate offer here.' },
+      { label: 'Decline — no real employer ever asks new hires to pay them', correct: true,  feedback: 'Exactly right. This is the single clearest rule: legitimate employers never ask employees to pay upfront fees of any kind. Report the listing to the job board where you found it.' },
+      { label: 'Ask them to send the equipment first before you pay', correct: false, feedback: 'They\'ll refuse, then pressure you further. Don\'t engage — there\'s no legitimate company here. Decline and move on.' }
+    ]
+  },
+  {
+    type: 'call',
+    ctxIcon: '📞', ctxLabel: 'You receive this call — the caller sounds upset and frightened', ctxType: 'Phone Call',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-call">
+        <div class="call-status">Incoming Call</div>
+        <div class="call-avatar">👨‍👩‍👦</div>
+        <div class="call-name">Unknown Number</div>
+        <div class="call-number">1-407-555-0231</div>
+        <div class="call-script">"Grandma? It's me — Jake. [voice sounds muffled] I'm in so much trouble. I was in a car accident and they found something in the car. Please don't tell Mom and Dad — I don't want to scare them. I'm at the police station. My lawyer says I need $4,500 in cash for bail today or I'll be here all weekend. The lawyer will call you right back with the address to send it."
+
+[A second caller phones back minutes later:]
+
+"Hello, I'm Attorney Richard Cole representing your grandson. He's physically fine but we need to move quickly — can you go to the bank now?"</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is the "grandparent scam," one of the most emotionally devastating frauds.',
+      wrong: 'This is the grandparent scam. The demand for secrecy and cash payment are the clearest giveaways.',
+      flags: ['Demand to keep it secret from parents cuts you off from people who would immediately spot the fraud', 'Cash or wire payment demanded — real bail goes through a courthouse, not direct cash delivery', 'The second "lawyer" call is part of the script to add legitimacy and pressure', 'Real family emergencies: you can always verify by calling the grandchild\'s known phone number']
+    },
+    actions: [
+      { label: 'Go to the bank immediately — family comes first', correct: false, feedback: 'This is what the scammer is counting on. Thousands of grandparents have lost their life savings this way. Take 2 minutes to verify before doing anything irreversible.' },
+      { label: 'Hang up and call your grandchild directly on their real number', correct: true,  feedback: 'This is the single correct move. Call the number you already have for them — not any number the caller provides. If they\'re fine, it\'s a scam. If there\'s truly an emergency, they can tell you directly.' },
+      { label: 'Ask the "lawyer" for their Bar Association number to verify', correct: false, feedback: 'A scammer can invent any Bar number. The only reliable verification is calling your grandchild directly on their known number.' },
+      { label: 'Send half the money now and verify before sending the rest', correct: false, feedback: 'Any money sent is lost. Wire transfers and cash are irreversible. Verify first — it takes two minutes — then decide.' }
+    ]
+  },
+  {
+    type: 'popup',
+    ctxIcon: '🖥️', ctxLabel: 'This alert appears and fills your browser screen', ctxType: 'Pop-Up',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-popup">
+        <div class="popup-chrome">
+          <div class="popup-dot" style="background:#ff5f57"></div>
+          <div class="popup-dot" style="background:#febc2e"></div>
+          <div class="popup-dot" style="background:#28c840"></div>
+          <div class="popup-url">microsoftsecurity-alert.com/blocked</div>
+        </div>
+        <div class="popup-body">
+          <div class="popup-icon">⚠️</div>
+          <div class="popup-title">MICROSOFT SECURITY ALERT</div>
+          <div class="popup-text">Your computer has been <strong>BLOCKED</strong>. Suspicious activity detected — your banking credentials and personal files may be at risk. Do NOT close this window or restart your computer.<br><br>Call Microsoft Certified Support immediately:</div>
+          <div class="popup-number">1-800-555-0147</div>
+          <div style="margin-top:.8rem"><button class="popup-btn">Call Now for Immediate Help</button></div>
+        </div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is a tech support scam pop-up.',
+      wrong: 'This is a tech support scam. Real operating systems never display phone numbers in security alerts.',
+      flags: ['The URL is not microsoft.com — it\'s a random domain designed to look alarming', 'Real Windows or Mac security alerts never include a phone number to call', 'The "do NOT close this window" instruction is designed to prevent you from simply leaving', 'Microsoft never contacts users proactively about infections']
+    },
+    actions: [
+      { label: 'Call the number — Microsoft is warning you for a real reason', correct: false, feedback: 'Calling puts you through to the scammer, who will ask for remote access to your computer and then steal banking details or charge hundreds for fake "fixes."' },
+      { label: 'Force-quit your browser, then run your real antivirus', correct: true,  feedback: 'Exactly right. Press Cmd+Q (Mac) or Alt+F4 (Windows) to force-quit the browser. The pop-up has zero ability to actually block your computer — it\'s just a scary webpage. Your real antivirus will confirm everything is fine.' },
+      { label: 'Click "Call Now" to understand what\'s happening', correct: false, feedback: 'Clicking connects you to the scammer. Once on the phone they\'ll pressure you to install remote-access software and hand over control of your computer.' },
+      { label: 'Restart your computer to clear the alert', correct: false, feedback: 'Restarting is safe and will close the browser, but force-quitting is faster. Either way, do NOT call the number shown. Your computer is not compromised — this is just a browser page.' }
+    ]
+  },
+  {
+    type: 'sms',
+    ctxIcon: '📱', ctxLabel: 'You\'re selling a couch on Facebook Marketplace and receive this message', ctxType: 'Marketplace DM',
+    isScam: true,
+    mockup() {
+      return `<div class="mockup-sms">
+        <div class="sms-header"><strong>Facebook Marketplace</strong>Message from: David K.</div>
+        <div class="sms-bubble">Hi! I saw your listing for the couch — is it still available? I'd love to buy it for my son who just moved in 😊<br><br>I'll send a cashier's check for $1,200 (my assistant printed the wrong amount — should've been $750). Please just deposit it and send the $450 difference to our movers via Zelle before they arrive Thursday. So sorry for the hassle!</div>
+        <div class="sms-time">Today 2:47 PM</div>
+      </div>`;
+    },
+    verdictExplain: {
+      correct: 'Correct — this is the classic overpayment scam.',
+      wrong: 'This is an overpayment scam. The cashier\'s check will bounce weeks after deposit, but your Zelle transfer is already gone.',
+      flags: ['Paying more than the listed price for any stated reason is always suspicious', 'Cashier\'s checks can bounce — sometimes 2-3 weeks after your bank shows the funds as "available"', 'Zelle transfer is requested before pickup — that money is irreversible', 'The story (assistant mistake, movers) is a scripted excuse to make the overpayment seem plausible']
+    },
+    actions: [
+      { label: 'Accept — cashier\'s checks are as good as cash', correct: false, feedback: 'Cashier\'s checks are NOT guaranteed funds. Banks can show the money in your account before the check clears, then remove it weeks later when the check bounces — long after you\'ve Zelled the $450 to a scammer.' },
+      { label: 'Decline the sale entirely', correct: true,  feedback: 'The right call. Any deal involving overpayment + a request to forward the difference is always a scam, no exceptions. Post your item again and find a legitimate buyer.' },
+      { label: 'Accept but wait 2 weeks for the check to fully clear before Zelling', correct: false, feedback: 'Close, but not enough — cashier\'s checks from this scam can take 3-4 weeks to bounce, and by then you\'ve already sent the Zelle. The only safe move is declining the whole deal.' },
+      { label: 'Ask them to just pay the correct $750 by Zelle instead', correct: false, feedback: 'If they\'re willing to pay correctly by Zelle, that removes the check scam — but be cautious. Legitimate buyers don\'t overpay by mistake. Meet in public and confirm payment before handing anything over.' }
+    ]
+  }
+];
+
+// ── Game state ──
+let gIdx = 0, gPoints = 0, gMax = 0;
+let gScenarios = [];
+
+function quizStart() {
+  document.getElementById('quizIntro').style.display    = 'none';
+  document.getElementById('quizGameShell').style.display = 'flex';
+  startGame();
+}
+
+function startGame() {
+  gScenarios = [...SCENARIOS].sort(() => Math.random() - .5);
+  gIdx    = 0;
+  gPoints = 0;
+  gMax    = gScenarios.length * 2; // 1pt verdict + 1pt action each
+  document.getElementById('gameFinal').classList.remove('show');
+  document.getElementById('scenarioCard').style.display = 'block';
+  renderScenario();
+}
+
+function renderScenario() {
+  const s = gScenarios[gIdx];
+  const total = gScenarios.length;
+
+  // progress
+  document.getElementById('gProgressFill').style.width = `${(gIdx / total) * 100}%`;
+  document.getElementById('gCounter').textContent      = `${gIdx + 1} of ${total}`;
+  document.getElementById('gScorePill').textContent    = `${gPoints} pts`;
+
+  // context bar
+  document.getElementById('gCtxIcon').textContent  = s.ctxIcon + ' ';
+  document.getElementById('gCtxLabel').textContent = s.ctxLabel;
+  document.getElementById('gCtxType').textContent  = s.ctxType;
+
+  // mockup
+  document.getElementById('gMockup').innerHTML = s.mockup();
+
+  // reset phases
+  document.getElementById('verdictPhase').style.display    = 'block';
+  document.getElementById('verdictFeedback').className     = 'feedback-banner';
+  document.getElementById('actionPhase').className         = 'action-phase';
+  document.getElementById('actionFeedback').className      = 'action-feedback';
+  document.getElementById('nextBtn').className             = 'next-btn';
+  document.getElementById('fbFlags').innerHTML             = '';
+  document.getElementById('actionOpts').innerHTML          = '';
+  document.getElementById('btnScam').disabled              = false;
+  document.getElementById('btnLegit').disabled             = false;
+
+  // shuffle action options (keep track of correct index after shuffle)
+  s._shuffledActions = [...s.actions].sort(() => Math.random() - .5);
+  const opts = document.getElementById('actionOpts');
+  s._shuffledActions.forEach((a, i) => {
+    const letters = ['A','B','C','D'];
+    const btn = document.createElement('button');
+    btn.className = 'action-opt';
+    btn.innerHTML = `<span class="action-opt-letter">${letters[i]}</span>${a.label}`;
+    btn.onclick = () => submitAction(i);
+    opts.appendChild(btn);
+  });
+}
+
+function submitVerdict(userSaysScam) {
+  const s = gScenarios[gIdx];
+  const correct = (userSaysScam === s.isScam);
+  if (correct) gPoints++;
+
+  // lock buttons
+  document.getElementById('btnScam').disabled  = true;
+  document.getElementById('btnLegit').disabled = true;
+
+  // show feedback banner
+  const banner = document.getElementById('verdictFeedback');
+  banner.className = `feedback-banner show ${correct ? 'correct' : 'wrong'}`;
+  document.getElementById('fbIcon').textContent  = correct ? '✅' : '❌';
+  const titleEl = document.getElementById('fbTitle');
+  titleEl.className = `fb-title ${correct ? 'correct' : 'wrong'}`;
+  titleEl.textContent = correct
+    ? s.verdictExplain.correct
+    : s.verdictExplain.wrong;
+  document.getElementById('fbBody').textContent  = '';
+
+  // red flags
+  const flagsEl = document.getElementById('fbFlags');
+  flagsEl.innerHTML = '';
+  (s.verdictExplain.flags || []).forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'fb-flag';
+    div.textContent = f;
+    flagsEl.appendChild(div);
+  });
+
+  // show action phase
+  setTimeout(() => {
+    document.getElementById('verdictPhase').style.display = 'none';
+    document.getElementById('actionPhase').className = 'action-phase show';
+    document.getElementById('actionPhase').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 400);
+}
+
+function submitAction(idx) {
+  const s = gScenarios[gIdx];
+  const action  = s._shuffledActions[idx];
+  const correct = action.correct;
+  if (correct) gPoints++;
+
+  // update score pill
+  document.getElementById('gScorePill').textContent = `${gPoints} pts`;
+
+  // style all options
+  const btns = document.querySelectorAll('.action-opt');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (s._shuffledActions[i].correct) btn.classList.add('correct-opt');
+    else if (i === idx && !correct)    btn.classList.add('wrong-opt');
+  });
+
+  // feedback
+  const fb = document.getElementById('actionFeedback');
+  fb.className  = `action-feedback show ${correct ? 'correct' : 'wrong'}`;
+  fb.textContent = (correct ? '✅ ' : '❌ ') + action.feedback;
+
+  // show next button
+  const isLast = gIdx === gScenarios.length - 1;
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.className   = 'next-btn show';
+  nextBtn.textContent = isLast ? 'See My Results →' : 'Next Scenario →';
+}
+
+function nextScenario() {
+  gIdx++;
+  if (gIdx >= gScenarios.length) {
+    showFinalScore();
+  } else {
+    renderScenario();
+    document.getElementById('scenarioCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function showFinalScore() {
+  document.getElementById('scenarioCard').style.display = 'none';
+  document.getElementById('gProgressFill').style.width  = '100%';
+
+  const pct  = Math.round((gPoints / gMax) * 100);
+  const final = document.getElementById('gameFinal');
+
+  let emoji, grade, msg;
+  if (pct >= 90) {
+    emoji = '🏆'; grade = 'Expert — Scam Proof!';
+    msg   = 'Outstanding. You identified every trap and knew the right response. Share this with someone who needs it.';
+  } else if (pct >= 70) {
+    emoji = '🛡️'; grade = 'Strong — Well Protected';
+    msg   = 'You have solid instincts. Review the scenarios you missed and you\'ll be nearly impossible to fool.';
+  } else if (pct >= 50) {
+    emoji = '⚠️'; grade = 'Cautious — Room to Grow';
+    msg   = 'Good effort. A few scams caught you off guard — scroll up through the Scam Directory to reinforce the patterns.';
+  } else {
+    emoji = '📚'; grade = 'Needs Work — Study Up';
+    msg   = 'Scammers rely on surprise. Now that you\'ve seen their tactics, you\'re already much harder to fool. Play again to lock it in.';
+  }
+
+  document.getElementById('finalEmoji').textContent    = emoji;
+  document.getElementById('finalScoreBig').textContent = `${gPoints} / ${gMax}`;
+  document.getElementById('finalGrade').textContent    = grade;
+  document.getElementById('finalMsg').textContent      = msg;
+  document.getElementById('gScorePill').textContent    = `${gPoints} pts`;
+
+  final.classList.add('show');
+  final.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─────────────────── COUNTER ANIMATION ───────────────────
+function animateCounter(el, target, suffix) {
+  const dur = 1800, step = 30;
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = (target * ease).toFixed(target % 1 === 0 ? 0 : 1) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// ─────────────────── INTERSECTION OBSERVER ───────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('visible');
+    // counter animation trigger
+    if (e.target.hasAttribute('data-target')) {
+      const t = parseFloat(e.target.getAttribute('data-target'));
+      animateCounter(e.target, t, t >= 10 ? 'B+' : 'M');
+    }
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.1 });
+
+function observeAll() {
+  document.querySelectorAll('.fade-in, [data-target]').forEach(el => io.observe(el));
+}
+
+// ─────────────────── DETAIL PANEL ───────────────────
+
+let _currentScamId = null;
+
+function openScamDetail(id) {
+  const s = SCAMS.find(x => x.id === id);
+  if (!s) return;
+  _currentScamId = id;
+
+  // CSS vars for colours
+  const panel = document.getElementById('detailPanel');
+  panel.style.setProperty('--dp-c1', s.c1);
+  panel.style.setProperty('--dp-c2', s.c2);
+
+  // accent bar
+  document.getElementById('dpAccentBar').style.background =
+    `linear-gradient(90deg, ${s.c1}, ${s.c2})`;
+
+  // header
+  document.getElementById('dpIcon').textContent       = s.icon;
+  document.getElementById('dpTitle').textContent      = s.title;
+  const badge = document.getElementById('dpHookBadge');
+  badge.textContent   = s.hookLabel;
+  badge.style.color        = s.c1;
+  badge.style.borderColor  = s.c1;
+
+  // prev / next nav
+  updateNavButtons();
+
+  // body content
+  document.getElementById('dpBody').innerHTML = `
+
+    <div>
+      <div class="dp-section-label orange">How It Works</div>
+      <div class="dp-hook-box">${s.hook}</div>
+    </div>
+
+    <div>
+      <div class="dp-section-label blue">Real Example</div>
+      <div class="dp-example" data-label="${s.example.label}">${escapeHtml(s.example.text)}</div>
+    </div>
+
+    <div>
+      <div class="dp-section-label red">Warning Signs</div>
+      <div class="dp-flags">
+        ${s.redFlags.map(f => `
+          <div class="dp-flag">
+            <span class="dp-flag-icon">🚩</span>
+            <span class="dp-flag-text">${f}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div>
+      <div class="dp-section-label green">What To Do</div>
+      <div class="dp-steps">
+        ${s.defense.map((d, i) => `
+          <div class="dp-step">
+            <span class="dp-step-num">${i + 1}</span>
+            <span class="dp-step-text">${d}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+
+  `;
+
+  // open overlay
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('dpBody').scrollTop = 0;
+}
+
+function closeScamDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  _currentScamId = null;
+}
+
+function handleOverlayClick(e) {
+  // close only when clicking the backdrop (not the panel itself)
+  if (e.target === document.getElementById('detailOverlay')) closeScamDetail();
+}
+
+function navScam(dir) {
+  const idx = _visibleScams.findIndex(s => s.id === _currentScamId);
+  const next = _visibleScams[idx + dir];
+  if (next) openScamDetail(next.id);
+}
+
+function updateNavButtons() {
+  const idx = _visibleScams.findIndex(s => s.id === _currentScamId);
+  document.getElementById('dpPrev').disabled = (idx <= 0);
+  document.getElementById('dpNext').disabled = (idx >= _visibleScams.length - 1);
+}
+
+// close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeScamDetail();
+});
+
+// ─────────────────── INIT ───────────────────
+buildCards('all');
+startGame();
+observeAll();
+
+new MutationObserver(observeAll).observe(document.getElementById('cards-container'), { childList: true });
+new MutationObserver(observeAll).observe(document.getElementById('protocolGrid'), { childList: true });
+new MutationObserver(observeAll).observe(document.getElementById('reportGrid'), { childList: true });
+</script>
+</body>
+</html>

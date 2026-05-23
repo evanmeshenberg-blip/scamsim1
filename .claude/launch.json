@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ScamShield",
+      "runtimeExecutable": "ruby",
+      "runtimeArgs": ["-run", "-e", "httpd", "--", "-p", "3456", "/Users/evan/Desktop/scamsim1"],
+      "port": 3456
+    }
+  ]
+}

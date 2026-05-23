@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/evan/Desktop/scamsim1/.claude)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(which node; which ruby; which php; ls /usr/local/bin/ | grep -E 'http|serve|python' 2>/dev/null | head -20)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
