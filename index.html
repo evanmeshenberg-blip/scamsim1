@@ -3067,7 +3067,7 @@ function showConvoOutcome(safe, text) {
   document.getElementById('convoOutcomeText').textContent  = text;
   const btn = document.getElementById('convoNextBtn');
   btn.textContent = convoIdx < CONVO_SCENARIOS.length - 1 ? 'Next Scenario →' : 'Finish';
-  out.style.display = '';
+  out.style.display = 'block';
 }
 
 function convoNext() {
@@ -3155,7 +3155,7 @@ function wyffAnswer(confidence) {
   }
   const nextBtn = document.getElementById('wyffNextBtn');
   nextBtn.textContent = wyffIdx < WYFF_SCENARIOS.length - 1 ? 'Next →' : 'See Results';
-  rev.style.display = '';
+  rev.style.display = 'block';
 }
 
 function wyffNext() {
@@ -3281,7 +3281,7 @@ function socialVote(guessedFake) {
   ).join('');
   const nextBtn = document.getElementById('socialNextBtn');
   nextBtn.textContent = socialIdx < SOCIAL_PROFILES.length - 1 ? 'Next Profile →' : 'See Results';
-  document.getElementById('socialReveal').style.display = '';
+  document.getElementById('socialReveal').style.display = 'block';
 }
 
 function socialNext() {
@@ -3447,7 +3447,7 @@ function handleCallChoice(s, choice) {
   document.getElementById('callOutcomeText').textContent  = note;
   const btn = document.getElementById('callNextBtn');
   btn.textContent = callIdx < CALL_SCENARIOS.length - 1 ? 'Next Call →' : 'Finish';
-  out.style.display = '';
+  out.style.display = 'block';
 }
 
 function callNext() {
