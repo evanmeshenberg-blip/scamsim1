@@ -859,6 +859,223 @@
   }
   .final-restart:hover { opacity: .85; }
 
+  /* ── Mode switching ── */
+  body.play-mode .learn-only { display: none !important; }
+  .mode-toggle {
+    display: flex; gap: 3px;
+    background: rgba(255,255,255,.07);
+    border-radius: 999px; padding: 3px;
+    border: 1px solid var(--border);
+  }
+  .mode-tab {
+    padding: .3rem .95rem; border-radius: 999px; border: none;
+    background: transparent; color: var(--muted);
+    font-size: .83rem; font-weight: 700; cursor: pointer; transition: all .2s;
+    letter-spacing: .02em;
+  }
+  .mode-tab.active { background: var(--accent); color: #fff; }
+  .mode-tab:not(.active):hover { color: var(--text); }
+
+  /* ── Games Hub ── */
+  #playMode { min-height: 100vh; }
+  .games-landing { max-width: 900px; margin: 0 auto; padding: 6rem 2rem 5rem; }
+  .games-hub-eyebrow {
+    font-size: .78rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: .6rem;
+  }
+  .games-hub-title { font-size: 2.6rem; font-weight: 800; color: var(--text); margin: 0 0 .5rem; }
+  .games-hub-sub   { font-size: 1.05rem; color: var(--muted); margin: 0 0 3rem; max-width: 560px; }
+  .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
+  .game-tile {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 18px; padding: 1.8rem 1.6rem; cursor: pointer;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    display: flex; flex-direction: column; gap: .7rem;
+  }
+  .game-tile:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 8px 32px rgba(99,102,241,.13); }
+  .game-tile-title { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+  .game-tile-desc  { font-size: .92rem; color: var(--muted); line-height: 1.55; flex: 1; }
+  .game-tile-meta  { font-size: .8rem; color: #4a5568; display: flex; gap: 1rem; }
+  .game-tile-play  { font-size: .88rem; font-weight: 700; color: var(--accent); }
+  .game-screen { display: none; min-height: 100vh; padding: 2rem 1rem 5rem; }
+  .game-screen.visible { display: block; }
+  .game-back-bar { max-width: 520px; margin: 0 auto 1.5rem; }
+  .game-back-btn {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 999px; padding: .35rem .9rem; font-size: .85rem;
+    cursor: pointer; transition: all .2s;
+  }
+  .game-back-btn:hover { color: var(--text); border-color: var(--text); }
+
+  /* ── The Conversation ── */
+  #game-convo { background: var(--bg); }
+  .convo-wrap { max-width: 460px; margin: 0 auto; }
+  .convo-progress { display: flex; gap: .4rem; justify-content: center; margin-bottom: 1.5rem; }
+  .convo-pip { width: 28px; height: 5px; border-radius: 3px; background: var(--border); transition: background .3s; }
+  .convo-pip.done { background: var(--accent); }
+  .convo-pip.active { background: var(--accent); opacity: .5; }
+  .convo-header { text-align: center; margin-bottom: 1.2rem; }
+  .convo-scenario-num { font-size: .76rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+  .convo-scenario-title { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+  .convo-scenario-sub { font-size: .88rem; color: var(--muted); margin-top: .15rem; }
+  .convo-phone {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+    padding: 1.1rem; min-height: 260px; display: flex; flex-direction: column; gap: .7rem;
+  }
+  .convo-contact-bar {
+    display: flex; align-items: center; gap: .6rem;
+    padding-bottom: .75rem; border-bottom: 1px solid var(--border);
+  }
+  .convo-avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; color: var(--muted); flex-shrink: 0;
+  }
+  .convo-contact-name { font-size: .88rem; font-weight: 700; color: var(--text); }
+  .convo-contact-sub  { font-size: .75rem; color: var(--muted); }
+  .convo-messages { display: flex; flex-direction: column; gap: .55rem; flex: 1; }
+  .convo-bubble {
+    max-width: 82%; padding: .6rem .85rem; border-radius: 16px;
+    font-size: .9rem; line-height: 1.5;
+    opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s;
+  }
+  .convo-bubble.show { opacity: 1; transform: translateY(0); }
+  .convo-bubble.them { background: var(--bg); border: 1px solid var(--border); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .convo-bubble.me   { background: var(--accent); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .convo-typing { display: none; font-size: .8rem; color: var(--muted); padding: .35rem 0; }
+  .convo-choices { display: flex; flex-direction: column; gap: .55rem; margin-top: .6rem; }
+  .convo-choice-btn {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    border-radius: 12px; padding: .65rem 1rem; font-size: .88rem; text-align: left;
+    cursor: pointer; transition: all .18s; line-height: 1.4;
+  }
+  .convo-choice-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .convo-outcome {
+    background: var(--surface); border-radius: 14px; padding: 1.2rem;
+    margin-top: .6rem; display: none;
+  }
+  .convo-outcome.good { border: 1.5px solid #22c55e; }
+  .convo-outcome.bad  { border: 1.5px solid var(--red); }
+  .convo-outcome-label { font-size: .76rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; }
+  .convo-outcome.good .convo-outcome-label { color: #22c55e; }
+  .convo-outcome.bad  .convo-outcome-label { color: var(--red); }
+  .convo-outcome-text { font-size: .91rem; color: var(--muted); line-height: 1.6; }
+  .convo-next-btn {
+    width: 100%; margin-top: .9rem; padding: .7rem; border-radius: 12px; border: none;
+    background: var(--accent); color: #fff; font-size: .93rem; font-weight: 700; cursor: pointer; transition: opacity .2s;
+  }
+  .convo-next-btn:hover { opacity: .85; }
+
+  /* ── Would You Fall For It ── */
+  #game-wyff { background: var(--bg); }
+  .wyff-wrap { max-width: 580px; margin: 0 auto; }
+  .wyff-progress { display: flex; align-items: center; gap: .5rem; margin-bottom: 1.4rem; font-size: .85rem; color: var(--muted); }
+  .wyff-progress-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .wyff-progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width .4s; }
+  .wyff-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+  .wyff-context-bar { padding: .65rem 1.3rem; background: rgba(255,255,255,.04); border-bottom: 1px solid var(--border); font-size: .82rem; color: var(--muted); }
+  .wyff-msg { padding: 1.3rem; font-size: .95rem; color: var(--text); line-height: 1.65; white-space: pre-wrap; font-family: monospace; background: var(--bg); margin: 0 1.3rem; border-radius: 10px; border: 1px solid var(--border); }
+  .wyff-question { padding: 1rem 1.3rem 1.3rem; text-align: center; }
+  .wyff-q-label { font-size: .88rem; color: var(--muted); margin-bottom: .8rem; }
+  .wyff-btns { display: flex; gap: .55rem; justify-content: center; flex-wrap: wrap; }
+  .wyff-btn {
+    padding: .55rem 1.1rem; border-radius: 999px; border: 1.5px solid var(--border);
+    background: transparent; color: var(--text); font-size: .85rem; font-weight: 600;
+    cursor: pointer; transition: all .18s;
+  }
+  .wyff-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .wyff-reveal { padding: 1.3rem; border-top: 1px solid var(--border); display: none; }
+  .wyff-stat-big  { font-size: 2.8rem; font-weight: 800; color: var(--red); line-height: 1; margin-bottom: .2rem; }
+  .wyff-stat-label { font-size: .92rem; color: var(--muted); margin-bottom: 1rem; }
+  .wyff-flags-title { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: .55rem; }
+  .wyff-flag-list { display: flex; flex-direction: column; gap: .45rem; margin-bottom: .9rem; }
+  .wyff-flag-item { display: flex; gap: .55rem; align-items: flex-start; font-size: .88rem; color: var(--muted); }
+  .wyff-flag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: .32rem; }
+  .wyff-legit-note { font-size: .88rem; color: #22c55e; line-height: 1.55; margin-bottom: .9rem; background: rgba(34,197,94,.07); border: 1px solid rgba(34,197,94,.2); border-radius: 10px; padding: .7rem .9rem; }
+  .wyff-next-btn {
+    width: 100%; padding: .72rem; border-radius: 12px; border: none;
+    background: var(--accent); color: #fff; font-size: .93rem; font-weight: 700; cursor: pointer; transition: opacity .2s;
+  }
+  .wyff-next-btn:hover { opacity: .85; }
+  .wyff-result { text-align: center; padding: 3rem 2rem; }
+  .wyff-result-score { font-size: 3.5rem; font-weight: 800; color: var(--accent); }
+  .wyff-result-label { font-size: 1rem; color: var(--muted); margin: .4rem 0 2rem; }
+
+  /* ── Social Profile ── */
+  #game-social { background: var(--bg); }
+  .social-wrap { max-width: 480px; margin: 0 auto; }
+  .social-header { text-align: center; margin-bottom: 1.2rem; }
+  .social-header h3 { font-size: 1.25rem; font-weight: 700; color: var(--text); margin: 0 0 .25rem; }
+  .social-header p  { font-size: .9rem; color: var(--muted); }
+  .social-profile-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 1rem; }
+  .social-cover { height: 72px; background: linear-gradient(135deg, #1e2d45, #2a3a55); }
+  .social-profile-top { padding: 0 1.3rem 1rem; }
+  .social-avatar-wrap { margin-top: -28px; margin-bottom: .55rem; }
+  .social-avatar { width: 58px; height: 58px; border-radius: 50%; border: 3px solid var(--surface); background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+  .social-name   { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+  .social-handle { font-size: .82rem; color: var(--muted); margin-bottom: .45rem; }
+  .social-bio    { font-size: .88rem; color: var(--muted); line-height: 1.5; margin-bottom: .7rem; }
+  .social-stats-row { display: flex; gap: 1.1rem; font-size: .83rem; color: var(--muted); padding-bottom: .7rem; border-bottom: 1px solid var(--border); margin-bottom: .7rem; }
+  .social-stats-row strong { color: var(--text); }
+  .social-post { background: var(--bg); border-radius: 10px; padding: .7rem .9rem; margin: 0 1.3rem .9rem; font-size: .86rem; color: var(--muted); line-height: 1.5; border: 1px solid var(--border); }
+  .social-post-label { font-size: .73rem; color: #4a5568; margin-bottom: .25rem; }
+  .social-dm-badge { background: rgba(99,102,241,.09); border: 1px solid rgba(99,102,241,.22); border-radius: 10px; padding: .7rem .9rem; margin: 0 1.3rem .9rem; font-size: .86rem; color: var(--muted); line-height: 1.5; }
+  .social-dm-label { font-size: .73rem; font-weight: 700; color: var(--accent); margin-bottom: .25rem; }
+  .social-verdict-btns { display: flex; gap: .7rem; padding: 0 1.3rem 1.2rem; }
+  .social-verdict-btn { flex: 1; padding: .6rem; border-radius: 11px; border: 1.5px solid var(--border); background: transparent; font-size: .88rem; font-weight: 700; cursor: pointer; transition: all .18s; }
+  .social-verdict-btn.real { color: #22c55e; border-color: #22c55e; }
+  .social-verdict-btn.real:hover { background: rgba(34,197,94,.1); }
+  .social-verdict-btn.fake { color: var(--red); border-color: var(--red); }
+  .social-verdict-btn.fake:hover { background: rgba(229,62,62,.1); }
+  .social-reveal { padding: .8rem 1.3rem 1.1rem; border-top: 1px solid var(--border); display: none; }
+  .social-verdict-banner { border-radius: 9px; padding: .65rem .9rem; font-size: .88rem; font-weight: 700; margin-bottom: .7rem; }
+  .social-verdict-banner.correct { background: rgba(34,197,94,.09); color: #22c55e; border: 1px solid rgba(34,197,94,.2); }
+  .social-verdict-banner.wrong   { background: rgba(229,62,62,.09); color: var(--red); border: 1px solid rgba(229,62,62,.2); }
+  .social-tells-title { font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: .45rem; }
+  .social-tell-list { display: flex; flex-direction: column; gap: .38rem; margin-bottom: .7rem; }
+  .social-tell { font-size: .86rem; color: var(--muted); display: flex; gap: .45rem; align-items: flex-start; }
+  .social-tell-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: .28rem; }
+  .social-tell-dot.red   { background: var(--red); }
+  .social-tell-dot.green { background: #22c55e; }
+  .social-next-btn { width: 100%; padding: .72rem; border-radius: 12px; border: none; background: var(--accent); color: #fff; font-size: .93rem; font-weight: 700; cursor: pointer; transition: opacity .2s; }
+  .social-next-btn:hover { opacity: .85; }
+
+  /* ── Escape the Call ── */
+  #game-call { background: var(--bg); }
+  .call-wrap { max-width: 480px; margin: 0 auto; }
+  .call-scenario-progress { display: flex; gap: .4rem; justify-content: center; margin-bottom: 1rem; }
+  .call-pip { width: 28px; height: 5px; border-radius: 3px; background: var(--border); transition: background .3s; }
+  .call-pip.done { background: var(--accent); }
+  .call-pip.active { background: var(--accent); opacity: .5; }
+  .call-phone-top { background: linear-gradient(160deg, #1a2535, #0d1822); border-radius: 20px 20px 0 0; padding: 1.3rem 1.3rem .8rem; text-align: center; border: 1px solid var(--border); border-bottom: none; }
+  .call-indicator { display: flex; align-items: center; justify-content: center; gap: .45rem; font-size: .75rem; color: #22c55e; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; margin-bottom: .55rem; }
+  .call-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: pulse-green 1.5s infinite; }
+  @keyframes pulse-green { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .call-caller-name { font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: .2rem; }
+  .call-caller-sub  { font-size: .83rem; color: rgba(255,255,255,.45); margin-bottom: .5rem; }
+  .call-timer { font-size: .83rem; color: rgba(255,255,255,.35); font-variant-numeric: tabular-nums; }
+  .call-transcript-area { background: var(--surface); border: 1px solid var(--border); border-top: none; border-bottom: none; padding: 1.1rem 1.3rem; min-height: 180px; display: flex; flex-direction: column; gap: .7rem; }
+  .call-line { display: flex; gap: .55rem; opacity: 0; transform: translateY(5px); transition: opacity .3s, transform .3s; }
+  .call-line.show { opacity: 1; transform: translateY(0); }
+  .call-line-label { font-size: .74rem; font-weight: 700; color: var(--muted); min-width: 46px; padding-top: .1rem; flex-shrink: 0; }
+  .call-line-label.them { color: var(--red); }
+  .call-line-label.you  { color: var(--accent); }
+  .call-line-text { font-size: .9rem; color: var(--text); line-height: 1.55; font-style: italic; }
+  .call-choices-area { background: var(--surface); border: 1px solid var(--border); border-radius: 0 0 20px 20px; padding: .9rem 1.3rem 1.3rem; }
+  .call-choices-label { font-size: .76rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: .65rem; }
+  .call-choice-btns { display: flex; flex-direction: column; gap: .5rem; }
+  .call-choice-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 11px; padding: .62rem .9rem; font-size: .88rem; text-align: left; cursor: pointer; transition: all .18s; line-height: 1.4; }
+  .call-choice-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .call-outcome { border-radius: 0 0 20px 20px; padding: 1.3rem; display: none; border: 1px solid var(--border); border-top: none; }
+  .call-outcome.good { background: rgba(34,197,94,.05); border-color: rgba(34,197,94,.2); }
+  .call-outcome.bad  { background: rgba(229,62,62,.05); border-color: rgba(229,62,62,.2); }
+  .call-outcome-label { font-size: .76rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .45rem; }
+  .call-outcome.good .call-outcome-label { color: #22c55e; }
+  .call-outcome.bad  .call-outcome-label { color: var(--red); }
+  .call-outcome-text { font-size: .91rem; color: var(--muted); line-height: 1.6; margin-bottom: .9rem; }
+  .call-next-btn { width: 100%; padding: .72rem; border-radius: 12px; border: none; background: var(--accent); color: #fff; font-size: .93rem; font-weight: 700; cursor: pointer; transition: opacity .2s; }
+  .call-next-btn:hover { opacity: .85; }
+
   /* ── Protect section ── */
   #protect { background: var(--surface); }
   .protect-stats {
@@ -968,24 +1185,23 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-brand" href="#hero">
-    <span class="shield-icon">🛡️</span>
-    ScamShield
-  </a>
-  <ul class="nav-links">
-    <li><a href="#scams">Scam Types</a></li>
-    <li><a href="#universal">Red Flags</a></li>
-    <li><a href="#defense">Defense</a></li>
-    <li><a href="#protect">Protect Loved Ones</a></li>
-    <li><a href="#checker">Check a Message</a></li>
-    <li><a href="#quiz">Test Yourself</a></li>
-    <li><a href="#report">Report</a></li>
+  <a class="nav-brand" href="#hero" onclick="switchMode('learn')">ScamShield</a>
+  <ul class="nav-links" id="learnNavLinks">
+    <li><a href="#scams"     onclick="switchMode('learn')">Scam Types</a></li>
+    <li><a href="#universal" onclick="switchMode('learn')">Red Flags</a></li>
+    <li><a href="#defense"   onclick="switchMode('learn')">Defense</a></li>
+    <li><a href="#protect"   onclick="switchMode('learn')">Protect Loved Ones</a></li>
+    <li><a href="#checker"   onclick="switchMode('learn')">Check a Message</a></li>
+    <li><a href="#report"    onclick="switchMode('learn')">Report</a></li>
   </ul>
-  <a class="nav-cta" href="#quiz">Test Yourself →</a>
+  <div class="mode-toggle">
+    <button class="mode-tab active" id="tabLearn" onclick="switchMode('learn')">Learn</button>
+    <button class="mode-tab"        id="tabPlay"  onclick="switchMode('play')">Play</button>
+  </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="hero">
+<section class="hero learn-only" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-particles" id="heroParticles"></div>
@@ -993,8 +1209,8 @@
     <h1>Know the Scam.<br>Break the Trap.</h1>
     <p>Scammers steal billions of dollars every year. This guide helps you recognize fraud, protect yourself, and know what to do if you're targeted.</p>
     <div class="hero-btns">
-      <a class="btn-primary" href="#scams">Explore Scam Types</a>
-      <a class="btn-secondary" href="#quiz">Take the Quiz</a>
+      <a class="btn-primary" href="#scams" onclick="switchMode('learn')">Explore Scam Types</a>
+      <a class="btn-secondary" href="#" onclick="switchMode('play'); return false;">Play Games</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -1017,10 +1233,10 @@
   </div>
 </section>
 
-<hr class="section-divider">
+<hr class="section-divider learn-only">
 
 <!-- SCAM DIRECTORY -->
-<section id="scams">
+<section id="scams" class="learn-only">
   <div class="section-header fade-in">
     <div class="section-tag">Scam Types</div>
     <h2>Scam Directory</h2>
@@ -1039,7 +1255,7 @@
 </section>
 
 <!-- UNIVERSAL FLAGS -->
-<section id="universal">
+<section id="universal" class="learn-only">
   <div class="section-header fade-in">
     <div class="section-tag">Always Watch For</div>
     <h2>Universal Red Flags</h2>
@@ -1055,10 +1271,10 @@
   </div>
 </section>
 
-<hr class="section-divider">
+<hr class="section-divider learn-only">
 
 <!-- DEFENSE PROTOCOL -->
-<section id="defense">
+<section id="defense" class="learn-only">
   <div class="section-header fade-in">
     <div class="section-tag">What To Do</div>
     <h2>If You Think You're Being Scammed</h2>
@@ -1068,8 +1284,8 @@
 </section>
 
 <!-- PROTECTING VULNERABLE LOVED ONES -->
-<div class="section-divider"></div>
-<section id="protect">
+<div class="section-divider learn-only"></div>
+<section id="protect" class="learn-only">
   <div class="section-header fade-in">
     <div class="section-tag">Protect Your Loved Ones</div>
     <h2>Who Scammers Target Most</h2>
@@ -1131,7 +1347,7 @@
 </section>
 
 <!-- MESSAGE CHECKER -->
-<section id="checker">
+<section id="checker" class="learn-only">
   <div class="section-header fade-in">
     <div class="section-tag">Free Tool</div>
     <h2>Check a Suspicious Message</h2>
@@ -1163,7 +1379,7 @@
 </section>
 
 <!-- SCAM OR NOT GAME -->
-<section id="quiz">
+<section id="quiz" class="learn-only">
 
   <!-- Intro screen -->
   <div class="quiz-intro fade-in" id="quizIntro">
@@ -1234,10 +1450,10 @@
 
 </section>
 
-<hr class="section-divider">
+<hr class="section-divider learn-only">
 
 <!-- REPORT RESOURCES -->
-<section id="report">
+<section id="report" class="learn-only">
   <div class="section-header fade-in">
     <div class="section-tag">Report a Scam</div>
     <h2>Where to Report</h2>
@@ -1245,6 +1461,190 @@
   </div>
   <div class="report-grid fade-in" id="reportGrid"></div>
 </section>
+
+<!-- ═══════════════════════ PLAY MODE ═══════════════════════ -->
+<div id="playMode" style="display:none">
+
+  <!-- GAMES HUB -->
+  <div id="gamesHub">
+    <div class="games-landing">
+      <div class="games-hub-eyebrow">Interactive</div>
+      <h2 class="games-hub-title">Learn by Doing</h2>
+      <p class="games-hub-sub">Four games that sharpen your scam radar. No real information needed — just your instincts.</p>
+      <div class="games-grid">
+
+        <div class="game-tile" onclick="showGame('game-convo')">
+          <div class="game-tile-title">The Conversation</div>
+          <div class="game-tile-desc">A suspicious text thread plays out in real time. At the critical moment — what do you do? Your choices determine the outcome.</div>
+          <div class="game-tile-meta"><span>3 scenarios</span><span>~4 min</span></div>
+          <div class="game-tile-play">Play →</div>
+        </div>
+
+        <div class="game-tile" onclick="showGame('game-wyff')">
+          <div class="game-tile-title">Would You Have Fallen For It?</div>
+          <div class="game-tile-desc">See a real scam. Guess how many people fell for it. The truth might surprise you — these are real statistics from real victims.</div>
+          <div class="game-tile-meta"><span>5 scenarios</span><span>~3 min</span></div>
+          <div class="game-tile-play">Play →</div>
+        </div>
+
+        <div class="game-tile" onclick="showGame('game-social')">
+          <div class="game-tile-title">Real or Fake Profile?</div>
+          <div class="game-tile-desc">A social media profile slides in. Study the details — is this a real person, or a scammer building a false identity to gain your trust?</div>
+          <div class="game-tile-meta"><span>6 profiles</span><span>~4 min</span></div>
+          <div class="game-tile-play">Play →</div>
+        </div>
+
+        <div class="game-tile" onclick="showGame('game-call')">
+          <div class="game-tile-title">Escape the Call</div>
+          <div class="game-tile-desc">You're already on the phone with a scammer. The transcript plays out line by line. Can you get out before it's too late?</div>
+          <div class="game-tile-meta"><span>3 calls</span><span>~5 min</span></div>
+          <div class="game-tile-play">Play →</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GAME: THE CONVERSATION ─────────────────────────────── -->
+  <div class="game-screen" id="game-convo">
+    <div class="game-back-bar">
+      <button class="game-back-btn" onclick="backToGames()">← All Games</button>
+    </div>
+    <div class="convo-wrap">
+      <div class="convo-progress" id="convoPips"></div>
+      <div class="convo-header">
+        <div class="convo-scenario-num" id="convoNum"></div>
+        <div class="convo-scenario-title" id="convoTitle"></div>
+        <div class="convo-scenario-sub" id="convoSub"></div>
+      </div>
+      <div class="convo-phone">
+        <div class="convo-contact-bar">
+          <div class="convo-avatar" id="convoAvatar">?</div>
+          <div>
+            <div class="convo-contact-name" id="convoContact"></div>
+            <div class="convo-contact-sub" id="convoContactSub"></div>
+          </div>
+        </div>
+        <div class="convo-messages" id="convoMessages"></div>
+        <div class="convo-typing" id="convoTyping">typing…</div>
+      </div>
+      <div class="convo-choices" id="convoChoices"></div>
+      <div class="convo-outcome" id="convoOutcome">
+        <div class="convo-outcome-label" id="convoOutcomeLabel"></div>
+        <div class="convo-outcome-text" id="convoOutcomeText"></div>
+        <button class="convo-next-btn" id="convoNextBtn" onclick="convoNext()">Next Scenario →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GAME: WOULD YOU FALL FOR IT ───────────────────────── -->
+  <div class="game-screen" id="game-wyff">
+    <div class="game-back-bar">
+      <button class="game-back-btn" onclick="backToGames()">← All Games</button>
+    </div>
+    <div class="wyff-wrap">
+      <div class="wyff-progress">
+        <div class="wyff-progress-bar"><div class="wyff-progress-fill" id="wyffFill"></div></div>
+        <span id="wyffCounter">1 of 5</span>
+      </div>
+      <div class="wyff-card" id="wyffCard">
+        <div class="wyff-context-bar" id="wyffContext"></div>
+        <div class="wyff-msg" id="wyffMsg"></div>
+        <div class="wyff-question">
+          <div class="wyff-q-label">How confident are you that you would have spotted this?</div>
+          <div class="wyff-btns">
+            <button class="wyff-btn" onclick="wyffAnswer('spot')">I would have spotted it</button>
+            <button class="wyff-btn" onclick="wyffAnswer('unsure')">I'm not sure</button>
+            <button class="wyff-btn" onclick="wyffAnswer('fallen')">I might have fallen for it</button>
+          </div>
+        </div>
+        <div class="wyff-reveal" id="wyffReveal">
+          <div class="wyff-stat-big" id="wyffStat"></div>
+          <div class="wyff-stat-label" id="wyffStatLabel"></div>
+          <div class="wyff-flags-title" id="wyffFlagsTitle"></div>
+          <div class="wyff-flag-list" id="wyffFlagList"></div>
+          <button class="wyff-next-btn" id="wyffNextBtn" onclick="wyffNext()">Next →</button>
+        </div>
+      </div>
+      <div class="wyff-result" id="wyffResult">
+        <div class="wyff-result-score" id="wyffResultScore"></div>
+        <div class="wyff-result-label" id="wyffResultLabel"></div>
+        <button class="wyff-next-btn" onclick="initWyff()">Play Again</button>
+        <button class="game-back-btn" style="margin-top:.8rem;display:block;width:100%;text-align:center;" onclick="backToGames()">← All Games</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GAME: REAL OR FAKE PROFILE ────────────────────────── -->
+  <div class="game-screen" id="game-social">
+    <div class="game-back-bar">
+      <button class="game-back-btn" onclick="backToGames()">← All Games</button>
+    </div>
+    <div class="social-wrap">
+      <div class="social-header">
+        <h3 id="socialTitle">Real or Fake Profile?</h3>
+        <p id="socialSubtitle">Study the profile. Then decide.</p>
+      </div>
+      <div class="social-profile-card" id="socialCard">
+        <div class="social-cover"></div>
+        <div class="social-profile-top">
+          <div class="social-avatar-wrap">
+            <div class="social-avatar" id="socialAvatar"></div>
+          </div>
+          <div class="social-name" id="socialName"></div>
+          <div class="social-handle" id="socialHandle"></div>
+          <div class="social-bio" id="socialBio"></div>
+          <div class="social-stats-row" id="socialStats"></div>
+        </div>
+        <div class="social-post" id="socialPost"></div>
+        <div class="social-dm-badge" id="socialDM" style="display:none"></div>
+        <div class="social-verdict-btns">
+          <button class="social-verdict-btn real" onclick="socialVote(false)">Real Person</button>
+          <button class="social-verdict-btn fake" onclick="socialVote(true)">Scammer</button>
+        </div>
+        <div class="social-reveal" id="socialReveal">
+          <div class="social-verdict-banner" id="socialBanner"></div>
+          <div class="social-tells-title" id="socialTellsTitle"></div>
+          <div class="social-tell-list" id="socialTellList"></div>
+          <button class="social-next-btn" id="socialNextBtn" onclick="socialNext()">Next Profile →</button>
+        </div>
+      </div>
+      <div class="wyff-result" id="socialResult" style="display:none">
+        <div class="wyff-result-score" id="socialScore"></div>
+        <div class="wyff-result-label" id="socialScoreLabel"></div>
+        <button class="wyff-next-btn" onclick="initSocial()">Play Again</button>
+        <button class="game-back-btn" style="margin-top:.8rem;display:block;width:100%;text-align:center;" onclick="backToGames()">← All Games</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GAME: ESCAPE THE CALL ─────────────────────────────── -->
+  <div class="game-screen" id="game-call">
+    <div class="game-back-bar">
+      <button class="game-back-btn" onclick="backToGames()">← All Games</button>
+    </div>
+    <div class="call-wrap">
+      <div class="call-scenario-progress" id="callPips"></div>
+      <div class="call-phone-top">
+        <div class="call-indicator"><div class="call-dot"></div> Call in Progress</div>
+        <div class="call-caller-name" id="callCaller"></div>
+        <div class="call-caller-sub" id="callCallerSub"></div>
+        <div class="call-timer" id="callTimer">0:00</div>
+      </div>
+      <div class="call-transcript-area" id="callTranscript"></div>
+      <div class="call-choices-area" id="callChoicesArea">
+        <div class="call-choices-label">What do you say?</div>
+        <div class="call-choice-btns" id="callChoiceBtns"></div>
+      </div>
+      <div class="call-outcome" id="callOutcome">
+        <div class="call-outcome-label" id="callOutcomeLabel"></div>
+        <div class="call-outcome-text" id="callOutcomeText"></div>
+        <button class="call-next-btn" id="callNextBtn" onclick="callNext()">Next Call →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /playMode -->
 
 <!-- FOOTER -->
 <footer>
@@ -2474,6 +2874,587 @@ observeAll();
 new MutationObserver(observeAll).observe(document.getElementById('cards-container'), { childList: true });
 new MutationObserver(observeAll).observe(document.getElementById('protocolGrid'), { childList: true });
 new MutationObserver(observeAll).observe(document.getElementById('reportGrid'), { childList: true });
+
+// ─────────────────────── MODE SWITCHING ───────────────────────────────────
+function switchMode(mode) {
+  if (mode === 'play') {
+    document.body.classList.add('play-mode');
+    document.getElementById('playMode').style.display = '';
+    document.getElementById('tabLearn').classList.remove('active');
+    document.getElementById('tabPlay').classList.add('active');
+  } else {
+    document.body.classList.remove('play-mode');
+    document.getElementById('playMode').style.display = 'none';
+    document.getElementById('tabLearn').classList.add('active');
+    document.getElementById('tabPlay').classList.remove('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showGame(id) {
+  document.getElementById('gamesHub').style.display = 'none';
+  document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('visible'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('visible'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  if (id === 'game-convo')  initConvo();
+  if (id === 'game-wyff')   initWyff();
+  if (id === 'game-social') initSocial();
+  if (id === 'game-call')   initCall();
+}
+
+function backToGames() {
+  document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('visible'));
+  document.getElementById('gamesHub').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────── THE CONVERSATION ─────────────────────────────────
+const CONVO_SCENARIOS = [
+  {
+    title: 'Medicare Alert',
+    sub: 'Text from an unknown number',
+    caller: 'MEDICARE SERVICES',
+    callerSub: '+1 (855) 398-4121 · Unknown Number',
+    messages: [
+      { side: 'them', text: 'This is Medicare Services. Your supplemental coverage requires immediate confirmation. Reply YES to continue your benefits, or call 1-855-398-4121.' }
+    ],
+    prompt: 'What do you do?',
+    choices: [
+      { text: 'Reply YES',
+        reply: [{ side: 'me', text: 'YES' }, { side: 'them', text: 'Thank you. To complete enrollment, please reply with your Medicare ID number and date of birth.' }],
+        followPrompt: 'Now they want your Medicare ID. What now?',
+        followChoices: [
+          { text: 'Provide the information', safe: false },
+          { text: 'Hang up and call the real Medicare (1-800-633-4227)', safe: true }
+        ]
+      },
+      { text: 'Call the number in the text back', safe: false, direct: true },
+      { text: 'Look up 1-800-633-4227 (official Medicare) and call that instead', safe: true, direct: true },
+      { text: 'Block the number and ignore it', safe: true, direct: true }
+    ],
+    good: 'Medicare never initiates contact by unsolicited text and never asks you to confirm your ID this way. Blocking and ignoring was exactly right.',
+    bad:  'Your Medicare ID and date of birth were sold to identity thieves. Criminals filed $14,000 in fraudulent Medicare claims in your name before the fraud was caught.'
+  },
+  {
+    title: 'Package on Hold',
+    sub: 'Text from USPS',
+    caller: 'USPS Notifications',
+    callerSub: 'Short code 28777',
+    messages: [
+      { side: 'them', text: 'USPS: Your package #9400111899223477802 could not be delivered. A customs clearance fee of $2.99 is required. Pay here: http://usps-pkg-hold.xyz/pay — package returned in 24 hrs if unpaid.' }
+    ],
+    prompt: 'What do you do?',
+    choices: [
+      { text: 'Click the link and pay the $2.99', safe: false, direct: true },
+      { text: 'Reply STOP to unsubscribe', safe: false, direct: true, badNote: 'Replying confirms to the scammer that your number is active — you may receive more. Always go directly to usps.com to check real packages.' },
+      { text: 'Open usps.com directly and track the package yourself', safe: true, direct: true },
+      { text: 'Search the tracking number on the official USPS app', safe: true, direct: true }
+    ],
+    good: 'The official USPS site showed no package, no hold, and no fee owed. The ".xyz" domain and the $2.99 fee were dead giveaways. Real USPS fees appear in official mail — never via text.',
+    bad:  'The link opened a convincing fake USPS payment page. Your card number, expiration, and CVV were captured. Within hours, $847 in fraudulent charges appeared on your account.'
+  },
+  {
+    title: 'Grandchild in Trouble',
+    sub: 'Call from an unknown number',
+    caller: 'Unknown Number',
+    callerSub: '(202) 555-0182',
+    messages: [
+      { side: 'them', text: '[Crying] Grandma? It\'s me. I\'m in trouble. Please don\'t tell Mom and Dad — they\'ll be so worried.' },
+      { side: 'them', text: 'I got into a car accident and I\'m at the police station right now. My lawyer says I need $3,200 for bail tonight. I\'m scared.' }
+    ],
+    prompt: 'A "lawyer" is about to call you. What do you do first?',
+    choices: [
+      { text: 'Ask: "Which grandchild is this?" — without saying any names', safe: true, direct: true, goodNote: 'After a long pause, the caller hung up. Scammers fish for names — they\'ll use whatever you say. Asking open-ended questions without giving information is the perfect move.' },
+      { text: 'Wait for the "lawyer" to call and find out how to send money', safe: false, direct: true },
+      { text: 'Hang up and call your grandchild\'s real saved number', safe: true, direct: true, goodNote: 'Your grandchild answered immediately — completely fine. The whole thing was a scam. This is always the right move.' },
+      { text: 'Send the money via Zelle right away so they can get out', safe: false, direct: true }
+    ],
+    good: 'This is the grandparent scam — one of the most reported elder fraud schemes in the US. Scammers sometimes clone voices using AI clips from social media. Always verify through a number you already have saved, never one they give you.',
+    bad:  'A convincing "attorney" called with court paperwork details and professional language. You sent $3,200 via Zelle. When you tried to follow up, the number was disconnected. Your real grandchild had no idea.'
+  }
+];
+
+let convoIdx = 0, convoPhase = 0;
+
+function initConvo() {
+  convoIdx = 0; convoPhase = 0;
+  renderConvo();
+}
+
+function renderConvo() {
+  const s = CONVO_SCENARIOS[convoIdx];
+  // pips
+  const pips = document.getElementById('convoPips');
+  pips.innerHTML = CONVO_SCENARIOS.map((_, i) =>
+    `<div class="convo-pip ${i < convoIdx ? 'done' : i === convoIdx ? 'active' : ''}"></div>`
+  ).join('');
+  document.getElementById('convoNum').textContent   = `Scenario ${convoIdx + 1} of ${CONVO_SCENARIOS.length}`;
+  document.getElementById('convoTitle').textContent = s.title;
+  document.getElementById('convoSub').textContent   = s.sub;
+  document.getElementById('convoContact').textContent    = s.caller;
+  document.getElementById('convoContactSub').textContent = s.callerSub;
+  document.getElementById('convoAvatar').textContent     = s.caller[0];
+  document.getElementById('convoMessages').innerHTML = '';
+  document.getElementById('convoChoices').innerHTML  = '';
+  document.getElementById('convoTyping').style.display  = 'none';
+  const out = document.getElementById('convoOutcome');
+  out.style.display = 'none'; out.className = 'convo-outcome';
+  showConvoMessages(s.messages, () => showConvoChoices(s));
+}
+
+function showConvoMessages(msgs, cb) {
+  const box = document.getElementById('convoMessages');
+  const typing = document.getElementById('convoTyping');
+  let i = 0;
+  function next() {
+    if (i >= msgs.length) { typing.style.display = 'none'; if (cb) cb(); return; }
+    const m = msgs[i++];
+    if (m.side === 'them') {
+      typing.style.display = 'block';
+      setTimeout(() => {
+        typing.style.display = 'none';
+        const b = document.createElement('div');
+        b.className = `convo-bubble ${m.side}`;
+        b.textContent = m.text;
+        box.appendChild(b);
+        requestAnimationFrame(() => b.classList.add('show'));
+        setTimeout(next, 700);
+      }, 900);
+    } else {
+      const b = document.createElement('div');
+      b.className = `convo-bubble ${m.side}`;
+      b.textContent = m.text;
+      box.appendChild(b);
+      requestAnimationFrame(() => b.classList.add('show'));
+      setTimeout(next, 500);
+    }
+  }
+  next();
+}
+
+function showConvoChoices(s, followPrompt, followChoices) {
+  const choices = followChoices || s.choices;
+  const prompt  = followPrompt  || s.prompt;
+  const box = document.getElementById('convoChoices');
+  box.innerHTML = `<div style="font-size:.82rem;color:var(--muted);margin-bottom:.3rem;">${prompt}</div>`;
+  choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'convo-choice-btn';
+    btn.textContent = c.text;
+    btn.onclick = () => handleConvoChoice(s, c, choices);
+    box.appendChild(btn);
+  });
+}
+
+function handleConvoChoice(s, choice, allChoices) {
+  document.getElementById('convoChoices').innerHTML = '';
+  if (choice.reply) {
+    // show reply messages, then follow-up choices
+    showConvoMessages(choice.reply, () => {
+      if (choice.followPrompt) showConvoChoices(s, choice.followPrompt, choice.followChoices);
+    });
+  } else {
+    const isSafe = choice.safe;
+    const note = isSafe ? (choice.goodNote || s.good) : (choice.badNote || s.bad);
+    showConvoOutcome(isSafe, note);
+  }
+}
+
+function showConvoOutcome(safe, text) {
+  const out = document.getElementById('convoOutcome');
+  out.className = `convo-outcome ${safe ? 'good' : 'bad'}`;
+  document.getElementById('convoOutcomeLabel').textContent = safe ? 'Good call.' : 'That was the trap.';
+  document.getElementById('convoOutcomeText').textContent  = text;
+  const btn = document.getElementById('convoNextBtn');
+  btn.textContent = convoIdx < CONVO_SCENARIOS.length - 1 ? 'Next Scenario →' : 'Finish';
+  out.style.display = '';
+}
+
+function convoNext() {
+  convoIdx++;
+  if (convoIdx >= CONVO_SCENARIOS.length) { backToGames(); return; }
+  document.getElementById('convoOutcome').style.display = 'none';
+  renderConvo();
+}
+
+// ─────────────────────── WOULD YOU FALL FOR IT ────────────────────────────
+const WYFF_SCENARIOS = [
+  {
+    context: 'Text message · Unknown number',
+    msg: `AMAZON: We noticed unusual activity on your account. Your account has been temporarily restricted.\n\nTo restore access, verify your identity:\nhttps://amazon-account-verify.support/secure\n\nIgnore this message and your account will be permanently closed.`,
+    stat: '1 in 3', statLabel: 'people who received this message clicked the link',
+    isScam: true,
+    flags: ['The domain is "amazon-account-verify.support" — not amazon.com', '"Unusual activity" with no specific details — designed to trigger fear', 'Threat of permanent closure if you don\'t act immediately', 'Amazon doesn\'t contact you by unsolicited text']
+  },
+  {
+    context: 'Email · Subject: "Action Required: Delivery Attempt Failed"',
+    msg: `Dear Customer,\n\nWe attempted to deliver your package today but no one was home.\n\nTo reschedule your delivery, please confirm your address and pay a small redelivery fee of $3.50 by clicking the link below:\n\n  [ Reschedule Delivery ]\n\nYour package will be returned to sender in 48 hours if unclaimed.`,
+    stat: '$107M', statLabel: 'stolen through fake delivery scams in the US in 2023',
+    isScam: true,
+    flags: ['"Dear Customer" — no name, no tracking number, no specific carrier', 'Vague "redelivery fee" — real carriers don\'t charge you to redeliver', '48-hour deadline creates false urgency', 'No mention of what the package is or who sent it']
+  },
+  {
+    context: 'Email from your bank · Subject: "Your monthly statement is ready"',
+    msg: `Hello [First Name],\n\nYour account statement for April is now available.\n\nSign in to your bank account at [YourBank].com to view it.\n\nThank you for banking with us.\n\n— Customer Service\n1-800-432-1000`,
+    stat: '94%', statLabel: 'of users correctly identified this as legitimate',
+    isScam: false,
+    legitimateNote: 'This is a real type of message banks send. No urgency, no suspicious links, no requests for personal information — just a notification to log in at your bank\'s actual website.'
+  },
+  {
+    context: 'Phone call · Transcript',
+    msg: `CALLER: "Hello, is this [Your Name]? I'm calling from the Social Security Administration. Your Social Security number has been suspended due to suspicious activity linked to drug trafficking in Texas.\n\nA federal warrant has been issued for your arrest. To avoid immediate detention, call us back at 1-833-555-0192. Do not contact local police — this is a federal matter."`,
+    stat: '$1.2B', statLabel: 'lost to Social Security impersonation scams — the #1 most-reported fraud type in America',
+    isScam: true,
+    flags: ['The SSA never calls to tell you your number is "suspended"', '"Drug trafficking" and "arrest warrant" are extreme scare tactics', '"Do not contact local police" is designed to isolate the victim', 'The call-back number is not the real SSA line (1-800-772-1213)']
+  },
+  {
+    context: 'Text from your doctor\'s office',
+    msg: `[TechHealth Medical] Reminder: You have an appointment with Dr. Patel tomorrow, Thursday at 2:30 PM.\n\nReply C to confirm or R to reschedule.\n\nQuestions? Call our office: (813) 555-0149.\n\nReply STOP to opt out of texts.`,
+    stat: '97%', statLabel: 'of users correctly identified this as a legitimate appointment reminder',
+    isScam: false,
+    legitimateNote: 'This is a standard appointment reminder. It names your doctor, gives a specific time, includes a real callback number, and has an opt-out. No links, no urgency, no requests for personal information.'
+  }
+];
+
+let wyffIdx = 0, wyffCorrect = 0;
+
+function initWyff() {
+  wyffIdx = 0; wyffCorrect = 0;
+  document.getElementById('wyffResult').style.display = 'none';
+  document.getElementById('wyffCard').style.display = '';
+  renderWyff();
+}
+
+function renderWyff() {
+  const s = WYFF_SCENARIOS[wyffIdx];
+  const pct = (wyffIdx / WYFF_SCENARIOS.length) * 100;
+  document.getElementById('wyffFill').style.width    = pct + '%';
+  document.getElementById('wyffCounter').textContent = `${wyffIdx + 1} of ${WYFF_SCENARIOS.length}`;
+  document.getElementById('wyffContext').textContent  = s.context;
+  document.getElementById('wyffMsg').textContent      = s.msg;
+  document.getElementById('wyffReveal').style.display = 'none';
+  document.querySelectorAll('.wyff-btn').forEach(b => { b.disabled = false; b.style.opacity = '1'; });
+}
+
+function wyffAnswer(confidence) {
+  document.querySelectorAll('.wyff-btn').forEach(b => { b.disabled = true; b.style.opacity = '.5'; });
+  const s = WYFF_SCENARIOS[wyffIdx];
+  const wasScam = s.isScam;
+  if ((confidence === 'spot' && wasScam) || (confidence === 'spot' && !wasScam)) wyffCorrect++;
+  const rev = document.getElementById('wyffReveal');
+  document.getElementById('wyffStat').textContent  = s.stat;
+  document.getElementById('wyffStatLabel').textContent = s.statLabel;
+  if (s.isScam) {
+    document.getElementById('wyffFlagsTitle').textContent = 'Red Flags in This Message';
+    document.getElementById('wyffFlagList').innerHTML = s.flags.map(f =>
+      `<div class="wyff-flag-item"><div class="wyff-flag-dot"></div><span>${f}</span></div>`
+    ).join('');
+  } else {
+    document.getElementById('wyffFlagsTitle').textContent = '';
+    document.getElementById('wyffFlagList').innerHTML = `<div class="wyff-legit-note">${s.legitimateNote}</div>`;
+  }
+  const nextBtn = document.getElementById('wyffNextBtn');
+  nextBtn.textContent = wyffIdx < WYFF_SCENARIOS.length - 1 ? 'Next →' : 'See Results';
+  rev.style.display = '';
+}
+
+function wyffNext() {
+  wyffIdx++;
+  if (wyffIdx >= WYFF_SCENARIOS.length) {
+    document.getElementById('wyffCard').style.display   = 'none';
+    document.getElementById('wyffResult').style.display = '';
+    document.getElementById('wyffResultScore').textContent = `${wyffCorrect} / ${WYFF_SCENARIOS.length}`;
+    const msgs = ['Keep practicing — scammers are sophisticated.', 'Good awareness — you\'re getting there.', 'Strong instincts — keep that critical eye.', 'Excellent — your radar is sharp.', 'Perfect score — you\'re hard to fool.'];
+    document.getElementById('wyffResultLabel').textContent = msgs[Math.min(wyffCorrect, msgs.length - 1)];
+    return;
+  }
+  renderWyff();
+}
+
+// ─────────────────────── REAL OR FAKE PROFILE ─────────────────────────────
+const SOCIAL_PROFILES = [
+  {
+    name: 'James Harrington', age: 57, avatar: '👔',
+    handle: 'james.harrington.57 · Houston, TX (currently in North Sea)',
+    bio: 'Widowed father of one daughter. Retired US Army Colonel, now working as petroleum engineer. Looking for genuine connection in this complicated world.',
+    friends: '143', posts: '11', joined: '7 months ago',
+    post: '"Another long week out on the rig. Missing home more than ever. Life is short — appreciate the people who matter."',
+    dm: '"I came across your profile and something told me to say hello. I don\'t usually message strangers, but I feel like genuine people are rare. How are you?"',
+    hasDM: true, isFake: true,
+    tells: ['Working on an oil rig — a textbook romance scam cover story', 'Widowed with a child — a sympathy detail used deliberately', 'Account only 7 months old with very few posts', 'Only 143 friends for someone his age and career', 'Unsolicited message to a stranger with immediate personal compliments']
+  },
+  {
+    name: 'Barbara Chen', age: 64, avatar: '🌺',
+    handle: 'barbara.chen.phoenix · Phoenix, AZ',
+    bio: 'Retired nurse. Grandma to four amazing kids. Love my book club, garden, and the Arizona Cardinals (even when they break my heart).',
+    friends: '394', posts: '248', joined: '11 years ago',
+    post: '"Little Lily\'s dance recital today — she was so nervous but she nailed it. So proud of this kid."',
+    hasDM: false, isFake: false,
+    tells: ['Account created 11 years ago — a long-established profile', '394 friends — realistic for her age and social circle', '248 posts — consistent, normal activity over time', 'Specific local interests and a real sports team', 'Recent post is a genuine personal moment, not a lure']
+  },
+  {
+    name: 'Sophia Renata', age: 31, avatar: '✨',
+    handle: 'sophia.renata.invest · Miami, FL',
+    bio: 'Investment strategist. Crypto enthusiast. Living proof you can work from anywhere. Ask me how I turned $500 into $24,000 in 6 months.',
+    friends: '2,847', posts: '9', joined: '4 months ago',
+    post: '"Another profitable week. This lifestyle is real. DM me if you want to know how I do it."',
+    dm: '"Hey! I think we have mutual friends. I\'ve had incredible results with a trading platform — completely changed my life. Happy to share more if you\'re interested."',
+    hasDM: true, isFake: true,
+    tells: ['Account only 4 months old but already 2,847 friends — purchased or fake', 'Only 9 posts despite thousands of connections', 'Profile is an advertisement: "turned $500 into $24,000"', 'Immediately pitches an investment opportunity to strangers', 'Deliberately vague about what the "platform" actually is']
+  },
+  {
+    name: 'Mike Kowalski', age: 71, avatar: '🎣',
+    handle: 'mike.kowalski.cleveland · Cleveland, OH',
+    bio: 'Vietnam vet. Die-hard Browns fan. Bass fishing is my religion. Retired machinist. Proud grandfather of three.',
+    friends: '162', posts: '94', joined: '6 years ago',
+    post: '"First warm day of the year. Got out to Mosquito Lake early. Didn\'t catch much but it was worth it."',
+    hasDM: false, isFake: false,
+    tells: ['6-year-old account with 94 posts — steady, authentic activity', '162 friends — realistic for his age and background', 'Very specific bio: Browns fan, Vietnam vet, specific lake name', 'Recent post is mundane and personal — not promotional', 'No unsolicited messages, no investment pitches']
+  },
+  {
+    name: 'Dr. Robert Hanson', age: 53, avatar: '👨‍⚕️',
+    handle: 'dr.robert.hanson · Chicago, IL',
+    bio: 'Cardiologist at Northwestern Medical. Humanitarian. Widower. Believe in living fully and loving deeply. Looking for something real.',
+    friends: '47', posts: '4', joined: '3 months ago',
+    post: '"Life is too short to spend it alone. Grateful for every new connection."',
+    dm: '"You have a beautiful spirit — I could tell from your photos. I\'m not usually the type to message strangers, but something about you felt different. Are you seeing anyone?"',
+    hasDM: true, isFake: true,
+    tells: ['Account only 3 months old with just 4 posts', 'Only 47 friends — implausible for a doctor at a major hospital', '"Widower" detail — extremely common in romance scam profiles', 'Immediately asks if you\'re single after a single compliment', 'Profile reads like a romantic ad, not an actual person\'s presence']
+  },
+  {
+    name: 'Linda Martinez', age: 67, avatar: '🌻',
+    handle: 'linda.martinez.tucson · Tucson, AZ',
+    bio: 'Retired 4th grade teacher. Sing in our church choir. My three grandkids are my whole world. Love hiking, cooking, and this beautiful desert.',
+    friends: '318', posts: '183', joined: '9 years ago',
+    post: '"Volunteered at the food bank this morning. So grateful for this community and these people."',
+    hasDM: false, isFake: false,
+    tells: ['9-year-old account with 183 posts — long-term authentic presence', 'Specific details: 4th grade teacher, church choir, grandkids', 'Recent post is about volunteering — genuine community engagement', '318 friends — realistic over 9 years', 'No investment pitches, no unsolicited romantic contact']
+  }
+];
+
+let socialIdx = 0, socialScore = 0;
+
+function initSocial() {
+  socialIdx = 0; socialScore = 0;
+  document.getElementById('socialResult').style.display  = 'none';
+  document.getElementById('socialCard').style.display    = '';
+  renderSocial();
+}
+
+function renderSocial() {
+  const p = SOCIAL_PROFILES[socialIdx];
+  document.getElementById('socialTitle').textContent    = `Profile ${socialIdx + 1} of ${SOCIAL_PROFILES.length}`;
+  document.getElementById('socialSubtitle').textContent = 'Study the profile carefully. Then decide.';
+  document.getElementById('socialAvatar').textContent   = p.avatar;
+  document.getElementById('socialName').textContent     = `${p.name}, ${p.age}`;
+  document.getElementById('socialHandle').textContent   = p.handle;
+  document.getElementById('socialBio').textContent      = p.bio;
+  document.getElementById('socialStats').innerHTML =
+    `<span><strong>${p.friends}</strong> friends</span><span><strong>${p.posts}</strong> posts</span><span>Joined: <strong>${p.joined}</strong></span>`;
+  const postEl = document.getElementById('socialPost');
+  postEl.innerHTML = `<div class="social-post-label">Recent post</div>${p.post}`;
+  const dmEl = document.getElementById('socialDM');
+  if (p.hasDM) {
+    dmEl.style.display = '';
+    dmEl.innerHTML = `<div class="social-dm-label">Direct Message received</div>"${p.dm}"`;
+  } else {
+    dmEl.style.display = 'none';
+  }
+  document.getElementById('socialReveal').style.display = 'none';
+  document.querySelectorAll('.social-verdict-btn').forEach(b => { b.disabled = false; b.style.opacity = '1'; });
+}
+
+function socialVote(guessedFake) {
+  document.querySelectorAll('.social-verdict-btn').forEach(b => { b.disabled = true; b.style.opacity = '.5'; });
+  const p = SOCIAL_PROFILES[socialIdx];
+  const correct = guessedFake === p.isFake;
+  if (correct) socialScore++;
+  const banner = document.getElementById('socialBanner');
+  banner.className = `social-verdict-banner ${correct ? 'correct' : 'wrong'}`;
+  banner.textContent = correct
+    ? (p.isFake ? 'Correct — this is a scammer.' : 'Correct — this is a real person.')
+    : (p.isFake ? 'This was actually a scammer.' : 'This was actually a real person.');
+  const dotColor = p.isFake ? 'red' : 'green';
+  document.getElementById('socialTellsTitle').textContent = p.isFake ? 'Red Flags' : 'Signs of a Real Profile';
+  document.getElementById('socialTellList').innerHTML = p.tells.map(t =>
+    `<div class="social-tell"><div class="social-tell-dot ${dotColor}"></div><span>${t}</span></div>`
+  ).join('');
+  const nextBtn = document.getElementById('socialNextBtn');
+  nextBtn.textContent = socialIdx < SOCIAL_PROFILES.length - 1 ? 'Next Profile →' : 'See Results';
+  document.getElementById('socialReveal').style.display = '';
+}
+
+function socialNext() {
+  socialIdx++;
+  if (socialIdx >= SOCIAL_PROFILES.length) {
+    document.getElementById('socialCard').style.display   = 'none';
+    document.getElementById('socialResult').style.display = '';
+    document.getElementById('socialScore').textContent      = `${socialScore} / ${SOCIAL_PROFILES.length}`;
+    const msgs = ['Keep going — scammers work hard at deception.', 'Good start — the tells get easier to spot.', 'Solid — you\'re building real pattern recognition.', 'Great instincts — most of these tricked real people.', 'Excellent — you have a sharp eye for red flags.', 'Perfect — you\'d be very hard to fool online.'];
+    document.getElementById('socialScoreLabel').textContent = msgs[Math.min(socialScore, msgs.length - 1)];
+    return;
+  }
+  renderSocial();
+}
+
+// ─────────────────────── ESCAPE THE CALL ──────────────────────────────────
+const CALL_SCENARIOS = [
+  {
+    caller: 'UNKNOWN NUMBER',
+    callerSub: '1-202-555-0194 · Washington, DC area',
+    lines: [
+      { who: 'THEM', text: '"This call is from the Internal Revenue Service. We have been trying to reach you regarding a tax irregularity on your 2022 filing."' },
+      { who: 'THEM', text: '"My name is Officer Daniel Curtis, badge IRS-47291. A warrant has been issued for your arrest for tax evasion."' },
+      { who: 'THEM', text: '"You owe $4,820 in back taxes and penalties. If this is not resolved today, officers will be dispatched to your address within the hour."' }
+    ],
+    prompt: 'What do you say?',
+    choices: [
+      { text: '"OK — how do I pay? I don\'t want any trouble."', safe: false },
+      { text: '"Send me something in writing. The IRS always mails notices first."', safe: true,
+        replyLines: [{ who: 'THEM', text: '"There is no time for mail. This is a criminal matter. Officers are on the way right now."' }],
+        followPrompt: 'They\'re pushing back. Now what?',
+        followChoices: [
+          { text: '"I\'m hanging up and calling the IRS directly at 1-800-829-1040."', safe: true },
+          { text: 'Panic and agree to pay immediately', safe: false }
+        ]
+      },
+      { text: '"I\'m going to hang up and call the official IRS number myself."', safe: true },
+      { text: 'Hang up immediately without saying anything', safe: true }
+    ],
+    good: 'The IRS never calls first — they always send written notices by mail. They never demand immediate payment by phone and never threaten arrest. Hanging up was exactly right. Real IRS: 1-800-829-1040.',
+    bad:  'The "officer" instructed you to purchase $4,820 in gift cards and read the codes over the phone. By the time you realized something was wrong, every code had been redeemed. The money was gone instantly and permanently.'
+  },
+  {
+    caller: 'UNKNOWN NUMBER',
+    callerSub: '(919) 555-0182',
+    lines: [
+      { who: 'THEM', text: '"[Crying] Grandma? Grandpa? It\'s me. I\'m in serious trouble. Please don\'t tell Mom and Dad."' },
+      { who: 'THEM', text: '"I was in a car accident and the other driver is pressing charges. I\'m at the police station."' },
+      { who: 'THEM', text: '"My lawyer says I need $3,200 for bail tonight or I have to stay here. Can you help me?"' }
+    ],
+    prompt: 'How do you respond?',
+    choices: [
+      { text: 'Ask: "Which grandchild is this?" without saying any names', safe: true,
+        goodNote: 'After a long pause, the caller hung up. Scammers rely on you naming the grandchild — then they become that person. Asking open-ended questions without giving information exposes them instantly.' },
+      { text: '"Of course — how do I send the money right now?"', safe: false },
+      { text: 'Hang up and call your grandchild\'s real saved number', safe: true,
+        goodNote: 'Your grandchild answered on the second ring, completely fine. The whole thing was a scam. This is always the correct move — verify through a number you already have.' },
+      { text: 'Wait for the "attorney" to call back with more details', safe: false }
+    ],
+    good: 'This is the grandparent scam — one of the most reported elder fraud schemes in the US. Scammers now sometimes use AI voice cloning from social media clips. Always verify through a number saved in your contacts, never one they provide.',
+    bad:  'A convincing "attorney" called back with professional-sounding credentials and specific court details. You sent $3,200 via Zelle. When you called the number to follow up, it was disconnected. Your real grandchild had no idea.'
+  },
+  {
+    caller: '"MICROSOFT SUPPORT"',
+    callerSub: '1-800-642-7676 · Caller ID: Microsoft',
+    lines: [
+      { who: 'THEM', text: '"Hello, this is the Microsoft Security Team. We\'ve detected that your computer has been compromised and your banking credentials are at risk."' },
+      { who: 'THEM', text: '"We\'ve been monitoring your IP address for 72 hours. Your files and financial accounts could be wiped if we don\'t act now."' },
+      { who: 'THEM', text: '"I need you to allow remote access to your computer so our engineers can remove the malware. And please — do not restart your computer."' }
+    ],
+    prompt: 'How do you respond?',
+    choices: [
+      { text: '"OK — how do I give you remote access?"', safe: false },
+      { text: '"Microsoft doesn\'t call customers. I\'m hanging up right now."', safe: true },
+      { text: '"Can I call you back at the official number on Microsoft.com?"', safe: true },
+      { text: '"What is my IP address, if you\'ve been monitoring it?"', safe: true,
+        goodNote: 'They gave a vague, fake answer and became aggressive when you said you\'d verify it independently. Scammers rely on panic — asking calm, verifiable questions breaks their script.' }
+    ],
+    good: 'Microsoft never calls customers unsolicited. They have no way to know if your computer is infected. "Do not restart" is a classic tactic to keep you on the line in a panic state. Always hang up and call back on a number you find yourself.',
+    bad:  'Once you granted remote access, they could see everything — banking sites, saved passwords, private files. They transferred $8,400 from your checking account before you could close the connection.'
+  }
+];
+
+let callIdx = 0;
+let callTimerInterval = null;
+let callSeconds = 0;
+
+function initCall() {
+  callIdx = 0;
+  renderCall();
+}
+
+function renderCall() {
+  const s = CALL_SCENARIOS[callIdx];
+  // pips
+  const pips = document.getElementById('callPips');
+  pips.innerHTML = CALL_SCENARIOS.map((_, i) =>
+    `<div class="call-pip ${i < callIdx ? 'done' : i === callIdx ? 'active' : ''}"></div>`
+  ).join('');
+  document.getElementById('callCaller').textContent    = s.caller;
+  document.getElementById('callCallerSub').textContent = s.callerSub;
+  document.getElementById('callTranscript').innerHTML  = '';
+  document.getElementById('callChoiceBtns').innerHTML  = '';
+  document.getElementById('callChoicesArea').style.display = 'none';
+  const out = document.getElementById('callOutcome');
+  out.style.display = 'none'; out.className = 'call-outcome';
+  // timer
+  clearInterval(callTimerInterval);
+  callSeconds = 0;
+  document.getElementById('callTimer').textContent = '0:00';
+  callTimerInterval = setInterval(() => {
+    callSeconds++;
+    const m = Math.floor(callSeconds / 60), sec = callSeconds % 60;
+    document.getElementById('callTimer').textContent = `${m}:${sec.toString().padStart(2,'0')}`;
+  }, 1000);
+  showCallLines(s.lines, () => showCallChoices(s, s.prompt, s.choices));
+}
+
+function showCallLines(lines, cb) {
+  const box = document.getElementById('callTranscript');
+  let i = 0;
+  function next() {
+    if (i >= lines.length) { if (cb) setTimeout(cb, 400); return; }
+    const l = lines[i++];
+    const div = document.createElement('div');
+    div.className = 'call-line';
+    div.innerHTML = `<div class="call-line-label ${l.who === 'THEM' ? 'them' : 'you'}">${l.who}</div><div class="call-line-text">${l.text}</div>`;
+    box.appendChild(div);
+    requestAnimationFrame(() => div.classList.add('show'));
+    setTimeout(next, 1400);
+  }
+  setTimeout(next, 400);
+}
+
+function showCallChoices(s, prompt, choices) {
+  document.getElementById('callChoicesArea').style.display = '';
+  document.querySelector('.call-choices-label').textContent = prompt;
+  const btns = document.getElementById('callChoiceBtns');
+  btns.innerHTML = '';
+  choices.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = 'call-choice-btn';
+    b.textContent = c.text;
+    b.onclick = () => handleCallChoice(s, c);
+    btns.appendChild(b);
+  });
+}
+
+function handleCallChoice(s, choice) {
+  clearInterval(callTimerInterval);
+  document.getElementById('callChoicesArea').style.display = 'none';
+  if (choice.replyLines) {
+    showCallLines(choice.replyLines, () => {
+      if (choice.followPrompt) showCallChoices(s, choice.followPrompt, choice.followChoices);
+    });
+    return;
+  }
+  const isSafe = choice.safe;
+  const note = isSafe ? (choice.goodNote || s.good) : s.bad;
+  const out = document.getElementById('callOutcome');
+  out.className = `call-outcome ${isSafe ? 'good' : 'bad'}`;
+  document.getElementById('callOutcomeLabel').textContent = isSafe ? 'You escaped safely.' : 'You fell for it.';
+  document.getElementById('callOutcomeText').textContent  = note;
+  const btn = document.getElementById('callNextBtn');
+  btn.textContent = callIdx < CALL_SCENARIOS.length - 1 ? 'Next Call →' : 'Finish';
+  out.style.display = '';
+}
+
+function callNext() {
+  callIdx++;
+  if (callIdx >= CALL_SCENARIOS.length) { backToGames(); return; }
+  renderCall();
+}
 </script>
 </body>
 </html>
