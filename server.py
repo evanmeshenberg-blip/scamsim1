@@ -73,7 +73,49 @@ def get_api_key() -> str:
 
 API_KEY = get_api_key()
 
+CHAT_SYSTEM = """\
+You are ScamShield AI, a friendly assistant that helps people recognize and avoid scams.
+Speak in plain, clear language — no jargon, no bullet-point overload.
+
+If someone pastes a suspicious message, email, or text: tell them clearly whether it looks
+like a scam, why, and what they should do. Point out the specific red flags you notice.
+
+If someone asks a general question about fraud or online safety: answer it warmly and helpfully.
+
+Keep replies conversational and concise — 2 to 4 short paragraphs at most.
+You only discuss topics related to scams, fraud, and online safety.
+"""
+
 # ── Claude call ──────────────────────────────────────────────────────────────
+
+def call_claude_chat(messages: list) -> str:
+    """Conversational chat endpoint — accepts full message history."""
+    if not API_KEY:
+        raise RuntimeError("No API key configured. Restart server.py and enter your key.")
+
+    payload = json.dumps({
+        "model":      "claude-haiku-4-5",
+        "max_tokens": 600,
+        "system":     CHAT_SYSTEM,
+        "messages":   messages,
+    }).encode()
+
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=payload,
+        headers={
+            "Content-Type":      "application/json",
+            "x-api-key":         API_KEY,
+            "anthropic-version": "2023-06-01",
+        },
+        method="POST"
+    )
+
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        data = json.loads(resp.read())
+
+    return data["content"][0]["text"]
+
 
 def call_claude(message: str) -> dict:
     if not API_KEY:
@@ -134,25 +176,49 @@ class Handler(SimpleHTTPRequestHandler):
         self._add_cors()
         self.end_headers()
 
-    # ── API endpoint ──
+    # ── API endpoints ──
     def do_POST(self):
-        if self.path != "/api/analyze":
-            self.send_error(404, "Not found")
-            return
         try:
-            length  = int(self.headers.get("Content-Length", 0))
-            body    = json.loads(self.rfile.read(length))
-            message = body.get("message", "").strip()
-            if not message:
-                self._send_json({"error": "No message provided"}, 400)
-                return
-            result = call_claude(message)
-            self._send_json(result)
-        except urllib.error.HTTPError as e:
-            err = json.loads(e.read()).get("error", {})
-            self._send_json({"error": err.get("message", str(e))}, 502)
-        except Exception as exc:
-            self._send_json({"error": str(exc)}, 500)
+            length = int(self.headers.get("Content-Length", 0))
+            body   = json.loads(self.rfile.read(length))
+        except Exception:
+            self._send_json({"error": "Invalid request body"}, 400)
+            return
+
+        # ── /api/chat  (conversational chatbot) ──
+        if self.path == "/api/chat":
+            try:
+                messages = body.get("messages", [])
+                if not messages:
+                    self._send_json({"error": "No messages provided"}, 400)
+                    return
+                # Guard: keep last 20 turns to avoid ballooning token usage
+                messages = messages[-20:]
+                reply = call_claude_chat(messages)
+                self._send_json({"reply": reply})
+            except urllib.error.HTTPError as e:
+                err = json.loads(e.read()).get("error", {})
+                self._send_json({"error": err.get("message", str(e))}, 502)
+            except Exception as exc:
+                self._send_json({"error": str(exc)}, 500)
+
+        # ── /api/analyze  (legacy structured analysis) ──
+        elif self.path == "/api/analyze":
+            try:
+                message = body.get("message", "").strip()
+                if not message:
+                    self._send_json({"error": "No message provided"}, 400)
+                    return
+                result = call_claude(message)
+                self._send_json(result)
+            except urllib.error.HTTPError as e:
+                err = json.loads(e.read()).get("error", {})
+                self._send_json({"error": err.get("message", str(e))}, 502)
+            except Exception as exc:
+                self._send_json({"error": str(exc)}, 500)
+
+        else:
+            self.send_error(404, "Not found")
 
     def _add_cors(self):
         self.send_header("Access-Control-Allow-Origin",  "*")

@@ -6,7 +6,13 @@
       "Bash(npx --version)",
       "Bash(which node; which ruby; which php; ls /usr/local/bin/ | grep -E 'http|serve|python' 2>/dev/null | head -20)",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(python3 server.py)",
+      "Bash(curl -s -X POST http://localhost:8080/api/chat -H 'Content-Type: application/json' -d '{\"messages\":[{\"role\":\"user\",\"content\":\"Is this a scam? You won a $500 gift card, click here to claim it now!\"}]}')",
+      "Bash(python3 -m json.tool)",
+      "Bash(printenv)",
+      "Read(//Users/evan/.config/**)",
+      "Read(//Users/evan/.claude/**)"
     ]
   }
 }

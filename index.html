@@ -444,6 +444,107 @@
   }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+  /* ── Message Checker ── */
+  #checker {
+    background: var(--navy2);
+    border-top: 3px solid var(--teal);
+    padding: 5rem 2rem;
+  }
+  .checker-shell { max-width: 740px; margin: 0 auto; }
+
+  .checker-input-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+  }
+  .checker-textarea {
+    width: 100%; min-height: 150px;
+    background: transparent; border: none; outline: none;
+    padding: 1.3rem 1.4rem; color: var(--text);
+    font-size: .95rem; font-family: 'Courier New', monospace;
+    line-height: 1.7; resize: none;
+  }
+  .checker-textarea::placeholder { color: var(--muted); font-family: inherit; }
+  .checker-toolbar {
+    padding: .75rem 1.2rem; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .checker-example-btn {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    padding: .4rem 1rem; border-radius: 8px; font-size: .85rem;
+    cursor: pointer; transition: border-color .2s, color .2s;
+  }
+  .checker-example-btn:hover { border-color: var(--muted); color: var(--text); }
+  .checker-run-btn {
+    background: linear-gradient(135deg, var(--teal), var(--blue));
+    color: #fff; border: none; padding: .6rem 1.5rem; border-radius: 10px;
+    font-size: .92rem; font-weight: 700; cursor: pointer; transition: opacity .2s;
+  }
+  .checker-run-btn:hover { opacity: .85; }
+
+  /* results */
+  .checker-results { margin-top: 1.4rem; display: none; }
+  .checker-results.show { display: block; }
+
+  .checker-risk-row {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.1rem 1.4rem; margin-bottom: 1.2rem;
+  }
+  .risk-pill {
+    padding: .38rem 1rem; border-radius: 50px; flex-shrink: 0;
+    font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .07em;
+  }
+  .risk-pill.safe       { background: rgba(16,185,129,.14); color: var(--green);  border: 1px solid rgba(16,185,129,.3); }
+  .risk-pill.suspicious { background: rgba(251,191,36,.12); color: var(--yellow); border: 1px solid rgba(251,191,36,.3); }
+  .risk-pill.likely     { background: rgba(249,115,22,.12); color: var(--orange); border: 1px solid rgba(249,115,22,.3); }
+  .risk-pill.definite   { background: rgba(229,62,62,.12);  color: var(--red);    border: 1px solid rgba(229,62,62,.3);  }
+
+  .risk-text strong { display: block; font-size: 1rem; font-weight: 700; margin-bottom: .15rem; }
+  .risk-text span   { font-size: .9rem; color: var(--muted); }
+
+  .checker-msg-box {
+    background: var(--navy); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.2rem 1.4rem;
+    font-size: .92rem; font-family: 'Courier New', monospace;
+    line-height: 1.8; white-space: pre-wrap; word-break: break-word;
+    margin-bottom: 1.2rem; max-height: 320px; overflow-y: auto;
+  }
+
+  /* inline highlights */
+  .flag-mark {
+    border-radius: 3px; padding: 1px 2px; cursor: default;
+  }
+  .flag-urgency   { background: rgba(251,191,36,.22);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+  .flag-payment   { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-threat    { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-authority { background: rgba(139,92,246,.2);   color: #c4b5fd; border-bottom: 2px solid #a78bfa; }
+  .flag-prize     { background: rgba(251,191,36,.2);   color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+  .flag-secrecy   { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-personal  { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-tgtbt     { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #f97316; }
+  .flag-link      { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #f97316; }
+  .flag-cta       { background: rgba(251,191,36,.15);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+
+  /* flag list */
+  .checker-flag-list { display: flex; flex-direction: column; gap: .6rem; }
+  .checker-flag-row {
+    display: flex; align-items: flex-start; gap: .8rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: .75rem 1rem;
+  }
+  .flag-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    flex-shrink: 0; margin-top: .3rem;
+  }
+  .dot-urgency, .dot-prize, .dot-cta  { background: var(--yellow); }
+  .dot-payment, .dot-threat, .dot-secrecy, .dot-personal { background: var(--red); }
+  .dot-authority { background: var(--purple); }
+  .dot-tgtbt, .dot-link { background: var(--orange); }
+  .dot-safe { background: var(--green); }
+
+  .flag-row-label { font-size: .92rem; font-weight: 700; color: var(--text); }
+  .flag-row-matches { font-size: .83rem; color: var(--muted); margin-top: .15rem; font-family: monospace; }
+
   /* ── Scam-or-Not Game ── */
   #quiz {
     background: var(--navy);
@@ -790,6 +891,7 @@
     <li><a href="#scams">Scam Types</a></li>
     <li><a href="#universal">Red Flags</a></li>
     <li><a href="#defense">Defense</a></li>
+    <li><a href="#checker">Check a Message</a></li>
     <li><a href="#quiz">Test Yourself</a></li>
     <li><a href="#report">Report</a></li>
   </ul>
@@ -877,6 +979,38 @@
     <p>Follow these steps in order before you do anything else.</p>
   </div>
   <div class="protocol-grid fade-in" id="protocolGrid"></div>
+</section>
+
+<!-- MESSAGE CHECKER -->
+<section id="checker">
+  <div class="section-header fade-in">
+    <div class="section-tag">Free Tool</div>
+    <h2>Check a Suspicious Message</h2>
+    <p>Paste any text, email, or message you've received. We'll scan it for known scam patterns instantly — no account needed.</p>
+  </div>
+
+  <div class="checker-shell fade-in">
+    <div class="checker-input-card">
+      <textarea class="checker-textarea" id="checkerInput"
+        placeholder="Paste a suspicious message here — a text, email, voicemail script, or anything that felt off…"></textarea>
+      <div class="checker-toolbar">
+        <button class="checker-example-btn" onclick="loadCheckerExample()">Try an example</button>
+        <button class="checker-run-btn" onclick="runChecker()">Scan this message →</button>
+      </div>
+    </div>
+
+    <div class="checker-results" id="checkerResults">
+      <div class="checker-risk-row">
+        <span class="risk-pill" id="checkerPill"></span>
+        <div class="risk-text">
+          <strong id="checkerRiskTitle"></strong>
+          <span id="checkerRiskSub"></span>
+        </div>
+      </div>
+      <div class="checker-msg-box" id="checkerMsgBox"></div>
+      <div class="checker-flag-list" id="checkerFlagList"></div>
+    </div>
+  </div>
 </section>
 
 <!-- SCAM OR NOT GAME -->
@@ -1935,6 +2069,174 @@ function updateNavButtons() {
 // close on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeScamDetail();
+});
+
+// ─────────────────── MESSAGE CHECKER ───────────────────
+
+const SCAN_PATTERNS = [
+  {
+    id: 'urgency', weight: 1,
+    label: 'Urgency and time pressure',
+    source: '\\b(act\\s+now|immediately|urgent(ly)?|expires?|expiring|limited\\s+time|final\\s+notice|last\\s+chance|today\\s+only|within\\s+\\d+\\s+hours?|within\\s+\\d+\\s+minutes?|respond\\s+immediately|time[- ]sensitive|don\'?t\\s+delay|don\'?t\\s+wait|right\\s+now|as\\s+soon\\s+as\\s+possible|asap|no\\s+later\\s+than)\\b',
+  },
+  {
+    id: 'payment', weight: 2,
+    label: 'Untraceable payment method',
+    source: '\\b(gift\\s+card|wire\\s+transfer|western\\s+union|moneygram|zelle|bitcoin|crypto(currency)?|ethereum|usdt|tether|cash\\s+app|prepaid\\s+(card|debit)|money\\s+order|send\\s+cash|wire\\s+funds|google\\s+play\\s+card|itunes\\s+card|steam\\s+card)\\b',
+  },
+  {
+    id: 'authority', weight: 1.5,
+    label: 'Government or company impersonation',
+    source: '\\b(internal\\s+revenue\\s+service|irs|social\\s+security\\s+administration|ssa|medicare|medicaid|department\\s+of\\s+homeland|fbi|federal\\s+bureau|customs\\s+and\\s+border|microsoft\\s+support|apple\\s+support|amazon\\s+security|paypal\\s+team|bank\\s+of\\s+america|wells\\s+fargo|chase\\s+bank)\\b',
+  },
+  {
+    id: 'threat', weight: 2,
+    label: 'Threat or scare tactic',
+    source: '\\b(arrest(ed)?|arrest\\s+warrant|federal\\s+warrant|suspend(ed|ing)?|terminat(ed|ing)?|account\\s+(blocked|frozen|closed)|legal\\s+action|lawsuit|law\\s+enforcement|prosecut(e|ion)|deportation|criminal\\s+charges?|your\\s+files\\s+will\\s+be\\s+deleted|data\\s+will\\s+be\\s+erased)\\b',
+  },
+  {
+    id: 'prize', weight: 1.5,
+    label: 'Fake prize or reward',
+    source: '\\b(you\'?ve\\s+won|you\\s+have\\s+(won|been\\s+selected|been\\s+chosen)|winner|lottery|jackpot|congratulations|claim\\s+your\\s+(prize|reward|gift|winnings)|eligible\\s+for\\s+a\\s+(prize|reward|gift))\\b',
+  },
+  {
+    id: 'secrecy', weight: 2.5,
+    label: 'Demand for secrecy',
+    source: '\\b(don\'?t\\s+tell|keep\\s+(this\\s+)?secret|do\\s+not\\s+mention|confidential|between\\s+us|tell\\s+no\\s+one|do\\s+not\\s+discuss|don\'?t\\s+contact)\\b',
+  },
+  {
+    id: 'personal', weight: 2,
+    label: 'Request for sensitive personal information',
+    source: '\\b(social\\s+security\\s+number|ssn|account\\s+number|routing\\s+number|date\\s+of\\s+birth|mother\'?s\\s+maiden|your\\s+password|pin\\s+(number|code)|verify\\s+your\\s+(account|identity|information)|confirm\\s+your\\s+(account|details|information|identity))\\b',
+  },
+  {
+    id: 'tgtbt', weight: 1.5,
+    label: 'Too-good-to-be-true offer',
+    source: '\\b(make\\s+\\$[\\d,]+|earn\\s+\\$[\\d,]+(\\/week|\\/month|\\/day)?|work\\s+from\\s+home.{0,20}earn|passive\\s+income|guaranteed\\s+(income|returns?|profit)|no\\s+experience\\s+needed|financial\\s+freedom)\\b',
+  },
+  {
+    id: 'link', weight: 1.5,
+    label: 'Suspicious or shortened link',
+    source: 'https?:\\/\\/[^\\s]*\\.(xyz|tk|ml|ga|cf|click|top|pw|cc|gq)[^\\s]*|\\bbit\\.ly\\/\\S+|tinyurl\\.com\\/\\S+|rb\\.gy\\/\\S+|cutt\\.ly\\/\\S+',
+  },
+  {
+    id: 'cta', weight: 0.5,
+    label: 'Suspicious call to action',
+    source: '\\b(click\\s+here|call\\s+us\\s+now|call\\s+immediately|press\\s+1|call\\s+(us\\s+)?back\\s+immediately|call\\s+this\\s+number|do\\s+not\\s+ignore|do\\s+not\\s+delete\\s+this)\\b',
+  },
+];
+
+const CHECKER_EXAMPLES = [
+  `[Bank Alert] Unusual activity detected on your account ending in 4821. Your debit card has been temporarily suspended. Verify your identity immediately at: bit.ly/secure-bank-verify — or call us back at 1-888-555-0198. You must respond within 2 hours to avoid permanent account closure.`,
+  `This is the IRS. Our records show you owe $3,241 in unpaid federal taxes. A federal arrest warrant has been issued in your name. Call immediately at 1-800-555-0147 to prevent law enforcement from coming to your home. Do not ignore this final notice — call now.`,
+  `Congratulations! You've been selected as our lucky winner for a $500 Amazon gift card. Claim your prize by clicking here: bit.ly/amz-prize before this offer expires today. Act now — limited time only!`,
+];
+let checkerExampleIdx = 0;
+
+function loadCheckerExample() {
+  document.getElementById('checkerInput').value = CHECKER_EXAMPLES[checkerExampleIdx % CHECKER_EXAMPLES.length];
+  checkerExampleIdx++;
+  document.getElementById('checkerResults').classList.remove('show');
+}
+
+function runChecker() {
+  const text = document.getElementById('checkerInput').value.trim();
+  if (!text) return;
+
+  const { highlightedHtml, flagGroups, riskLevel, totalMatches } = analyzeMessage(text);
+
+  // Risk pill
+  const riskCopy = {
+    safe:       { label: 'Looks Safe',   title: 'No major red flags found.',          sub: 'This message doesn\'t match common scam patterns. Trust your instincts — if something still feels off, don\'t engage.' },
+    suspicious: { label: 'Suspicious',   title: 'One or two things stand out.',       sub: 'Could be legitimate, but worth a closer look before you respond or click anything.' },
+    likely:     { label: 'Likely a Scam', title: 'Multiple red flags detected.',      sub: 'This message closely matches known scam patterns. Do not click links, call back, or send money.' },
+    definite:   { label: 'It\'s a Scam', title: 'Clear signs of fraud.',              sub: 'This is a textbook scam. Do not respond, click anything, or provide any information.' },
+  };
+
+  const pill = document.getElementById('checkerPill');
+  pill.className = `risk-pill ${riskLevel}`;
+  pill.textContent = riskCopy[riskLevel].label;
+
+  document.getElementById('checkerRiskTitle').textContent = riskCopy[riskLevel].title;
+  document.getElementById('checkerRiskSub').textContent   =
+    totalMatches > 0
+      ? `${totalMatches} red flag${totalMatches !== 1 ? 's' : ''} highlighted below. ${riskCopy[riskLevel].sub}`
+      : riskCopy[riskLevel].sub;
+
+  document.getElementById('checkerMsgBox').innerHTML = highlightedHtml;
+
+  // Flag list
+  const list = document.getElementById('checkerFlagList');
+  list.innerHTML = '';
+  if (flagGroups.length === 0) {
+    list.innerHTML = `<div class="checker-flag-row"><div class="flag-dot dot-safe"></div><div><div class="flag-row-label">No red flags found</div><div class="flag-row-matches">Nothing in this message matched known scam patterns.</div></div></div>`;
+  } else {
+    flagGroups.forEach(g => {
+      const row = document.createElement('div');
+      row.className = 'checker-flag-row';
+      row.innerHTML = `
+        <div class="flag-dot dot-${g.id}"></div>
+        <div>
+          <div class="flag-row-label">${g.label}</div>
+          <div class="flag-row-matches">Found: ${g.matches.map(m => `"${escapeHtml(m)}"`).join(' · ')}</div>
+        </div>`;
+      list.appendChild(row);
+    });
+  }
+
+  document.getElementById('checkerResults').classList.add('show');
+  document.getElementById('checkerResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function analyzeMessage(text) {
+  const allMatches = [];
+
+  SCAN_PATTERNS.forEach(p => {
+    const rx = new RegExp(p.source, 'gi');
+    let m;
+    while ((m = rx.exec(text)) !== null) {
+      allMatches.push({ start: m.index, end: m.index + m[0].length, text: m[0], id: p.id, label: p.label, weight: p.weight });
+    }
+  });
+
+  // Sort by start position, prefer heavier matches on ties
+  allMatches.sort((a, b) => a.start - b.start || b.weight - a.weight);
+
+  // Drop overlapping matches (keep first/heaviest)
+  const kept = [];
+  let lastEnd = 0;
+  for (const m of allMatches) {
+    if (m.start >= lastEnd) { kept.push(m); lastEnd = m.end; }
+  }
+
+  // Build highlighted HTML
+  let html = '';
+  let pos = 0;
+  for (const m of kept) {
+    html += escapeHtml(text.slice(pos, m.start));
+    html += `<mark class="flag-mark flag-${m.id}" title="${escapeHtml(m.label)}">${escapeHtml(m.text)}</mark>`;
+    pos = m.end;
+  }
+  html += escapeHtml(text.slice(pos));
+
+  // Group by pattern id for the summary list
+  const groups = {};
+  for (const m of kept) {
+    if (!groups[m.id]) groups[m.id] = { id: m.id, label: m.label, weight: m.weight, matches: [] };
+    groups[m.id].matches.push(m.text);
+  }
+  const flagGroups = Object.values(groups).sort((a, b) => b.weight - a.weight);
+
+  // Risk level from total category weight
+  const totalWeight = flagGroups.reduce((acc, g) => acc + g.weight, 0);
+  const riskLevel = totalWeight === 0 ? 'safe' : totalWeight < 2 ? 'suspicious' : totalWeight < 5 ? 'likely' : 'definite';
+
+  return { highlightedHtml: html, flagGroups, riskLevel, totalMatches: kept.length };
+}
+
+// Ctrl/Cmd+Enter submits the checker
+document.getElementById('checkerInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); runChecker(); }
 });
 
 // ─────────────────── INIT ───────────────────
