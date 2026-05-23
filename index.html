@@ -859,6 +859,79 @@
   }
   .final-restart:hover { opacity: .85; }
 
+  /* ── Protect section ── */
+  #protect { background: var(--surface); }
+  .protect-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin: 0 auto 3rem;
+    max-width: 860px;
+  }
+  .protect-stat-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.6rem 1.4rem;
+    text-align: center;
+  }
+  .protect-stat-number {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: .4rem;
+  }
+  .protect-stat-label {
+    font-size: .88rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .protect-blocks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .protect-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.6rem 1.5rem;
+  }
+  .protect-block h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 1rem;
+  }
+  .protect-block ul {
+    margin: 0; padding: 0 0 0 1.1rem;
+    display: flex; flex-direction: column; gap: .7rem;
+  }
+  .protect-block li {
+    font-size: .93rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .protect-block li strong { color: var(--text); }
+  .protect-block a { color: var(--accent); text-decoration: none; }
+  .protect-block a:hover { text-decoration: underline; }
+  .protect-callout {
+    max-width: 700px;
+    margin: 2.5rem auto 0;
+    background: rgba(229,62,62,.08);
+    border: 1px solid rgba(229,62,62,.25);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    font-size: .95rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .protect-callout strong { color: var(--text); }
+
   /* ── Responsive ── */
   @media (max-width: 640px) {
     nav { padding: .75rem 1rem; }
@@ -866,6 +939,8 @@
     section { padding: 3.5rem 1rem; }
     .hero-stats { gap: 1.5rem; }
     #cards-container { grid-template-columns: 1fr; }
+    .protect-stats { grid-template-columns: 1fr; }
+    .protect-blocks { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -901,6 +976,7 @@
     <li><a href="#scams">Scam Types</a></li>
     <li><a href="#universal">Red Flags</a></li>
     <li><a href="#defense">Defense</a></li>
+    <li><a href="#protect">Protect Loved Ones</a></li>
     <li><a href="#checker">Check a Message</a></li>
     <li><a href="#quiz">Test Yourself</a></li>
     <li><a href="#report">Report</a></li>
@@ -989,6 +1065,69 @@
     <p>Follow these steps in order before you do anything else.</p>
   </div>
   <div class="protocol-grid fade-in" id="protocolGrid"></div>
+</section>
+
+<!-- PROTECTING VULNERABLE LOVED ONES -->
+<div class="section-divider"></div>
+<section id="protect">
+  <div class="section-header fade-in">
+    <div class="section-tag">Protect Your Loved Ones</div>
+    <h2>Who Scammers Target Most</h2>
+    <p>Older adults and people going through major life changes are disproportionately targeted. The financial and emotional damage can be devastating — but awareness is the best protection.</p>
+  </div>
+
+  <div class="protect-stats fade-in">
+    <div class="protect-stat-card">
+      <div class="protect-stat-number">$3.4B</div>
+      <div class="protect-stat-label">lost by adults 60+ to fraud in 2023 alone, according to the FBI</div>
+    </div>
+    <div class="protect-stat-card">
+      <div class="protect-stat-number">1 in 5</div>
+      <div class="protect-stat-label">Americans over 65 will experience financial fraud or abuse</div>
+    </div>
+    <div class="protect-stat-card">
+      <div class="protect-stat-number">$35K</div>
+      <div class="protect-stat-label">average loss per older victim — far higher than younger age groups</div>
+    </div>
+  </div>
+
+  <div class="protect-blocks fade-in">
+    <div class="protect-block">
+      <h3>Warning Signs in a Loved One</h3>
+      <ul>
+        <li>Making unusual cash withdrawals or buying gift cards</li>
+        <li>Becoming secretive about phone calls or new "online friends"</li>
+        <li>Receiving a flood of unsolicited mail, calls, or texts</li>
+        <li>Unexplained anxiety or confusion about their finances</li>
+        <li>Mentioning a new investment advisor or romantic connection they've never met in person</li>
+        <li>Unexplained changes to bank accounts, wills, or beneficiaries</li>
+      </ul>
+    </div>
+    <div class="protect-block">
+      <h3>Scams That Most Target Seniors</h3>
+      <ul>
+        <li><strong>Grandparent scam</strong> — a fake call claiming a grandchild is in trouble and needs bail money immediately</li>
+        <li><strong>Medicare / Social Security fraud</strong> — fake government agents demanding your card number or personal details</li>
+        <li><strong>Tech support scams</strong> — pop-up or call saying your computer is infected; they ask for remote access</li>
+        <li><strong>Romance scams</strong> — months-long fake relationship, then a sudden "emergency" that needs money</li>
+        <li><strong>Lottery and prize scams</strong> — you've won, but you must pay a small fee first to collect</li>
+      </ul>
+    </div>
+    <div class="protect-block">
+      <h3>How You Can Help</h3>
+      <ul>
+        <li>Have a calm, non-judgmental conversation — shame is what keeps victims silent</li>
+        <li>Create a family "safe word" to use before anyone sends money in an emergency</li>
+        <li>Help them register on the Do Not Call list at <a href="https://www.donotcall.gov" target="_blank" rel="noopener">donotcall.gov</a></li>
+        <li>Ask their bank to add a trusted contact — someone the bank can call if fraud is suspected</li>
+        <li>Remind them often: <strong>no government agency will ever demand gift cards as payment</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="protect-callout fade-in">
+    <strong>If you believe a loved one is currently being scammed:</strong> contact their bank immediately, then call the FTC at 1-877-382-4357 or visit <a href="https://reportfraud.ftc.gov" target="_blank" rel="noopener">reportfraud.ftc.gov</a>. Time matters — many wire transfers and gift card payments can still be stopped.
+  </div>
 </section>
 
 <!-- MESSAGE CHECKER -->
