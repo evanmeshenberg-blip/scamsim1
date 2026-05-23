@@ -514,16 +514,24 @@
   .flag-mark {
     border-radius: 3px; padding: 1px 2px; cursor: default;
   }
-  .flag-urgency   { background: rgba(251,191,36,.22);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
-  .flag-payment   { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
-  .flag-threat    { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
-  .flag-authority { background: rgba(139,92,246,.2);   color: #c4b5fd; border-bottom: 2px solid #a78bfa; }
-  .flag-prize     { background: rgba(251,191,36,.2);   color: #fcd34d; border-bottom: 2px solid #fbbf24; }
-  .flag-secrecy   { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
-  .flag-personal  { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
-  .flag-tgtbt     { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #f97316; }
-  .flag-link      { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #f97316; }
-  .flag-cta       { background: rgba(251,191,36,.15);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+  .flag-urgency    { background: rgba(251,191,36,.22);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+  .flag-payment    { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-threat     { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-authority  { background: rgba(139,92,246,.2);   color: #c4b5fd; border-bottom: 2px solid #a78bfa; }
+  .flag-prize      { background: rgba(251,191,36,.2);   color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+  .flag-secrecy    { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-personal   { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-tgtbt      { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #f97316; }
+  .flag-link       { background: rgba(249,115,22,.22);  color: #fdba74; border-bottom: 2px solid #f97316; }
+  .flag-spoofing   { background: rgba(229,62,62,.28);   color: #fca5a5; border-bottom: 2px solid #dc2626; }
+  .flag-phishing   { background: rgba(229,62,62,.2);    color: #fca5a5; border-bottom: 2px solid #ef4444; }
+  .flag-delivery   { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #f97316; }
+  .flag-investment { background: rgba(249,115,22,.2);   color: #fdba74; border-bottom: 2px solid #ea580c; }
+  .flag-techsupport{ background: rgba(139,92,246,.2);   color: #c4b5fd; border-bottom: 2px solid #a78bfa; }
+  .flag-romance    { background: rgba(236,72,153,.2);   color: #f9a8d4; border-bottom: 2px solid #ec4899; }
+  .flag-job        { background: rgba(251,191,36,.18);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
+  .flag-suspicious { background: rgba(148,163,184,.15); color: #94a3b8; border-bottom: 2px solid #64748b; }
+  .flag-cta        { background: rgba(251,191,36,.15);  color: #fcd34d; border-bottom: 2px solid #fbbf24; }
 
   /* flag list */
   .checker-flag-list { display: flex; flex-direction: column; gap: .6rem; }
@@ -536,11 +544,13 @@
     width: 10px; height: 10px; border-radius: 50%;
     flex-shrink: 0; margin-top: .3rem;
   }
-  .dot-urgency, .dot-prize, .dot-cta  { background: var(--yellow); }
-  .dot-payment, .dot-threat, .dot-secrecy, .dot-personal { background: var(--red); }
-  .dot-authority { background: var(--purple); }
-  .dot-tgtbt, .dot-link { background: var(--orange); }
-  .dot-safe { background: var(--green); }
+  .dot-urgency, .dot-prize, .dot-cta, .dot-job    { background: var(--yellow); }
+  .dot-payment, .dot-threat, .dot-secrecy, .dot-personal, .dot-phishing, .dot-spoofing { background: var(--red); }
+  .dot-authority, .dot-techsupport                { background: var(--purple); }
+  .dot-tgtbt, .dot-link, .dot-delivery, .dot-investment { background: var(--orange); }
+  .dot-romance                                    { background: #ec4899; }
+  .dot-suspicious                                 { background: var(--muted); }
+  .dot-safe                                       { background: var(--green); }
 
   .flag-row-label { font-size: .92rem; font-weight: 700; color: var(--text); }
   .flag-row-matches { font-size: .83rem; color: var(--muted); margin-top: .15rem; font-family: monospace; }
@@ -2074,55 +2084,130 @@ document.addEventListener('keydown', e => {
 // ─────────────────── MESSAGE CHECKER ───────────────────
 
 const SCAN_PATTERNS = [
+  /* ── 1. URGENCY ─────────────────────────────────────────────────────────── */
   {
     id: 'urgency', weight: 1,
     label: 'Urgency and time pressure',
-    source: '\\b(act\\s+now|immediately|urgent(ly)?|expires?|expiring|limited\\s+time|final\\s+notice|last\\s+chance|today\\s+only|within\\s+\\d+\\s+hours?|within\\s+\\d+\\s+minutes?|respond\\s+immediately|time[- ]sensitive|don\'?t\\s+delay|don\'?t\\s+wait|right\\s+now|as\\s+soon\\s+as\\s+possible|asap|no\\s+later\\s+than)\\b',
+    source: '\\b(act\\s+now|immediately|urgent(ly)?|expires?\\s*soon|expiring|limited\\s+time|final\\s+notice|last\\s+chance|today\\s+only|within\\s+\\d+\\s+hours?|within\\s+\\d+\\s+minutes?|respond\\s+immediately|time[- ]sensitive|don\'?t\\s+delay|don\'?t\\s+wait|right\\s+now|as\\s+soon\\s+as\\s+possible|asap|no\\s+later\\s+than|deadline|must\\s+act|action\\s+required|response\\s+required|24\\s+hours?|48\\s+hours?|72\\s+hours?|before\\s+it\'?s\\s+too\\s+late|don\'?t\\s+miss\\s+out|hurry|running\\s+out\\s+of\\s+time|offer\\s+ends|expires\\s+tonight|respond\\s+within|this\\s+offer\\s+expires|your\\s+response\\s+is\\s+required)\\b',
   },
+
+  /* ── 2. PAYMENT ──────────────────────────────────────────────────────────── */
   {
     id: 'payment', weight: 2,
     label: 'Untraceable payment method',
-    source: '\\b(gift\\s+card|wire\\s+transfer|western\\s+union|moneygram|zelle|bitcoin|crypto(currency)?|ethereum|usdt|tether|cash\\s+app|prepaid\\s+(card|debit)|money\\s+order|send\\s+cash|wire\\s+funds|google\\s+play\\s+card|itunes\\s+card|steam\\s+card)\\b',
+    source: '\\b(gift\\s+card|wire\\s+transfer|wire\\s+money|western\\s+union|moneygram|zelle|venmo|bitcoin|crypto(currency)?|ethereum|usdt|tether|dogecoin|litecoin|monero|cash\\s+app|cashapp|prepaid\\s+(card|debit|visa)|money\\s+order|send\\s+cash|wire\\s+funds|google\\s+play\\s+(card|gift)|itunes\\s+(card|gift)|apple\\s+gift\\s+card|steam\\s+(card|gift)|amazon\\s+gift\\s+card|walmart\\s+gift\\s+card|ebay\\s+gift\\s+card|cryptocurrency|digital\\s+currency|crypto\\s+wallet|send\\s+bitcoin|buy\\s+(bitcoin|crypto|gift\\s+cards?)|pay\\s+(via|with)\\s+(gift\\s+card|bitcoin|crypto|zelle|venmo|cash\\s+app|wire)|purchase\\s+gift\\s+cards?|payment\\s+via\\s+(wire|crypto|gift)|electronic\\s+funds\\s+transfer)\\b',
   },
+
+  /* ── 3. AUTHORITY IMPERSONATION ──────────────────────────────────────────── */
   {
     id: 'authority', weight: 1.5,
     label: 'Government or company impersonation',
-    source: '\\b(internal\\s+revenue\\s+service|irs|social\\s+security\\s+administration|ssa|medicare|medicaid|department\\s+of\\s+homeland|fbi|federal\\s+bureau|customs\\s+and\\s+border|microsoft\\s+support|apple\\s+support|amazon\\s+security|paypal\\s+team|bank\\s+of\\s+america|wells\\s+fargo|chase\\s+bank)\\b',
+    source: '\\b(internal\\s+revenue\\s+service|irs|social\\s+security\\s+administration|ssa|social\\s+security\\s+office|medicare|medicaid|department\\s+of\\s+homeland|dhs|fbi|federal\\s+bureau\\s+of\\s+investigation|customs\\s+and\\s+border|cbp|drug\\s+enforcement|dea|department\\s+of\\s+justice|doj|us\\s+postal\\s+inspection|postal\\s+inspection\\s+service|federal\\s+trade\\s+commission|ftc|microsoft\\s+support|apple\\s+(support|security|care)|amazon\\s+(security|support|prime\\s+team)|paypal\\s+(team|security|support)|bank\\s+of\\s+america|wells\\s+fargo|chase\\s+bank|citibank|capital\\s+one|us\\s+bank|td\\s+bank|navy\\s+federal|pnc\\s+bank|google\\s+(support|security|team)|facebook\\s+(support|security)|your\\s+bank|national\\s+lottery|publisher\'?s\\s+clearing\\s+house|government\\s+grant|federal\\s+grant|microsoft\\s+windows|windows\\s+(support|technical\\s+support)|apple\\s+inc|amazon\\s+prime)\\b',
   },
+
+  /* ── 4. THREAT / SCARE TACTIC ─────────────────────────────────────────── */
   {
     id: 'threat', weight: 2,
     label: 'Threat or scare tactic',
-    source: '\\b(arrest(ed)?|arrest\\s+warrant|federal\\s+warrant|suspend(ed|ing)?|terminat(ed|ing)?|account\\s+(blocked|frozen|closed)|legal\\s+action|lawsuit|law\\s+enforcement|prosecut(e|ion)|deportation|criminal\\s+charges?|your\\s+files\\s+will\\s+be\\s+deleted|data\\s+will\\s+be\\s+erased)\\b',
+    source: '\\b(arrest(ed)?|arrest\\s+warrant|federal\\s+warrant|bench\\s+warrant|suspend(ed|ing)?|terminat(ed|ing)?|account\\s+(blocked|frozen|closed|suspended|compromised|deactivated)|legal\\s+action|lawsuit|law\\s+enforcement|prosecut(e|ion)|deportation|criminal\\s+charges?|files\\s+will\\s+be\\s+deleted|data\\s+will\\s+be\\s+erased|will\\s+be\\s+arrested|police\\s+will|authorities\\s+will|taken\\s+to\\s+court|levy\\s+on\\s+your|garnish(ment)?|seize\\s+your|property\\s+seized|license\\s+(revoked|suspended)|deported?|disabled\\s+your\\s+account|blocked\\s+your\\s+account|your\\s+account\\s+will\\s+be\\s+(closed|terminated|suspended|deleted|blocked)|warrant\\s+(has\\s+been|will\\s+be)\\s+issued|you\\s+will\\s+be\\s+(arrested|prosecuted|charged|sued))\\b',
   },
+
+  /* ── 5. FAKE PRIZE / LOTTERY ─────────────────────────────────────────────── */
   {
     id: 'prize', weight: 1.5,
     label: 'Fake prize or reward',
-    source: '\\b(you\'?ve\\s+won|you\\s+have\\s+(won|been\\s+selected|been\\s+chosen)|winner|lottery|jackpot|congratulations|claim\\s+your\\s+(prize|reward|gift|winnings)|eligible\\s+for\\s+a\\s+(prize|reward|gift))\\b',
+    source: '\\b(you\'?ve\\s+won|you\\s+have\\s+(won|been\\s+selected|been\\s+chosen)|winner|lottery|jackpot|congratulations|claim\\s+your\\s+(prize|reward|gift|winnings|cash)|eligible\\s+for\\s+(a\\s+)?(prize|reward|gift)|sweepstakes|raffle|unclaimed\\s+(prize|reward|funds?|money|winnings)|you\\s+(are\\s+)?(a\\s+)?(winner|selected|chosen)|grand\\s+prize|cash\\s+prize|free\\s+(iphone|ipad|macbook|laptop|tv|vacation|cruise)|collect\\s+your\\s+(prize|winnings|reward)|prize\\s+notification|lucky\\s+(winner|draw|number|recipient)|you\\s+qualify\\s+for\\s+(a\\s+)?(prize|reward|gift|cash)|pre[- ]?approved\\s+for|specially\\s+selected|randomly\\s+selected|unclaimed\\s+benefits?)\\b',
   },
+
+  /* ── 6. SECRECY ──────────────────────────────────────────────────────────── */
   {
     id: 'secrecy', weight: 2.5,
     label: 'Demand for secrecy',
-    source: '\\b(don\'?t\\s+tell|keep\\s+(this\\s+)?secret|do\\s+not\\s+mention|confidential|between\\s+us|tell\\s+no\\s+one|do\\s+not\\s+discuss|don\'?t\\s+contact)\\b',
+    source: '\\b(don\'?t\\s+tell|keep\\s+(this\\s+)?secret|do\\s+not\\s+mention|confidential|between\\s+us|tell\\s+no\\s+one|do\\s+not\\s+discuss|don\'?t\\s+contact|do\\s+not\\s+(tell|share|show)|keep\\s+this\\s+private|for\\s+your\\s+eyes\\s+only|strictly\\s+confidential|not\\s+to\\s+be\\s+shared|do\\s+not\\s+(call|contact)\\s+(your\\s+)?(bank|police|family|friends)|don\'?t\\s+let\\s+(anyone|your\\s+(family|friends|spouse)))\\b',
   },
+
+  /* ── 7. PERSONAL INFORMATION HARVESTING ─────────────────────────────────── */
   {
     id: 'personal', weight: 2,
     label: 'Request for sensitive personal information',
-    source: '\\b(social\\s+security\\s+number|ssn|account\\s+number|routing\\s+number|date\\s+of\\s+birth|mother\'?s\\s+maiden|your\\s+password|pin\\s+(number|code)|verify\\s+your\\s+(account|identity|information)|confirm\\s+your\\s+(account|details|information|identity))\\b',
+    source: '\\b(social\\s+security\\s+number|ssn|account\\s+number|routing\\s+number|date\\s+of\\s+birth|d\\.?o\\.?b\\.?|mother\'?s\\s+maiden|your\\s+password|pin\\s+(number|code)|cvv|card\\s+(number|verification\\s+number)|credit\\s+card\\s+number|debit\\s+card\\s+number|card\\s+details|verify\\s+your\\s+(account|identity|information|details)|confirm\\s+your\\s+(account|details|information|identity)|update\\s+your\\s+(payment|billing|account|information)|passport\\s+(number|copy)|driver\'?s\\s+license\\s+number|id\\s+(number|copy|scan)|upload\\s+(your\\s+)?(id|passport|license|documents?)|bank\\s+account\\s+details|provide\\s+your\\s+(account|personal)\\s+(number|details|information)|full\\s+legal\\s+name|enter\\s+your\\s+(account\\s+number|routing|social\\s+security))\\b',
   },
+
+  /* ── 8. PHISHING TACTICS ─────────────────────────────────────────────────── */
+  {
+    id: 'phishing', weight: 2,
+    label: 'Phishing attempt',
+    source: '\\b(verify\\s+your\\s+(account|email|identity|information|details|card|payment|billing)|log\\s*in\\s+to\\s+(confirm|verify|update|secure|protect|restore)|sign\\s+in\\s+to\\s+(confirm|verify|update)|update\\s+your\\s+(payment|billing|account|credit\\s+card|information|details)|click\\s+(below|here|the\\s+link)\\s+to\\s+(verify|confirm|update|secure|restore|reactivate|activate|access)|your\\s+account\\s+(has\\s+been|is|was)\\s+(compromised|hacked|breached|accessed|flagged|restricted|limited|suspended|locked)|suspicious\\s+(activity|login|sign[\\s-]?in|access|transaction)\\s+(detected|found|on\\s+your)|reactivate\\s+your\\s+account|restore\\s+(access|your\\s+account)|account\\s+verification\\s+required|identity\\s+verification\\s+required|validate\\s+your\\s+(account|identity|email|information)|confirm\\s+it\'?s\\s+you|we\\s+(have\\s+)?(detected|noticed)\\s+(unusual|suspicious|unauthorized)|unauthorized\\s+(access|activity|login|transaction)|your\\s+(account|access)\\s+has\\s+been\\s+(restricted|limited|suspended|locked|flagged))\\b',
+  },
+
+  /* ── 9. TOO-GOOD-TO-BE-TRUE ──────────────────────────────────────────────── */
   {
     id: 'tgtbt', weight: 1.5,
     label: 'Too-good-to-be-true offer',
-    source: '\\b(make\\s+\\$[\\d,]+|earn\\s+\\$[\\d,]+(\\/week|\\/month|\\/day)?|work\\s+from\\s+home.{0,20}earn|passive\\s+income|guaranteed\\s+(income|returns?|profit)|no\\s+experience\\s+needed|financial\\s+freedom)\\b',
+    source: '\\b(make\\s+\\$[\\d,]+|earn\\s+\\$[\\d,]+(\\/week|\\/month|\\/day|\\/hour)?|work\\s+from\\s+home.{0,30}earn|passive\\s+income|guaranteed\\s+(income|returns?|profit|earnings?)|no\\s+experience\\s+(needed|required|necessary)|financial\\s+freedom|risk[- ]?free|100%\\s+(guaranteed|free|safe|secure)|limited\\s+(spots?|openings?|positions?|availability)|exclusive\\s+(opportunity|offer|deal|access)|make\\s+money\\s+(online|fast|easily?|quickly)|get\\s+rich\\s+(quick(ly)?|fast)?|double\\s+your\\s+money|investment\\s+returns?\\s+of\\s+\\d+%|\\d+%\\s+(guaranteed\\s+)?return|profit\\s+guaranteed|no\\s+risk|zero\\s+risk|free\\s+money|free\\s+(gift|prize|iphone|vacation|trip|cruise)|special\\s+offer\\s+(for\\s+you|just\\s+for\\s+you|exclusively)|you\\s+have\\s+been\\s+pre[- ]?approved|members?[- ]only\\s+offer|claim\\s+your\\s+free)\\b',
   },
+
+  /* ── 10. DELIVERY SCAMS ──────────────────────────────────────────────────── */
+  {
+    id: 'delivery', weight: 1.5,
+    label: 'Fake delivery or shipping notice',
+    source: '\\b(package\\s+(held|waiting|on\\s+hold|could\\s+not\\s+be\\s+delivered|failed|returned\\s+to\\s+facility|requires\\s+attention)|customs\\s+(fee|charge|duty|hold|clearance)|missed\\s+delivery\\s+(attempt|notice)?|delivery\\s+(failed|attempt\\s+failed|on\\s+hold|could\\s+not|rescheduled)|parcel\\s+(held|on\\s+hold|awaiting\\s+pickup|could\\s+not\\s+be\\s+delivered)|shipment\\s+(held|on\\s+hold|delayed|requires\\s+attention)|redelivery\\s+fee|shipping\\s+fee\\s+(required|due|outstanding)|reschedule\\s+(your\\s+)?(delivery|shipment)|your\\s+(package|parcel|shipment)\\s+(is\\s+)?(waiting|ready\\s+for\\s+pickup|on\\s+hold|could\\s+not|has\\s+been\\s+held)|pay\\s+(a\\s+)?small\\s+(fee|amount|charge)\\s+to\\s+(release|redeliver|reschedule)|(usps|fedex|ups|dhl|postal\\s+service).{0,40}(package|parcel|shipment|delivery|held|failed|waiting|undeliverable))\\b',
+  },
+
+  /* ── 11. INVESTMENT / FINANCIAL FRAUD ───────────────────────────────────── */
+  {
+    id: 'investment', weight: 2,
+    label: 'Investment or financial fraud',
+    source: '\\b(trading\\s+platform|forex\\s+(trading|market)|binary\\s+options?|crypto\\s+(trading|investment|profit)|guaranteed\\s+(returns?|profit|earnings?|interest)|\\d+%\\s+(monthly|weekly|daily|annual(ly)?)\\s+(returns?|profit|interest|gains?)|high[- ]?yield\\s+investment|ponzi|pyramid\\s+scheme|multi[- ]?level\\s+marketing|mlm|network\\s+marketing|referral\\s+(bonus|income|commission)|trading\\s+(bot|robot|signal|algorithm)|automated\\s+trading|wealth\\s+management\\s+(opportunity|program)|put\\s+your\\s+money\\s+to\\s+work|your\\s+money\\s+working\\s+for\\s+you|invest\\s+(now|today)\\s+and|minimum\\s+(investment|deposit)\\s+of\\s+\\$|seed\\s+capital|angel\\s+investment\\s+opportunity|private\\s+equity\\s+opportunity|portfolio\\s+growth\\s+guarantee)\\b',
+  },
+
+  /* ── 12. TECH SUPPORT SCAMS ─────────────────────────────────────────────── */
+  {
+    id: 'techsupport', weight: 2,
+    label: 'Tech support scam',
+    source: '\\b(your\\s+(computer|device|pc|mac|phone)\\s+(has\\s+been\\s+(hacked|infected|compromised|breached)|is\\s+(infected|at\\s+risk|compromised|hacked)|may\\s+be\\s+(infected|compromised|at\\s+risk))|virus\\s+(detected|found|alert|warning)|malware\\s+(detected|found|alert)|spyware\\s+(detected|found)|ransomware\\s+detected|call\\s+(microsoft|apple\\s+support|google\\s+support|windows\\s+support|tech\\s+support)\\s*(now|immediately)?|microsoft\\s+(has\\s+)?(detected|found|blocked|alert)|windows\\s+(defender|firewall)\\s+(has\\s+)?(detected|blocked|found)|your\\s+(subscription|license|warranty)\\s+(has\\s+)?expired|remote\\s+(access|assistance|session)|allow\\s+remote\\s+(access|control)|do\\s+not\\s+(shut\\s+down|turn\\s+off|restart)\\s+your\\s+(computer|pc|device)|call\\s+our\\s+(toll[- ]?free|helpline)|toll[- ]?free\\s+(number|helpline|support)|1[- ]?8(00|44|55|66|77|88)[- ]\\d{3}[- ]\\d{4}|your\\s+computer\\s+has\\s+a\\s+virus|security\\s+alert\\s+(from|by)\\s+(microsoft|apple|google|windows))\\b',
+  },
+
+  /* ── 13. ROMANCE SCAMS ──────────────────────────────────────────────────── */
+  {
+    id: 'romance', weight: 1.5,
+    label: 'Romance scam indicator',
+    source: '\\b(oil\\s+(rig|platform|field)|offshore\\s+(oil|rig|platform)|deployed\\s+(overseas|abroad|in\\s+a\\s+foreign)|military\\s+(deployed|overseas|abroad)|can\'?t\\s+(video\\s+call|use\\s+video|facetime|do\\s+a?\\s+video)|camera\\s+(is\\s+)?(broken|not\\s+working|busted)|stranded\\s+(abroad|overseas|in\\s+a\\s+foreign)|stuck\\s+(abroad|overseas|in\\s+a\\s+foreign)|emergency\\s+(funds?\\s+needed|situation\\s+abroad)|send\\s+me\\s+(some\\s+)?money|transfer\\s+me|i\'?ll\\s+pay\\s+you\\s+back\\s+(as\\s+soon|when|once)|met\\s+(on\\s+a?\\s+)?(dating\\s+(site|app|website)|online|tinder|bumble|hinge)|can\'?t\\s+meet\\s+(in\\s+person|yet|right\\s+now)|i\\s+(fell|have\\s+fallen)\\s+in\\s+love\\s+with\\s+you|i\\s+have\\s+strong\\s+feelings|soul\\s*mate|never\\s+felt\\s+(this\\s+way|like\\s+this)|you\'?re\\s+the\\s+only\\s+one)\\b',
+  },
+
+  /* ── 14. JOB SCAMS ──────────────────────────────────────────────────────── */
+  {
+    id: 'job', weight: 1.5,
+    label: 'Fake job or work-from-home scam',
+    source: '\\b(no\\s+interview\\s+(required|necessary|needed)|hired\\s+without\\s+(an\\s+)?interview|mystery\\s+shopper|package\\s+re[- ]?shipp(er|ing)|reshipping\\s+agent|parcel\\s+forwarding|money\\s+mule|processing\\s+(agent|fee)|administrative\\s+fee|training\\s+fee|starter\\s+kit\\s+(fee|cost)|background\\s+check\\s+fee|onboarding\\s+fee|registration\\s+fee|pay\\s+(for\\s+)?(your\\s+)?(training|starter\\s+kit|materials?|equipment)|we\\s+will\\s+send\\s+you\\s+a\\s+(check|cheque)|deposit\\s+the\\s+(check|cheque)|buy.{0,20}(gift\\s+cards?|equipment|supplies).{0,20}(with|using)\\s+the\\s+(check|cheque|funds?)|earn\\s+\\$\\d+\\s+per\\s+(hour|day|week)\\s+(from\\s+home|online|working)|paid\\s+(surveys?|to\\s+click|to\\s+watch\\s+videos?)|\\$\\d+\\s+per\\s+(survey|task|click|referral)|weekly\\s+pay\\s+of\\s+\\$\\d+|work\\s+(from\\s+home|at\\s+home).{0,30}\\$\\d+|flexible\\s+hours?.{0,20}\\$\\d+)\\b',
+  },
+
+  /* ── 15. GENERIC SUSPICIOUS PHRASING ────────────────────────────────────── */
+  {
+    id: 'suspicious', weight: 0.5,
+    label: 'Generic suspicious phrasing',
+    source: '\\b(dear\\s+(customer|member|user|account\\s+holder|valued\\s+(customer|member)|sir|madam|friend)|attention\\s+required|this\\s+is\\s+not\\s+a\\s+scam|this\\s+is\\s+not\\s+spam|forward\\s+this\\s+(message|email|to\\s+everyone)|share\\s+this\\s+with\\s+everyone|100%\\s+legitimate|we\\s+have\\s+(tried|been\\s+trying)\\s+to\\s+(contact|reach)\\s+you|final\\s+attempt\\s+to\\s+(contact|reach)|this\\s+is\\s+our\\s+(last|final)\\s+(attempt|notice|warning|message)|your\\s+cooperation\\s+is\\s+(required|needed)|kindly\\s+(provide|send|confirm|verify|contact|click|update)|be\\s+informed\\s+that|you\\s+have\\s+been\\s+(pre[- ]?approved|pre[- ]?selected|randomly\\s+selected|specially\\s+selected|uniquely\\s+selected)|greetings\\s+(from|dear)|this\\s+is\\s+a\\s+courtesy\\s+(call|notice|reminder)\\s+from|you\\s+qualify\\s+for\\s+our|as\\s+a\\s+valued\\s+(customer|member)|we\\s+are\\s+pleased\\s+to\\s+inform\\s+you|you\\s+have\\s+been\\s+identified)\\b',
+  },
+
+  /* ── 16. SUSPICIOUS LINKS & URL SHORTENERS ───────────────────────────────── */
   {
     id: 'link', weight: 1.5,
-    label: 'Suspicious or shortened link',
-    source: 'https?:\\/\\/[^\\s]*\\.(xyz|tk|ml|ga|cf|click|top|pw|cc|gq)[^\\s]*|\\bbit\\.ly\\/\\S+|tinyurl\\.com\\/\\S+|rb\\.gy\\/\\S+|cutt\\.ly\\/\\S+',
+    label: 'Suspicious link or URL',
+    source: 'https?:\\/\\/(?:\\d{1,3}\\.){3}\\d{1,3}[^\\s]*|https?:\\/\\/[^\\s]*\\.(?:xyz|tk|ml|ga|cf|click|top|pw|cc|gq|icu|biz|online|site|website|work|ws|link|live|win|loan|download|trade|stream|review|bid|men|gdn|email)[^\\s]*|\\b(?:bit\\.ly|tinyurl\\.com|rb\\.gy|cutt\\.ly|ow\\.ly|is\\.gd|buff\\.ly|t\\.co|short\\.io|rebrand\\.ly|tiny\\.cc|shorte\\.st|adf\\.ly|s\\.id|snip\\.ly|lnkd\\.in|clck\\.ru)\\/\\S+',
   },
+
+  /* ── 17. DOMAIN SPOOFING ─────────────────────────────────────────────────── */
+  {
+    id: 'spoofing', weight: 2,
+    label: 'Domain spoofing — fake website impersonating a real brand',
+    source: 'https?:\\/\\/[^\\s]*(?:amazon|paypal|apple|microsoft|google|facebook|netflix|instagram|chase|wellsfargo|bankofamerica|citibank|capitalone|irs|usps|fedex|ups|dhl|ebay)[^\\s]*[-.](?:secure|verify|login|account|update|confirm|support|service|help|alert|suspended|billing|validation)[^\\s]*|\\b(?:amazon|paypal|apple|microsoft|google|facebook|netflix|instagram|chase|wellsfargo|bankofamerica)[-_](?:secure|verify|login|account|update|confirm|support|alert|suspended)\\b',
+  },
+
+  /* ── 18. CALL TO ACTION ──────────────────────────────────────────────────── */
   {
     id: 'cta', weight: 0.5,
-    label: 'Suspicious call to action',
-    source: '\\b(click\\s+here|call\\s+us\\s+now|call\\s+immediately|press\\s+1|call\\s+(us\\s+)?back\\s+immediately|call\\s+this\\s+number|do\\s+not\\s+ignore|do\\s+not\\s+delete\\s+this)\\b',
+    label: 'High-pressure call to action',
+    source: '\\b(click\\s+(here|below|this\\s+link|the\\s+link)|call\\s+(us\\s+)?now|call\\s+immediately|call\\s+(us\\s+)?back\\s+immediately|press\\s+1|call\\s+this\\s+number|do\\s+not\\s+ignore|do\\s+not\\s+delete\\s+this|tap\\s+(here|below|this\\s+link)|follow\\s+this\\s+link|respond\\s+now|text\\s+(back|us)\\s+now|reply\\s+(now|immediately)|stop\\s+ignoring\\s+this|you\\s+must\\s+(call|click|respond|reply)|don\'?t\\s+ignore\\s+this|open\\s+immediately|claim\\s+now|get\\s+it\\s+now|download\\s+now|scan\\s+the\\s+(qr|code)\\s+(below|above|here)|open\\s+the\\s+link\\s+(below|above))\\b',
   },
 ];
 
@@ -2130,6 +2215,9 @@ const CHECKER_EXAMPLES = [
   `[Bank Alert] Unusual activity detected on your account ending in 4821. Your debit card has been temporarily suspended. Verify your identity immediately at: bit.ly/secure-bank-verify — or call us back at 1-888-555-0198. You must respond within 2 hours to avoid permanent account closure.`,
   `This is the IRS. Our records show you owe $3,241 in unpaid federal taxes. A federal arrest warrant has been issued in your name. Call immediately at 1-800-555-0147 to prevent law enforcement from coming to your home. Do not ignore this final notice — call now.`,
   `Congratulations! You've been selected as our lucky winner for a $500 Amazon gift card. Claim your prize by clicking here: bit.ly/amz-prize before this offer expires today. Act now — limited time only!`,
+  `SECURITY ALERT from Microsoft: Your computer has been infected with malware and your personal files are at risk. Do not shut down your computer. Call our toll-free support line immediately at 1-888-243-0019. A certified technician will remove the virus remotely. This is your final warning.`,
+  `Dear Customer, your USPS package could not be delivered and is now on hold at our facility. A customs fee of $2.99 is required to release your shipment. Pay the small fee and reschedule your delivery here: http://192.168.10.4/usps-pay — your package will be returned in 24 hours if unpaid.`,
+  `Hi! I'm a financial advisor and I have an exclusive investment opportunity for a select group of members only. Our automated trading platform guarantees 40% monthly returns with zero risk. Minimum deposit of $500. Respond now — limited spots available and this offer expires tonight.`,
 ];
 let checkerExampleIdx = 0;
 
