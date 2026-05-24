@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gmail Scam Scanner</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header>
+    <span class="header-icon" aria-hidden="true">🛡️</span>
+    <div class="header-text">
+      <h1>Scam Scanner</h1>
+      <p>Gmail inbox analysis</p>
+    </div>
+  </header>
+
+  <!-- ── Controls ───────────────────────────────────────────────────────── -->
+  <div id="controls">
+    <button id="scanBtn">Scan Inbox for Scams</button>
+    <label class="count-label" title="Number of emails to scan">
+      <input type="number" id="emailCount" min="1" max="50" value="10" />
+      emails
+    </label>
+    <span id="lastScanned" aria-live="polite"></span>
+  </div>
+
+  <main>
+
+    <!-- Loading state -->
+    <div id="loading" class="hidden" role="status" aria-live="polite">
+      <div class="spinner"></div>
+      <p>Scanning your last 10 emails…</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="error" class="hidden" role="alert">
+      <p id="errorMsg"></p>
+      <button id="retryBtn" class="secondary">Retry</button>
+    </div>
+
+    <!-- Results list — populated by popup.js -->
+    <ul id="emailList" class="hidden" aria-label="Scanned emails"></ul>
+
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <footer>
+    <span>OAuth 2.0 · Gmail read-only scope · data never leaves your browser</span>
+  </footer>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

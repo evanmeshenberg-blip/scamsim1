@@ -421,6 +421,131 @@
   a.report-card { display: block; text-decoration: none; color: inherit; }
 
 
+  /* ── Chrome Extension Section ── */
+  #extension {
+    max-width: 900px; margin: 0 auto;
+  }
+  .ext-card {
+    background: linear-gradient(135deg, #0f1f3d 0%, #1a2d50 50%, #0d1f38 100%);
+    border: 1px solid rgba(96,165,250,.35);
+    border-radius: 20px;
+    padding: 2.5rem 2.5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ext-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(96,165,250,.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .ext-badge {
+    display: inline-flex; align-items: center; gap: .35rem;
+    background: rgba(96,165,250,.15); border: 1px solid rgba(96,165,250,.3);
+    border-radius: 999px; padding: .2rem .75rem;
+    font-size: .75rem; font-weight: 700; color: var(--blue);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: .9rem;
+  }
+  .ext-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue); animation: pulse 2s infinite;
+  }
+  .ext-title { font-size: 1.7rem; font-weight: 800; margin-bottom: .5rem; }
+  .ext-desc { color: var(--muted); line-height: 1.65; margin-bottom: 1.3rem; max-width: 520px; font-size: .97rem; }
+  .ext-features {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem;
+  }
+  .ext-feat {
+    background: rgba(255,255,255,.06); border: 1px solid var(--border);
+    border-radius: 999px; padding: .25rem .8rem;
+    font-size: .8rem; color: var(--text);
+    display: flex; align-items: center; gap: .35rem;
+  }
+  .ext-feat-icon { font-size: .95rem; }
+  .ext-actions { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
+  .ext-dl-btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--blue); color: #fff;
+    border: none; border-radius: 10px;
+    padding: .7rem 1.4rem; font-size: .95rem; font-weight: 700;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 18px rgba(96,165,250,.35);
+  }
+  .ext-dl-btn:hover { background: #3b82f6; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(96,165,250,.45); }
+  .ext-dl-btn svg { width: 18px; height: 18px; }
+  .ext-note-link {
+    font-size: .82rem; color: var(--muted); cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+    background: none; border: none; padding: 0;
+  }
+  .ext-note-link:hover { color: var(--text); }
+  .ext-visual {
+    display: flex; flex-direction: column; align-items: center; gap: .7rem;
+  }
+  .ext-icon-wrap {
+    width: 90px; height: 90px; border-radius: 22px;
+    background: linear-gradient(135deg, #1e3a5f, #2563eb);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    box-shadow: 0 8px 32px rgba(37,99,235,.4);
+  }
+  .ext-mockup {
+    background: var(--navy); border: 1px solid var(--border);
+    border-radius: 10px; padding: .6rem .8rem; width: 160px;
+    font-size: .72rem;
+  }
+  .ext-mockup-bar {
+    display: flex; align-items: center; gap: .4rem;
+    margin-bottom: .5rem;
+  }
+  .ext-mockup-title { font-weight: 700; font-size: .78rem; }
+  .ext-mockup-sub { color: var(--muted); font-size: .68rem; }
+  .ext-mockup-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,.04); border-radius: 6px;
+    padding: .3rem .4rem; margin-bottom: .25rem;
+    font-size: .68rem;
+  }
+  .ext-mockup-row .risk-high { color: var(--red); font-weight: 700; font-size: .65rem; }
+  .ext-mockup-row .risk-low  { color: var(--green); font-weight: 700; font-size: .65rem; }
+  /* Install steps modal/callout */
+  .ext-install {
+    margin-top: 1.2rem;
+    background: rgba(255,255,255,.03); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.3rem 1.5rem;
+    display: none;
+  }
+  .ext-install.open { display: block; }
+  .ext-install h4 { font-size: 1rem; font-weight: 700; margin-bottom: .9rem; }
+  .ext-steps { display: flex; flex-direction: column; gap: .6rem; counter-reset: step; }
+  .ext-step {
+    display: flex; align-items: flex-start; gap: .8rem;
+    font-size: .87rem; color: var(--muted); line-height: 1.5;
+  }
+  .ext-step-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    font-size: .72rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: .1rem;
+  }
+  .ext-step code {
+    background: rgba(255,255,255,.08); border-radius: 5px;
+    padding: .1rem .35rem; font-family: monospace; font-size: .82rem; color: var(--text);
+  }
+  @media(max-width:680px) {
+    .ext-card { grid-template-columns: 1fr; }
+    .ext-visual { display: none; }
+  }
+
   /* ── Footer ── */
   footer {
     background: var(--navy2); border-top: 1px solid var(--border);
@@ -1193,6 +1318,7 @@
     <li><a href="#protect"   onclick="switchMode('learn')">Protect Loved Ones</a></li>
     <li><a href="#checker"   onclick="switchMode('learn')">Check a Message</a></li>
     <li><a href="#report"    onclick="switchMode('learn')">Report</a></li>
+      <li><a href="#extension" onclick="switchMode('learn')">Extension</a></li>
   </ul>
   <div class="mode-toggle">
     <button class="mode-tab active" id="tabLearn" onclick="switchMode('learn')">Learn</button>
@@ -1460,6 +1586,108 @@
     <p>Your report helps protect others. Even if you weren't harmed, reporting helps authorities track down scammers.</p>
   </div>
   <div class="report-grid fade-in" id="reportGrid"></div>
+</section>
+
+<!-- CHROME EXTENSION -->
+<hr class="section-divider learn-only">
+<section id="extension" class="learn-only">
+  <div class="section-header fade-in">
+    <div class="section-tag">Browser Tool</div>
+    <h2>Gmail Scam Scanner Extension</h2>
+    <p>Protect your inbox automatically — our Chrome extension scans your Gmail for scam indicators in real time.</p>
+  </div>
+
+  <div class="ext-card fade-in">
+    <!-- Left: info -->
+    <div class="ext-left">
+      <div class="ext-badge">
+        <span class="ext-badge-dot"></span>
+        Beta · Prototype
+      </div>
+      <div class="ext-title">Gmail Scam Scanner</div>
+      <p class="ext-desc">
+        Automatically scans your Gmail inbox for phishing, fraud, and social engineering attacks using the same detection engine powering ScamShield — right inside your browser. Your emails never leave your device.
+      </p>
+      <div class="ext-features">
+        <span class="ext-feat"><span class="ext-feat-icon">🔍</span> Pattern detection</span>
+        <span class="ext-feat"><span class="ext-feat-icon">🔒</span> Gmail read-only</span>
+        <span class="ext-feat"><span class="ext-feat-icon">🖥️</span> Runs locally</span>
+        <span class="ext-feat"><span class="ext-feat-icon">⚡</span> Instant results</span>
+        <span class="ext-feat"><span class="ext-feat-icon">🚫</span> No data collection</span>
+      </div>
+      <div class="ext-actions">
+        <a class="ext-dl-btn" href="scamsim-extension.zip" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Extension (.zip)
+        </a>
+        <button class="ext-note-link" onclick="toggleInstall()">How to install ▾</button>
+      </div>
+
+      <!-- Install steps (toggle) -->
+      <div class="ext-install" id="extInstall">
+        <h4>🔧 Load as Unpacked Extension (Chrome)</h4>
+        <div class="ext-steps">
+          <div class="ext-step">
+            <div class="ext-step-num">1</div>
+            <span>Download the .zip file above and unzip it to a folder on your computer.</span>
+          </div>
+          <div class="ext-step">
+            <div class="ext-step-num">2</div>
+            <span>Open Chrome and go to <code>chrome://extensions</code></span>
+          </div>
+          <div class="ext-step">
+            <div class="ext-step-num">3</div>
+            <span>Enable <strong>Developer mode</strong> using the toggle in the top-right corner.</span>
+          </div>
+          <div class="ext-step">
+            <div class="ext-step-num">4</div>
+            <span>Click <strong>Load unpacked</strong> and select the unzipped extension folder.</span>
+          </div>
+          <div class="ext-step">
+            <div class="ext-step-num">5</div>
+            <span>Open Gmail — the 🛡️ icon will appear in your toolbar. Click it to scan your inbox!</span>
+          </div>
+        </div>
+        <p style="margin-top:.9rem; font-size:.8rem; color:var(--muted)">
+          ⚠️ This is an early prototype. A Google OAuth client ID is required for Gmail access — the included version is configured for the developer's account only. Full public release coming soon.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right: visual mockup -->
+    <div class="ext-visual">
+      <div class="ext-icon-wrap">🛡️</div>
+      <div class="ext-mockup">
+        <div class="ext-mockup-bar">
+          <span>🛡️</span>
+          <div>
+            <div class="ext-mockup-title">Scam Scanner</div>
+            <div class="ext-mockup-sub">Gmail inbox analysis</div>
+          </div>
+        </div>
+        <div class="ext-mockup-row">
+          <span>Prize winner!!!</span>
+          <span class="risk-high">HIGH RISK</span>
+        </div>
+        <div class="ext-mockup-row">
+          <span>Your package...</span>
+          <span class="risk-high">SCAM</span>
+        </div>
+        <div class="ext-mockup-row">
+          <span>Team standup</span>
+          <span class="risk-low">Safe</span>
+        </div>
+        <div class="ext-mockup-row">
+          <span>Newsletter</span>
+          <span class="risk-low">Safe</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ═══════════════════════ PLAY MODE ═══════════════════════ -->
@@ -2874,6 +3102,15 @@ observeAll();
 new MutationObserver(observeAll).observe(document.getElementById('cards-container'), { childList: true });
 new MutationObserver(observeAll).observe(document.getElementById('protocolGrid'), { childList: true });
 new MutationObserver(observeAll).observe(document.getElementById('reportGrid'), { childList: true });
+
+// ─────────────────────── EXTENSION SECTION ────────────────────────────────
+function toggleInstall() {
+  const el = document.getElementById('extInstall');
+  el.classList.toggle('open');
+  // update button text
+  const btn = el.previousElementSibling.querySelector('.ext-note-link');
+  if (btn) btn.textContent = el.classList.contains('open') ? 'How to install ▴' : 'How to install ▾';
+}
 
 // ─────────────────────── MODE SWITCHING ───────────────────────────────────
 function switchMode(mode) {
